@@ -1,69 +1,87 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
 
 // ─── ROUTING ──────────────────────────────────────────────────────────────────
 
 const PAGES = {
-  HOME: 'home',
-  TERMS: 'terms',
-  PRIVACY: 'privacy'
-}
+  HOME: "home",
+  TERMS: "terms",
+  PRIVACY: "privacy",
+};
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
 
 function Nav() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const links = [
-    { label: 'Features', href: '#features' },
-    { label: 'How It Works', href: '#how-it-works' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'FAQ', href: '#faq' },
-  ]
+    { label: "Features", href: "#features" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "FAQ", href: "#faq" },
+  ];
 
   return (
-    <nav className={`nav ${scrolled ? 'nav-scrolled' : ''}`}>
+    <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
       <div className="nav-inner container">
         <a href="#" className="nav-logo">
           <span className="logo-mark" />
           BRC
         </a>
         <div className="nav-links">
-          {links.map(l => (
-            <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
+          {links.map((l) => (
+            <a key={l.label} href={l.href} className="nav-link">
+              {l.label}
+            </a>
           ))}
         </div>
         <div className="nav-actions">
-          <a href="#" className="btn btn-ghost">Sign In</a>
-          <a href="#pricing" className="btn btn-primary">Start Free</a>
+          <a href="#" className="btn btn-ghost">
+            Sign In
+          </a>
+          <a href="#pricing" className="btn btn-primary">
+            Start Free
+          </a>
         </div>
         <button
-          className={`nav-hamburger ${mobileOpen ? 'open' : ''}`}
-          onClick={() => setMobileOpen(v => !v)}
+          className={`nav-hamburger ${mobileOpen ? "open" : ""}`}
+          onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
         >
-          <span /><span /><span />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
-      <div className={`nav-mobile ${mobileOpen ? 'nav-mobile-open' : ''}`}>
-        {links.map(l => (
-          <a key={l.label} href={l.href} className="nav-mobile-link" onClick={() => setMobileOpen(false)}>
+      <div className={`nav-mobile ${mobileOpen ? "nav-mobile-open" : ""}`}>
+        {links.map((l) => (
+          <a
+            key={l.label}
+            href={l.href}
+            className="nav-mobile-link"
+            onClick={() => setMobileOpen(false)}
+          >
             {l.label}
           </a>
         ))}
-        <a href="#pricing" className="btn btn-primary" style={{ marginTop: 8 }} onClick={() => setMobileOpen(false)}>
+        <a
+          href="#pricing"
+          className="btn btn-primary"
+          style={{ marginTop: 8 }}
+          onClick={() => setMobileOpen(false)}
+        >
           Start Free
         </a>
       </div>
     </nav>
-  )
+  );
 }
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
@@ -81,13 +99,22 @@ function PhoneMockup() {
           <div className="phone-order-tag">Your order · Table 7</div>
           <div className="phone-biz">How was your Margherita Pizza?</div>
           <div className="phone-stars">
-            {[1,2,3,4,5].map(i => (
-              <span key={i} className={`star ${i <= 4 ? 'star-on' : 'star-half'}`}>★</span>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <span
+                key={i}
+                className={`star ${i <= 4 ? "star-on" : "star-half"}`}
+              >
+                ★
+              </span>
             ))}
           </div>
           <div className="phone-divider" />
           <div className="phone-metrics">
-            {[['Flavour', 95], ['Temperature', 100], ['Presentation', 78]].map(([label, pct]) => (
+            {[
+              ["Flavour", 95],
+              ["Temperature", 100],
+              ["Presentation", 78],
+            ].map(([label, pct]) => (
               <div key={label} className="metric-row">
                 <span className="metric-label">{label}</span>
                 <div className="metric-track">
@@ -96,12 +123,16 @@ function PhoneMockup() {
               </div>
             ))}
           </div>
-          <textarea className="phone-comment" readOnly value="Loved the crust, sauce was perfect!" />
+          <textarea
+            className="phone-comment"
+            readOnly
+            value="Loved the crust, sauce was perfect!"
+          />
           <button className="phone-cta">Submit &amp; Claim My Reward →</button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function Hero() {
@@ -120,15 +151,16 @@ function Hero() {
             Available on iOS · Android · Web
           </div>
           <h1 className="hero-h1">
-            Recover bad experiences,<br />
+            Recover bad experiences,
+            <br />
             <span className="grad-text">grow reviews, keep customers.</span>
           </h1>
           <p className="hero-p">
             BRC captures private feedback tied to each customer&apos;s order,
-            rewards them with a discount for sharing it, resolves problems before
-            they go public, and follows up naturally to grow your reputation —
-            all while providing deep analytics across Google, Yelp, TripAdvisor,
-            and Trustpilot to keep you ahead of competitors.
+            rewards them with a discount for sharing it, resolves problems
+            before they go public, and follows up naturally to grow your
+            reputation — all while providing deep analytics across Google, Yelp,
+            TripAdvisor, and Trustpilot to keep you ahead of competitors.
           </p>
           <div className="hero-btns">
             <a href="#pricing" className="btn btn-primary btn-lg">
@@ -140,13 +172,17 @@ function Hero() {
           </div>
           <div className="hero-social-proof">
             <div className="sp-avatars">
-              {['M','J','S','A','R'].map(l => (
-                <div key={l} className="sp-avatar">{l}</div>
+              {["M", "J", "S", "A", "R"].map((l) => (
+                <div key={l} className="sp-avatar">
+                  {l}
+                </div>
               ))}
             </div>
             <div className="sp-text">
               <span className="sp-stars">★★★★★</span>
-              <span>Trusted by <strong>2,400+</strong> local businesses</span>
+              <span>
+                Trusted by <strong>2,400+</strong> local businesses
+              </span>
             </div>
           </div>
         </div>
@@ -160,14 +196,18 @@ function Hero() {
               <span className="fc-platform-name">Reward sent</span>
             </div>
             <div className="fc-stars-sm">★★★★★</div>
-            <div className="fc-quote">Code <strong>SAVE15</strong> delivered via SMS</div>
+            <div className="fc-quote">
+              Code <strong>SAVE15</strong> delivered via SMS
+            </div>
           </div>
 
           <div className="float-card fc-sms">
             <div className="fc-sms-icon">💬</div>
             <div className="fc-sms-body">
               <div className="fc-sms-title">Follow-up sent · 3 days later</div>
-              <div className="fc-sms-sub">Review request delivered naturally</div>
+              <div className="fc-sms-sub">
+                Review request delivered naturally
+              </div>
             </div>
             <div className="fc-sms-check">✓</div>
           </div>
@@ -177,7 +217,11 @@ function Hero() {
             <div className="fc-stat-label">Review lift this month</div>
             <div className="fc-stat-spark">
               {[30, 50, 40, 70, 60, 90, 80].map((h, i) => (
-                <div key={i} className="spark-bar" style={{ height: `${h}%` }} />
+                <div
+                  key={i}
+                  className="spark-bar"
+                  style={{ height: `${h}%` }}
+                />
               ))}
             </div>
           </div>
@@ -188,25 +232,25 @@ function Hero() {
         <div className="scroll-dot" />
       </div>
     </section>
-  )
+  );
 }
 
 // ─── STATS BAR ────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { value: '48k+', label: 'Private feedback tickets' },
-  { value: '18.5k+', label: 'SMS win-back campaigns' },
-  { value: '9.7k+', label: 'Tracked discount redemptions' },
-  { value: '+67%', label: 'Average review lift' },
-  { value: '2.1M+', label: 'Reviews analyzed across platforms' },
-  { value: '99.5%', label: 'Fake review detection accuracy' },
-]
+  { value: "48k+", label: "Private feedback tickets" },
+  { value: "18.5k+", label: "SMS win-back campaigns" },
+  { value: "9.7k+", label: "Tracked discount redemptions" },
+  { value: "+67%", label: "Average review lift" },
+  { value: "2.1M+", label: "Reviews analyzed across platforms" },
+  { value: "99.5%", label: "Fake review detection accuracy" },
+];
 
 function StatsBar() {
   return (
     <div className="stats-bar">
       <div className="container stats-inner">
-        {STATS.map(s => (
+        {STATS.map((s) => (
           <div key={s.label} className="stat-item">
             <div className="stat-value">{s.value}</div>
             <div className="stat-label">{s.label}</div>
@@ -214,55 +258,55 @@ function StatsBar() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 // ─── FEATURES ─────────────────────────────────────────────────────────────────
 
 const FEATURES = [
   {
-    icon: '📋',
-    accent: 'var(--purple)',
-    title: 'Feedback Tied to Their Order',
-    body: 'Customers don\'t get a generic form — they get questions about what they actually ordered. Every piece of feedback is contextual, specific, and far more actionable.',
-    tag: 'Core',
+    icon: "📋",
+    accent: "var(--purple)",
+    title: "Feedback Tied to Their Order",
+    body: "Customers don't get a generic form — they get questions about what they actually ordered. Every piece of feedback is contextual, specific, and far more actionable.",
+    tag: "Core",
   },
   {
-    icon: '🎁',
-    accent: 'var(--green)',
-    title: 'Instant Discount for Honest Feedback',
-    body: 'Every customer who leaves feedback gets a personalised discount code delivered immediately. They feel appreciated. You get real data. Everyone wins.',
-    tag: 'Retention',
+    icon: "🎁",
+    accent: "var(--green)",
+    title: "Instant Discount for Honest Feedback",
+    body: "Every customer who leaves feedback gets a personalised discount code delivered immediately. They feel appreciated. You get real data. Everyone wins.",
+    tag: "Retention",
   },
   {
-    icon: '🔒',
-    accent: 'var(--blue)',
-    title: 'Catch Problems Before They Go Public',
-    body: 'Unhappy customers can raise issues privately with your business. Your team resolves it before it becomes a public complaint — protecting your reputation while the experience is still salvageable.',
-    tag: 'Protection',
+    icon: "🔒",
+    accent: "var(--blue)",
+    title: "Catch Problems Before They Go Public",
+    body: "Unhappy customers can raise issues privately with your business. Your team resolves it before it becomes a public complaint — protecting your reputation while the experience is still salvageable.",
+    tag: "Protection",
   },
   {
-    icon: '💬',
-    accent: 'var(--cyan)',
-    title: 'Natural Review Follow-Up',
-    body: 'Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, TripAdvisor, or Trustpilot, whichever you choose.',
-    tag: 'Growth',
+    icon: "💬",
+    accent: "var(--cyan)",
+    title: "Natural Review Follow-Up",
+    body: "Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, TripAdvisor, or Trustpilot, whichever you choose.",
+    tag: "Growth",
   },
   {
-    icon: '📣',
-    accent: 'var(--yellow)',
-    title: 'SMS Win-Back Campaigns',
-    body: 'Haven\'t seen a customer in a while? BRC identifies who\'s gone quiet and automatically sends them a compelling offer to bring them back — timed right, personalised, trackable.',
-    tag: 'Revenue',
+    icon: "📣",
+    accent: "var(--yellow)",
+    title: "SMS Win-Back Campaigns",
+    body: "Haven't seen a customer in a while? BRC identifies who's gone quiet and automatically sends them a compelling offer to bring them back — timed right, personalised, trackable.",
+    tag: "Revenue",
   },
   {
-    icon: '📊',
-    accent: 'var(--orange)',
-    title: 'Advanced Analytics & Insights',
-    body: 'Track review trends across Google, Yelp, TripAdvisor & Trustpilot. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.',
-    tag: 'Insights',
+    icon: "📊",
+    accent: "var(--orange)",
+    title: "Advanced Analytics & Insights",
+    body: "Track review trends across Google, Yelp, TripAdvisor & Trustpilot. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.",
+    tag: "Insights",
   },
-]
+];
 
 function Features() {
   return (
@@ -271,17 +315,23 @@ function Features() {
         <div className="section-header">
           <div className="section-tag">Features</div>
           <h2 className="section-h2">
-            Built for what actually<br />
+            Built for what actually
+            <br />
             <span className="grad-text">happens in your business</span>
           </h2>
           <p className="section-p">
-            Not a generic CRM. Not just a review monitor. BRC is designed around the real daily loop — feedback in, issues resolved, customers followed up at the right time.
+            Not a generic CRM. Not just a review monitor. BRC is designed around
+            the real daily loop — feedback in, issues resolved, customers
+            followed up at the right time.
           </p>
         </div>
         <div className="features-grid">
-          {FEATURES.map(f => (
+          {FEATURES.map((f) => (
             <div key={f.title} className="feature-card">
-              <div className="feature-icon-wrap" style={{ '--accent': f.accent }}>
+              <div
+                className="feature-icon-wrap"
+                style={{ "--accent": f.accent }}
+              >
                 <span className="feature-emoji">{f.icon}</span>
               </div>
               <div className="feature-tag">{f.tag}</div>
@@ -292,23 +342,26 @@ function Features() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── HOW IT WORKS ─────────────────────────────────────────────────────────────
 
 const STEPS = [
   {
-    num: '01',
-    title: 'Customer Scans & Gives Feedback',
-    body: 'Place QR codes on tables, receipts, or counters. Customers scan and answer questions about their specific order — food items, service, atmosphere. It\'s personal, not generic.',
-    tip: 'Feedback forms are generated dynamically based on what the customer ordered.',
+    num: "01",
+    title: "Customer Scans & Gives Feedback",
+    body: "Place QR codes on tables, receipts, or counters. Customers scan and answer questions about their specific order — food items, service, atmosphere. It's personal, not generic.",
+    tip: "Feedback forms are generated dynamically based on what the customer ordered.",
     visual: (
       <div className="step-visual sv-setup">
         <div className="sv-qr">
           <div className="qr-grid">
             {Array.from({ length: 25 }).map((_, i) => (
-              <div key={i} className={`qr-cell ${[0,1,2,5,6,7,8,9,12,16,17,19,20,21,22,24].includes(i) ? 'qr-on' : ''}`} />
+              <div
+                key={i}
+                className={`qr-cell ${[0, 1, 2, 5, 6, 7, 8, 9, 12, 16, 17, 19, 20, 21, 22, 24].includes(i) ? "qr-on" : ""}`}
+              />
             ))}
           </div>
         </div>
@@ -317,10 +370,10 @@ const STEPS = [
     ),
   },
   {
-    num: '02',
-    title: 'They Get Rewarded Instantly',
-    body: 'As soon as feedback is submitted, the customer receives a personalised discount code via SMS. They feel valued — and you get genuine, honest feedback worth acting on.',
-    tip: 'Businesses offering a reward see 3× more feedback submissions.',
+    num: "02",
+    title: "They Get Rewarded Instantly",
+    body: "As soon as feedback is submitted, the customer receives a personalised discount code via SMS. They feel valued — and you get genuine, honest feedback worth acting on.",
+    tip: "Businesses offering a reward see 3× more feedback submissions.",
     visual: (
       <div className="step-visual sv-scan">
         <div className="sv-reward">
@@ -332,10 +385,10 @@ const STEPS = [
     ),
   },
   {
-    num: '03',
-    title: 'BRC Follows Up Naturally',
-    body: 'Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, TripAdvisor, or Trustpilot.',
-    tip: 'Average businesses see a 67% lift in public reviews within 90 days.',
+    num: "03",
+    title: "BRC Follows Up Naturally",
+    body: "Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, TripAdvisor, or Trustpilot.",
+    tip: "Average businesses see a 67% lift in public reviews within 90 days.",
     visual: (
       <div className="step-visual sv-grow">
         <div className="sv-chart">
@@ -347,7 +400,7 @@ const STEPS = [
       </div>
     ),
   },
-]
+];
 
 function HowItWorks() {
   return (
@@ -356,7 +409,8 @@ function HowItWorks() {
         <div className="section-header">
           <div className="section-tag">How It Works</div>
           <h2 className="section-h2">
-            Three steps.<br />
+            Three steps.
+            <br />
             <span className="grad-text">Running before lunch.</span>
           </h2>
         </div>
@@ -377,24 +431,44 @@ function HowItWorks() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── REVIEW PLATFORMS ─────────────────────────────────────────────────────────
 
 const PLATFORMS = [
-  { name: 'Google', letter: 'G', color: '#4285F4', reviews: '2.1M+ reviews tracked' },
-  { name: 'Yelp', letter: 'Y', color: '#FF1A1A', reviews: '880k+ reviews tracked' },
-  { name: 'Tripadvisor', letter: 'T', color: '#00AA6C', reviews: '590k+ reviews tracked' },
-  { name: 'Trustpilot', letter: 'tp', color: '#00B67A', reviews: '410k+ reviews tracked' },
-]
+  {
+    name: "Google",
+    letter: "G",
+    color: "#4285F4",
+    reviews: "2.1M+ reviews tracked",
+  },
+  {
+    name: "Yelp",
+    letter: "Y",
+    color: "#FF1A1A",
+    reviews: "880k+ reviews tracked",
+  },
+  {
+    name: "Tripadvisor",
+    letter: "T",
+    color: "#00AA6C",
+    reviews: "590k+ reviews tracked",
+  },
+  {
+    name: "Trustpilot",
+    letter: "tp",
+    color: "#00B67A",
+    reviews: "410k+ reviews tracked",
+  },
+];
 
 const PLATFORM_FEATURES = [
-  'You choose which platform to grow',
-  'Follow-ups feel natural, not automated',
-  'AI flags fake & suspicious reviews',
-  'Real-time notifications for new reviews',
-]
+  "You choose which platform to grow",
+  "Follow-ups feel natural, not automated",
+  "AI flags fake & suspicious reviews",
+  "Real-time notifications for new reviews",
+];
 
 function Platforms() {
   return (
@@ -403,15 +477,18 @@ function Platforms() {
         <div className="section-header">
           <div className="section-tag">Review Monitoring</div>
           <h2 className="section-h2">
-            Your choice of platform.<br />
+            Your choice of platform.
+            <br />
             <span className="grad-text">One place to manage all of them.</span>
           </h2>
           <p className="section-p">
-            Choose where you want to grow your reviews. BRC follows up with customers on your behalf — naturally, and on the platform that matters most to your business.
+            Choose where you want to grow your reviews. BRC follows up with
+            customers on your behalf — naturally, and on the platform that
+            matters most to your business.
           </p>
         </div>
         <div className="platforms-grid">
-          {PLATFORMS.map(p => (
+          {PLATFORMS.map((p) => (
             <div key={p.name} className="platform-card">
               <div className="platform-icon" style={{ background: p.color }}>
                 {p.letter}
@@ -422,7 +499,7 @@ function Platforms() {
           ))}
         </div>
         <div className="platform-checklist">
-          {PLATFORM_FEATURES.map(f => (
+          {PLATFORM_FEATURES.map((f) => (
             <div key={f} className="platform-check">
               <span className="check-icon">✓</span>
               {f}
@@ -431,43 +508,43 @@ function Platforms() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── ANALYTICS ────────────────────────────────────────────────────────────────
 
 const ANALYTICS_FEATURES = [
   {
-    icon: '📈',
-    title: 'Multi-Platform Review Tracking',
-    desc: 'Monitor your reputation across Google, Yelp, TripAdvisor, and Trustpilot in real-time. See rating trends, review volume, and response times all in one place.',
+    icon: "📈",
+    title: "Multi-Platform Review Tracking",
+    desc: "Monitor your reputation across Google, Yelp, TripAdvisor, and Trustpilot in real-time. See rating trends, review volume, and response times all in one place.",
   },
   {
-    icon: '👥',
-    title: 'Competitor Intelligence',
-    desc: 'Track competitor ratings, review counts, and sentiment. Identify market opportunities and benchmark your performance against local rivals.',
+    icon: "👥",
+    title: "Competitor Intelligence",
+    desc: "Track competitor ratings, review counts, and sentiment. Identify market opportunities and benchmark your performance against local rivals.",
   },
   {
-    icon: '🧠',
-    title: 'AI-Powered Review Analysis',
-    desc: 'Automatic sentiment analysis, fake review detection, and risk scoring. Get alerts for urgent reviews and insights into customer emotions.',
+    icon: "🧠",
+    title: "AI-Powered Review Analysis",
+    desc: "Automatic sentiment analysis, fake review detection, and risk scoring. Get alerts for urgent reviews and insights into customer emotions.",
   },
   {
-    icon: '📊',
-    title: 'Advanced Dashboards',
-    desc: 'Interactive charts for feedback trends, campaign performance, staff ratings, and menu item popularity. Export data for deeper analysis.',
+    icon: "📊",
+    title: "Advanced Dashboards",
+    desc: "Interactive charts for feedback trends, campaign performance, staff ratings, and menu item popularity. Export data for deeper analysis.",
   },
   {
-    icon: '⚡',
-    title: 'Real-Time Notifications',
-    desc: 'Instant alerts for new reviews, low ratings, or competitor changes. Never miss a chance to respond or celebrate positive feedback.',
+    icon: "⚡",
+    title: "Real-Time Notifications",
+    desc: "Instant alerts for new reviews, low ratings, or competitor changes. Never miss a chance to respond or celebrate positive feedback.",
   },
   {
-    icon: '🎯',
-    title: 'Actionable Insights',
-    desc: 'Identify top-performing staff, best-selling items, and successful campaigns. Make data-driven decisions to improve your business.',
+    icon: "🎯",
+    title: "Actionable Insights",
+    desc: "Identify top-performing staff, best-selling items, and successful campaigns. Make data-driven decisions to improve your business.",
   },
-]
+];
 
 function Analytics() {
   return (
@@ -476,15 +553,18 @@ function Analytics() {
         <div className="section-header">
           <div className="section-tag">Analytics & Intelligence</div>
           <h2 className="section-h2">
-            Turn data into<br />
+            Turn data into
+            <br />
             <span className="grad-text">competitive advantage</span>
           </h2>
           <p className="section-p">
-            Don&apos;t just collect reviews — understand them. BRC&apos;s analytics give you the full picture of your reputation, competitors, and customers.
+            Don&apos;t just collect reviews — understand them. BRC&apos;s
+            analytics give you the full picture of your reputation, competitors,
+            and customers.
           </p>
         </div>
         <div className="analytics-grid">
-          {ANALYTICS_FEATURES.map(f => (
+          {ANALYTICS_FEATURES.map((f) => (
             <div key={f.title} className="analytics-card">
               <div className="analytics-icon">{f.icon}</div>
               <h3 className="analytics-title">{f.title}</h3>
@@ -499,31 +579,31 @@ function Analytics() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── CAMPAIGNS ────────────────────────────────────────────────────────────────
 
 const JOURNEYS = [
   {
-    icon: '💔',
-    color: '#ef4444',
-    label: 'Private Recovery',
-    desc: 'Unhappy customers resolve their issue privately with your team — before it ever becomes a public complaint.',
+    icon: "💔",
+    color: "#ef4444",
+    label: "Private Recovery",
+    desc: "Unhappy customers resolve their issue privately with your team — before it ever becomes a public complaint.",
   },
   {
-    icon: '🎁',
-    color: '#10b981',
-    label: 'Feedback Reward',
-    desc: 'Every customer who submits feedback gets an instant discount code. Higher submission rates, genuine data, and a reason to come back.',
+    icon: "🎁",
+    color: "#10b981",
+    label: "Feedback Reward",
+    desc: "Every customer who submits feedback gets an instant discount code. Higher submission rates, genuine data, and a reason to come back.",
   },
   {
-    icon: '👋',
-    color: '#8b5cf6',
-    label: 'Win-Back Campaign',
+    icon: "👋",
+    color: "#8b5cf6",
+    label: "Win-Back Campaign",
     desc: "Re-engage customers who haven't visited in 45 days with a compelling, personalised offer that's timed perfectly.",
   },
-]
+];
 
 function Campaigns() {
   return (
@@ -533,16 +613,25 @@ function Campaigns() {
           <div className="campaigns-copy">
             <div className="section-tag">Automated Journeys</div>
             <h2 className="section-h2">
-              Set it once.<br />
+              Set it once.
+              <br />
               <span className="grad-text">Grow forever.</span>
             </h2>
-            <p className="section-p" style={{ textAlign: 'left', maxWidth: 'none' }}>
-              BRC runs the right communication at exactly the right moment — recovery, rewards, review requests, and win-backs — without you having to think about it.
+            <p
+              className="section-p"
+              style={{ textAlign: "left", maxWidth: "none" }}
+            >
+              BRC runs the right communication at exactly the right moment —
+              recovery, rewards, review requests, and win-backs — without you
+              having to think about it.
             </p>
             <div className="journey-list">
-              {JOURNEYS.map(j => (
+              {JOURNEYS.map((j) => (
                 <div key={j.label} className="journey-item">
-                  <div className="journey-icon" style={{ background: `${j.color}20`, color: j.color }}>
+                  <div
+                    className="journey-icon"
+                    style={{ background: `${j.color}20`, color: j.color }}
+                  >
                     {j.icon}
                   </div>
                   <div>
@@ -561,15 +650,21 @@ function Campaigns() {
             </div>
             <div className="cm-kpis">
               <div className="cm-kpi">
-                <div className="cm-kpi-val" style={{ color: '#a78bfa' }}>1,284</div>
+                <div className="cm-kpi-val" style={{ color: "#a78bfa" }}>
+                  1,284
+                </div>
                 <div className="cm-kpi-label">SMS Sent</div>
               </div>
               <div className="cm-kpi">
-                <div className="cm-kpi-val" style={{ color: '#34d399' }}>328</div>
+                <div className="cm-kpi-val" style={{ color: "#34d399" }}>
+                  328
+                </div>
                 <div className="cm-kpi-label">Redeemed</div>
               </div>
               <div className="cm-kpi">
-                <div className="cm-kpi-val" style={{ color: '#fbbf24' }}>25.5%</div>
+                <div className="cm-kpi-val" style={{ color: "#fbbf24" }}>
+                  25.5%
+                </div>
                 <div className="cm-kpi-label">Rate</div>
               </div>
             </div>
@@ -582,85 +677,90 @@ function Campaigns() {
                 ))}
               </div>
               <div className="cm-days">
-                {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d => (
-                  <div key={d} className="cm-day">{d}</div>
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
+                  <div key={d} className="cm-day">
+                    {d}
+                  </div>
                 ))}
               </div>
             </div>
             <div className="cm-footer">
               <div className="cm-footer-item">
-                <span className="cm-dot cm-dot-sent" />Top campaign: Win-Back
+                <span className="cm-dot cm-dot-sent" />
+                Top campaign: Win-Back
               </div>
-              <div className="cm-footer-item cm-footer-up">↑ 18% vs last month</div>
+              <div className="cm-footer-item cm-footer-up">
+                ↑ 18% vs last month
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── PRICING ──────────────────────────────────────────────────────────────────
 
 const PLANS = [
   {
-    name: 'Free',
+    name: "Free",
     monthly: 0,
     annual: 0,
-    desc: 'Get started, collect feedback, and see how your customers really feel.',
-    cta: 'Start for Free',
+    desc: "Get started, collect feedback, and see how your customers really feel.",
+    cta: "Start for Free",
     highlight: false,
     badge: null,
     features: [
-      '1 location',
-      '50 feedback forms / month',
-      'QR code & order-based feedback',
-      'Basic analytics dashboard',
-      'Email support',
+      "1 location",
+      "50 feedback forms / month",
+      "QR code & order-based feedback",
+      "Basic analytics dashboard",
+      "Email support",
     ],
   },
   {
-    name: 'Growth',
+    name: "Growth",
     monthly: 49,
     annual: 39,
-    desc: 'For growing businesses serious about retention and reputation.',
-    cta: 'Start 14-Day Trial',
+    desc: "For growing businesses serious about retention and reputation.",
+    cta: "Start 14-Day Trial",
     highlight: true,
-    badge: 'Most Popular',
+    badge: "Most Popular",
     features: [
-      'Up to 3 locations',
-      'Unlimited feedback forms',
-      'Instant discount rewards for feedback',
-      'Natural review follow-up (your platform)',
-      'SMS campaigns (200 credits / mo)',
-      'Win-back & recovery journeys',
-      'Staff & menu performance tracking',
-      'Priority support',
+      "Up to 3 locations",
+      "Unlimited feedback forms",
+      "Instant discount rewards for feedback",
+      "Natural review follow-up (your platform)",
+      "SMS campaigns (200 credits / mo)",
+      "Win-back & recovery journeys",
+      "Staff & menu performance tracking",
+      "Priority support",
     ],
   },
   {
-    name: 'Pro',
+    name: "Pro",
     monthly: 99,
     annual: 79,
-    desc: 'For multi-location businesses that want everything working on autopilot.',
-    cta: 'Start 14-Day Trial',
+    desc: "For multi-location businesses that want everything working on autopilot.",
+    cta: "Start 14-Day Trial",
     highlight: false,
     badge: null,
     features: [
-      'Unlimited locations',
-      'Unlimited feedback forms',
-      'SMS campaigns (800 credits / mo)',
-      'Review monitoring — 4 platforms',
-      'AI fake review detection',
-      'All automated journeys',
-      'Advanced analytics & CSV exports',
-      'Dedicated account manager',
+      "Unlimited locations",
+      "Unlimited feedback forms",
+      "SMS campaigns (800 credits / mo)",
+      "Review monitoring — 4 platforms",
+      "AI fake review detection",
+      "All automated journeys",
+      "Advanced analytics & CSV exports",
+      "Dedicated account manager",
     ],
   },
-]
+];
 
 function Pricing() {
-  const [annual, setAnnual] = useState(false)
+  const [annual, setAnnual] = useState(false);
 
   return (
     <section className="section pricing-section" id="pricing">
@@ -668,45 +768,57 @@ function Pricing() {
         <div className="section-header">
           <div className="section-tag">Pricing</div>
           <h2 className="section-h2">
-            Simple, transparent<br />
+            Simple, transparent
+            <br />
             <span className="grad-text">pricing</span>
           </h2>
           <p className="section-p">
-            No hidden fees. No long-term contracts. Start free and upgrade when you&apos;re ready.
+            No hidden fees. No long-term contracts. Start free and upgrade when
+            you&apos;re ready.
           </p>
           <div className="billing-toggle">
-            <span className={!annual ? 'tgl-active' : 'tgl-dim'}>Monthly</span>
-            <button className={`tgl-btn ${annual ? 'tgl-on' : ''}`} onClick={() => setAnnual(v => !v)}>
+            <span className={!annual ? "tgl-active" : "tgl-dim"}>Monthly</span>
+            <button
+              className={`tgl-btn ${annual ? "tgl-on" : ""}`}
+              onClick={() => setAnnual((v) => !v)}
+            >
               <span className="tgl-knob" />
             </button>
-            <span className={annual ? 'tgl-active' : 'tgl-dim'}>
+            <span className={annual ? "tgl-active" : "tgl-dim"}>
               Annual&nbsp;<span className="tgl-save">Save 20%</span>
             </span>
           </div>
         </div>
 
         <div className="plans-grid">
-          {PLANS.map(p => (
-            <div key={p.name} className={`plan-card ${p.highlight ? 'plan-highlight' : ''}`}>
+          {PLANS.map((p) => (
+            <div
+              key={p.name}
+              className={`plan-card ${p.highlight ? "plan-highlight" : ""}`}
+            >
               {p.badge && <div className="plan-badge">{p.badge}</div>}
               <div className="plan-name">{p.name}</div>
               <div className="plan-price">
                 <span className="plan-curr">$</span>
-                <span className="plan-num">{annual ? p.annual : p.monthly}</span>
+                <span className="plan-num">
+                  {annual ? p.annual : p.monthly}
+                </span>
                 {p.monthly > 0 && <span className="plan-per">/mo</span>}
               </div>
               {annual && p.monthly > 0 && (
-                <div className="plan-billed">Billed annually · Save ${(p.monthly - p.annual) * 12}/yr</div>
+                <div className="plan-billed">
+                  Billed annually · Save ${(p.monthly - p.annual) * 12}/yr
+                </div>
               )}
               <p className="plan-desc">{p.desc}</p>
               <a
                 href="#"
-                className={`btn ${p.highlight ? 'btn-primary' : 'btn-outline'} btn-block`}
+                className={`btn ${p.highlight ? "btn-primary" : "btn-outline"} btn-block`}
               >
                 {p.cta}
               </a>
               <ul className="plan-features">
-                {p.features.map(f => (
+                {p.features.map((f) => (
                   <li key={f} className="plan-feature">
                     <span className="plan-check">✓</span>
                     {f}
@@ -721,45 +833,48 @@ function Pricing() {
           <div className="addon-icon">💬</div>
           <div>
             <strong>Need more SMS credits?</strong>
-            <span className="addon-text"> Add-on packs: 100 credits for $9 · 500 credits for $39</span>
+            <span className="addon-text">
+              {" "}
+              Add-on packs: 100 credits for $9 · 500 credits for $39
+            </span>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 const FAQS = [
   {
-    q: 'How is the feedback form personalised to each customer?',
+    q: "How is the feedback form personalised to each customer?",
     a: 'When a customer scans the QR code, BRC generates questions based on what they ordered — so instead of a generic "how was your visit?", they\'re asked specifically about their dish, the service they received, or the experience at their table. This makes the feedback far more useful and the form feel far more natural to fill in.',
   },
   {
-    q: 'Do customers have to download an app to leave feedback?',
-    a: 'No. Customers scan the QR code with their phone camera and the feedback form opens instantly in their browser. No app download, no sign-up — just a quick, frictionless experience that takes under 60 seconds.',
+    q: "Do customers have to download an app to leave feedback?",
+    a: "No. Customers scan the QR code with their phone camera and the feedback form opens instantly in their browser. No app download, no sign-up — just a quick, frictionless experience that takes under 60 seconds.",
   },
   {
-    q: 'How does the discount reward work?',
-    a: 'As soon as a customer submits their feedback, they receive a personalised discount code via SMS. The code is unique to them, trackable, and can be set to expire after a time of your choosing. Businesses using rewards typically see 3× more feedback submissions.',
+    q: "How does the discount reward work?",
+    a: "As soon as a customer submits their feedback, they receive a personalised discount code via SMS. The code is unique to them, trackable, and can be set to expire after a time of your choosing. Businesses using rewards typically see 3× more feedback submissions.",
   },
   {
-    q: 'When and how does BRC ask for public reviews?',
-    a: 'BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, TripAdvisor, or Trustpilot.',
+    q: "When and how does BRC ask for public reviews?",
+    a: "BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, TripAdvisor, or Trustpilot.",
   },
   {
-    q: 'What happens when a customer leaves negative feedback?',
-    a: 'Unhappy customers are given a private channel to share their concerns directly with your business — before they consider posting a public review. Your team can resolve the issue, respond personally, and turn a bad experience into a reason to return.',
+    q: "What happens when a customer leaves negative feedback?",
+    a: "Unhappy customers are given a private channel to share their concerns directly with your business — before they consider posting a public review. Your team can resolve the issue, respond personally, and turn a bad experience into a reason to return.",
   },
   {
-    q: 'Can I cancel my subscription at any time?',
+    q: "Can I cancel my subscription at any time?",
     a: "Yes, absolutely. Cancel any time from your account settings. You'll keep access until the end of your current billing period. No cancellation fees, no awkward phone calls.",
   },
-]
+];
 
 function FAQ() {
-  const [open, setOpen] = useState(null)
+  const [open, setOpen] = useState(null);
 
   return (
     <section className="section faq-section" id="faq">
@@ -772,20 +887,21 @@ function FAQ() {
         </div>
         <div className="faq-list">
           {FAQS.map((f, i) => (
-            <div key={i} className={`faq-item ${open === i ? 'faq-open' : ''}`}>
-              <button className="faq-q" onClick={() => setOpen(open === i ? null : i)}>
+            <div key={i} className={`faq-item ${open === i ? "faq-open" : ""}`}>
+              <button
+                className="faq-q"
+                onClick={() => setOpen(open === i ? null : i)}
+              >
                 <span>{f.q}</span>
-                <span className="faq-icon">{open === i ? '−' : '+'}</span>
+                <span className="faq-icon">{open === i ? "−" : "+"}</span>
               </button>
-              {open === i && (
-                <div className="faq-a">{f.a}</div>
-              )}
+              {open === i && <div className="faq-a">{f.a}</div>}
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── FINAL CTA ────────────────────────────────────────────────────────────────
@@ -796,9 +912,12 @@ function CTA() {
       <div className="container">
         <div className="cta-card">
           <div className="cta-glow" />
-          <div className="section-tag" style={{ marginBottom: 20 }}>Get Started</div>
+          <div className="section-tag" style={{ marginBottom: 20 }}>
+            Get Started
+          </div>
           <h2 className="cta-h2">
-            Start with your business,<br />
+            Start with your business,
+            <br />
             <span className="grad-text">not a setup marathon.</span>
           </h2>
           <p className="cta-p">
@@ -827,7 +946,11 @@ function CTA() {
             </div>
           </div>
           <div className="cta-trust">
-            {['Free plan available', 'No credit card required', 'Cancel any time'].map(t => (
+            {[
+              "Free plan available",
+              "No credit card required",
+              "Cancel any time",
+            ].map((t) => (
               <span key={t} className="cta-trust-item">
                 <span className="trust-check">✓</span> {t}
               </span>
@@ -836,7 +959,7 @@ function CTA() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── TERMS OF SERVICE ─────────────────────────────────────────────────────────
@@ -847,22 +970,36 @@ function TermsOfService() {
       <div className="container">
         <div className="legal-header">
           <h1 className="legal-title">Terms of Service</h1>
-          <p className="legal-subtitle">Last updated: {new Date().toLocaleDateString()}</p>
+          <p className="legal-subtitle">
+            Last updated: {new Date().toLocaleDateString()}
+          </p>
         </div>
 
         <div className="legal-content">
           <section className="legal-section">
             <h2>1. Acceptance of Terms</h2>
-            <p>By accessing and using BRC (Business Reputation Center), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+            <p>
+              By accessing and using BRC (Business Reputation Center), you
+              accept and agree to be bound by the terms and provision of this
+              agreement. If you do not agree to abide by the above, please do
+              not use this service.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>2. Description of Service</h2>
-            <p>BRC provides business reputation management services including:</p>
+            <p>
+              BRC provides business reputation management services including:
+            </p>
             <ul>
               <li>Private feedback collection and analysis via QR codes</li>
-              <li>Review monitoring and aggregation across Google, Yelp, TripAdvisor, and Trustpilot</li>
-              <li>AI-powered sentiment analysis and review authenticity detection</li>
+              <li>
+                Review monitoring and aggregation across Google, Yelp,
+                TripAdvisor, and Trustpilot
+              </li>
+              <li>
+                AI-powered sentiment analysis and review authenticity detection
+              </li>
               <li>Competitor intelligence and benchmarking</li>
               <li>Automated SMS campaigns and win-back messaging</li>
               <li>Staff performance tracking and analytics</li>
@@ -874,12 +1011,26 @@ function TermsOfService() {
 
           <section className="legal-section">
             <h2>3. Use License</h2>
-            <p>Permission is granted to temporarily use BRC for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+            <p>
+              Permission is granted to temporarily use BRC for personal,
+              non-commercial transitory viewing only. This is the grant of a
+              license, not a transfer of title, and under this license you may
+              not:
+            </p>
             <ul>
               <li>modify or copy the materials</li>
-              <li>use the materials for any commercial purpose or for any public display</li>
-              <li>attempt to decompile or reverse engineer any software contained on BRC</li>
-              <li>remove any copyright or other proprietary notations from the materials</li>
+              <li>
+                use the materials for any commercial purpose or for any public
+                display
+              </li>
+              <li>
+                attempt to decompile or reverse engineer any software contained
+                on BRC
+              </li>
+              <li>
+                remove any copyright or other proprietary notations from the
+                materials
+              </li>
               <li>use BRC to collect or process illegal content</li>
               <li>violate any applicable laws or regulations</li>
             </ul>
@@ -887,13 +1038,20 @@ function TermsOfService() {
 
           <section className="legal-section">
             <h2>4. User Accounts and Data</h2>
-            <p>To use certain features of BRC, you must register for an account. You agree to:</p>
+            <p>
+              To use certain features of BRC, you must register for an account.
+              You agree to:
+            </p>
             <ul>
               <li>Provide accurate and complete information</li>
               <li>Maintain the security of your password and account</li>
-              <li>Accept responsibility for all activities under your account</li>
+              <li>
+                Accept responsibility for all activities under your account
+              </li>
               <li>Notify us immediately of any unauthorized use</li>
-              <li>Be responsible for all data collected through your use of BRC</li>
+              <li>
+                Be responsible for all data collected through your use of BRC
+              </li>
               <li>Ensure compliance with applicable data protection laws</li>
             </ul>
           </section>
@@ -902,25 +1060,48 @@ function TermsOfService() {
             <h2>5. Data Collection and Processing</h2>
             <p>BRC collects and processes various types of data:</p>
             <ul>
-              <li><strong>Customer Data:</strong> Feedback, contact information, and transaction details provided through QR code interactions</li>
-              <li><strong>Review Data:</strong> Public reviews and ratings from integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)</li>
-              <li><strong>Business Data:</strong> Business information, staff details, and operational metrics</li>
-              <li><strong>Analytics Data:</strong> Usage patterns, performance metrics, and insights generated by AI analysis</li>
+              <li>
+                <strong>Customer Data:</strong> Feedback, contact information,
+                and transaction details provided through QR code interactions
+              </li>
+              <li>
+                <strong>Review Data:</strong> Public reviews and ratings from
+                integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)
+              </li>
+              <li>
+                <strong>Business Data:</strong> Business information, staff
+                details, and operational metrics
+              </li>
+              <li>
+                <strong>Analytics Data:</strong> Usage patterns, performance
+                metrics, and insights generated by AI analysis
+              </li>
             </ul>
-            <p>You are responsible for ensuring you have legal rights to collect and process all data within BRC.</p>
+            <p>
+              You are responsible for ensuring you have legal rights to collect
+              and process all data within BRC.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>6. Third-Party Integrations</h2>
             <p>BRC integrates with third-party services including:</p>
             <ul>
-              <li>Google Maps API for business verification and location data</li>
-              <li>Review platforms (Yelp, Trustpilot, TripAdvisor) for review aggregation</li>
+              <li>
+                Google Maps API for business verification and location data
+              </li>
+              <li>
+                Review platforms (Yelp, Trustpilot, TripAdvisor) for review
+                aggregation
+              </li>
               <li>Twilio for SMS messaging services</li>
               <li>OpenAI for AI-powered analysis</li>
               <li>RevenueCat for subscription management</li>
             </ul>
-            <p>Your use of these integrations is subject to the respective third-party terms of service.</p>
+            <p>
+              Your use of these integrations is subject to the respective
+              third-party terms of service.
+            </p>
           </section>
 
           <section className="legal-section">
@@ -932,7 +1113,11 @@ function TermsOfService() {
               <li>Win-back campaigns</li>
               <li>Customer communication</li>
             </ul>
-            <p>You agree to use SMS services in compliance with applicable telecommunications laws, including TCPA in the United States and similar regulations elsewhere.</p>
+            <p>
+              You agree to use SMS services in compliance with applicable
+              telecommunications laws, including TCPA in the United States and
+              similar regulations elsewhere.
+            </p>
           </section>
 
           <section className="legal-section">
@@ -944,16 +1129,28 @@ function TermsOfService() {
               <li>Automated reply suggestions</li>
               <li>Performance insights and recommendations</li>
             </ul>
-            <p>AI-generated content and analysis are provided as suggestions and should be reviewed by humans before use. BRC is not liable for decisions made based on AI recommendations.</p>
+            <p>
+              AI-generated content and analysis are provided as suggestions and
+              should be reviewed by humans before use. BRC is not liable for
+              decisions made based on AI recommendations.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>9. Payment Terms</h2>
             <p>Some services require payment through subscription plans:</p>
             <ul>
-              <li><strong>Free Plan:</strong> Basic features with usage limits</li>
-              <li><strong>Growth Plan:</strong> Advanced features for growing businesses</li>
-              <li><strong>Pro Plan:</strong> Full feature access for established businesses</li>
+              <li>
+                <strong>Free Plan:</strong> Basic features with usage limits
+              </li>
+              <li>
+                <strong>Growth Plan:</strong> Advanced features for growing
+                businesses
+              </li>
+              <li>
+                <strong>Pro Plan:</strong> Full feature access for established
+                businesses
+              </li>
             </ul>
             <p>By subscribing, you agree to:</p>
             <ul>
@@ -967,9 +1164,16 @@ function TermsOfService() {
 
           <section className="legal-section">
             <h2>10. Data Privacy and Compliance</h2>
-            <p>Your privacy is important to us. Please review our Privacy Policy, which also governs your use of BRC, to understand our practices. You agree to:</p>
+            <p>
+              Your privacy is important to us. Please review our Privacy Policy,
+              which also governs your use of BRC, to understand our practices.
+              You agree to:
+            </p>
             <ul>
-              <li>Comply with all applicable data protection laws (GDPR, CCPA, etc.)</li>
+              <li>
+                Comply with all applicable data protection laws (GDPR, CCPA,
+                etc.)
+              </li>
               <li>Obtain necessary consents for data collection</li>
               <li>Honor data subject rights (access, deletion, portability)</li>
               <li>Implement appropriate security measures</li>
@@ -979,54 +1183,98 @@ function TermsOfService() {
 
           <section className="legal-section">
             <h2>11. Intellectual Property</h2>
-            <p>The service and its original content, features, and functionality are and will remain the exclusive property of BRC and its licensors. The service is protected by copyright, trademark, and other laws.</p>
+            <p>
+              The service and its original content, features, and functionality
+              are and will remain the exclusive property of BRC and its
+              licensors. The service is protected by copyright, trademark, and
+              other laws.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>12. Termination</h2>
-            <p>We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the service will cease immediately.</p>
+            <p>
+              We may terminate or suspend your account immediately, without
+              prior notice or liability, for any reason whatsoever, including
+              without limitation if you breach the Terms. Upon termination, your
+              right to use the service will cease immediately.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>13. Disclaimer</h2>
-            <p>The information on BRC is provided on an 'as is' basis. BRC disclaims all warranties, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose and noninfringement. BRC does not warrant that the service will be uninterrupted or error-free.</p>
+            <p>
+              The information on BRC is provided on an 'as is' basis. BRC
+              disclaims all warranties, express or implied, including but not
+              limited to warranties of merchantability, fitness for a particular
+              purpose and noninfringement. BRC does not warrant that the service
+              will be uninterrupted or error-free.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>14. Limitations</h2>
-            <p>In no event shall BRC or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use BRC, even if BRC has been advised of the possibility of such damages.</p>
+            <p>
+              In no event shall BRC or its suppliers be liable for any damages
+              (including, without limitation, damages for loss of data or
+              profit, or due to business interruption) arising out of the use or
+              inability to use BRC, even if BRC has been advised of the
+              possibility of such damages.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>15. Indemnification</h2>
-            <p>You agree to indemnify and hold harmless BRC and its officers, directors, employees, and agents from and against any claims, actions, or demands arising from your use of BRC or violation of these terms.</p>
+            <p>
+              You agree to indemnify and hold harmless BRC and its officers,
+              directors, employees, and agents from and against any claims,
+              actions, or demands arising from your use of BRC or violation of
+              these terms.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>16. Governing Law</h2>
-            <p>These Terms shall be interpreted and governed by the laws of the jurisdiction in which BRC operates, without regard to conflict of law provisions.</p>
+            <p>
+              These Terms shall be interpreted and governed by the laws of [Your
+              State/Country], without regard to conflict of law provisions.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>17. Changes to Terms</h2>
-            <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days notice prior to any new terms taking effect.</p>
+            <p>
+              We reserve the right, at our sole discretion, to modify or replace
+              these Terms at any time. If a revision is material, we will try to
+              provide at least 30 days notice prior to any new terms taking
+              effect.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>18. Contact Information</h2>
-            <p>If you have any questions about these Terms of Service, please contact us at legal@brcapp.io</p>
+            <p>
+              If you have any questions about these Terms of Service, please
+              contact us at legal@brcapp.io
+            </p>
           </section>
         </div>
 
         <div className="legal-back">
-          <a href="#" className="btn btn-outline" onClick={(e) => {
-            e.preventDefault()
-            window.history.back()
-          }}>← Back to Home</a>
+          <a
+            href="#"
+            className="btn btn-outline"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.back();
+            }}
+          >
+            ← Back to Home
+          </a>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // ─── PRIVACY POLICY ───────────────────────────────────────────────────────────
@@ -1037,13 +1285,21 @@ function PrivacyPolicy() {
       <div className="container">
         <div className="legal-header">
           <h1 className="legal-title">Privacy Policy</h1>
-          <p className="legal-subtitle">Last updated: {new Date().toLocaleDateString()}</p>
+          <p className="legal-subtitle">
+            Last updated: {new Date().toLocaleDateString()}
+          </p>
         </div>
 
         <div className="legal-content">
           <section className="legal-section">
             <h2>1. Introduction</h2>
-            <p>This Privacy Policy describes how BRC (Business Reputation Center) collects, uses, and protects your information when you use our mobile application, web platform, and related services. We are committed to protecting your privacy and complying with applicable data protection laws.</p>
+            <p>
+              This Privacy Policy describes how BRC (Business Reputation Center)
+              collects, uses, and protects your information when you use our
+              mobile application, web platform, and related services. We are
+              committed to protecting your privacy and complying with applicable
+              data protection laws.
+            </p>
           </section>
 
           <section className="legal-section">
@@ -1052,25 +1308,58 @@ function PrivacyPolicy() {
 
             <h3>2.1 Information You Provide Directly</h3>
             <ul>
-              <li><strong>Account Information:</strong> Business name, email address, phone number, and password when you create an account</li>
-              <li><strong>Business Data:</strong> Business details, location information, staff information, and operational data</li>
-              <li><strong>Customer Data:</strong> Feedback, contact information, and transaction details collected through QR code interactions</li>
-              <li><strong>Communication Data:</strong> Messages, support requests, and feedback submitted through our platform</li>
+              <li>
+                <strong>Account Information:</strong> Business name, email
+                address, phone number, and password when you create an account
+              </li>
+              <li>
+                <strong>Business Data:</strong> Business details, location
+                information, staff information, and operational data
+              </li>
+              <li>
+                <strong>Customer Data:</strong> Feedback, contact information,
+                and transaction details collected through QR code interactions
+              </li>
+              <li>
+                <strong>Communication Data:</strong> Messages, support requests,
+                and feedback submitted through our platform
+              </li>
             </ul>
 
             <h3>2.2 Information Collected Automatically</h3>
             <ul>
-              <li><strong>Usage Data:</strong> App usage patterns, feature interactions, and performance metrics</li>
-              <li><strong>Device Information:</strong> Device type, operating system, app version, and unique device identifiers</li>
-              <li><strong>Location Data:</strong> IP addresses and general location information for business verification</li>
-              <li><strong>Review Data:</strong> Public reviews and ratings from integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)</li>
+              <li>
+                <strong>Usage Data:</strong> App usage patterns, feature
+                interactions, and performance metrics
+              </li>
+              <li>
+                <strong>Device Information:</strong> Device type, operating
+                system, app version, and unique device identifiers
+              </li>
+              <li>
+                <strong>Location Data:</strong> IP addresses and general
+                location information for business verification
+              </li>
+              <li>
+                <strong>Review Data:</strong> Public reviews and ratings from
+                integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)
+              </li>
             </ul>
 
             <h3>2.3 Information from Third Parties</h3>
             <ul>
-              <li><strong>Review Platforms:</strong> Public review data, ratings, and customer feedback from connected platforms</li>
-              <li><strong>Payment Processors:</strong> Billing information and transaction data from RevenueCat</li>
-              <li><strong>Analytics Services:</strong> Usage analytics and performance data</li>
+              <li>
+                <strong>Review Platforms:</strong> Public review data, ratings,
+                and customer feedback from connected platforms
+              </li>
+              <li>
+                <strong>Payment Processors:</strong> Billing information and
+                transaction data from RevenueCat
+              </li>
+              <li>
+                <strong>Analytics Services:</strong> Usage analytics and
+                performance data
+              </li>
             </ul>
           </section>
 
@@ -1090,7 +1379,10 @@ function PrivacyPolicy() {
             <h3>3.2 Communication</h3>
             <ul>
               <li>Send service-related communications and updates</li>
-              <li>Deliver SMS messages to customers (discount codes, review requests, etc.)</li>
+              <li>
+                Deliver SMS messages to customers (discount codes, review
+                requests, etc.)
+              </li>
               <li>Provide customer support and technical assistance</li>
               <li>Send marketing communications (with your consent)</li>
             </ul>
@@ -1114,15 +1406,31 @@ function PrivacyPolicy() {
 
           <section className="legal-section">
             <h2>4. Information Sharing and Disclosure</h2>
-            <p>We do not sell your personal information. We may share information in the following circumstances:</p>
+            <p>
+              We do not sell your personal information. We may share information
+              in the following circumstances:
+            </p>
 
             <h3>4.1 Service Providers</h3>
             <ul>
-              <li><strong>Supabase:</strong> Database hosting and authentication services</li>
-              <li><strong>Twilio:</strong> SMS messaging and communication services</li>
-              <li><strong>OpenAI:</strong> AI-powered analysis and processing</li>
-              <li><strong>RevenueCat:</strong> Subscription and payment processing</li>
-              <li><strong>Google Maps API:</strong> Business verification and location services</li>
+              <li>
+                <strong>Supabase:</strong> Database hosting and authentication
+                services
+              </li>
+              <li>
+                <strong>Twilio:</strong> SMS messaging and communication
+                services
+              </li>
+              <li>
+                <strong>OpenAI:</strong> AI-powered analysis and processing
+              </li>
+              <li>
+                <strong>RevenueCat:</strong> Subscription and payment processing
+              </li>
+              <li>
+                <strong>Google Maps API:</strong> Business verification and
+                location services
+              </li>
             </ul>
 
             <h3>4.2 Legal Requirements</h3>
@@ -1135,40 +1443,84 @@ function PrivacyPolicy() {
 
             <h3>4.3 Business Transfers</h3>
             <ul>
-              <li>In connection with a merger, acquisition, or sale of assets</li>
+              <li>
+                In connection with a merger, acquisition, or sale of assets
+              </li>
               <li>With your explicit consent for specific purposes</li>
             </ul>
           </section>
 
           <section className="legal-section">
             <h2>5. Data Security</h2>
-            <p>We implement comprehensive security measures to protect your information:</p>
+            <p>
+              We implement comprehensive security measures to protect your
+              information:
+            </p>
             <ul>
-              <li><strong>Encryption:</strong> Data encrypted in transit and at rest using industry-standard protocols</li>
-              <li><strong>Access Controls:</strong> Strict access controls and authentication requirements</li>
-              <li><strong>Regular Audits:</strong> Security audits and vulnerability assessments</li>
-              <li><strong>Incident Response:</strong> Established procedures for responding to security incidents</li>
-              <li><strong>Employee Training:</strong> Regular security awareness training for our team</li>
+              <li>
+                <strong>Encryption:</strong> Data encrypted in transit and at
+                rest using industry-standard protocols
+              </li>
+              <li>
+                <strong>Access Controls:</strong> Strict access controls and
+                authentication requirements
+              </li>
+              <li>
+                <strong>Regular Audits:</strong> Security audits and
+                vulnerability assessments
+              </li>
+              <li>
+                <strong>Incident Response:</strong> Established procedures for
+                responding to security incidents
+              </li>
+              <li>
+                <strong>Employee Training:</strong> Regular security awareness
+                training for our team
+              </li>
             </ul>
-            <p>While we implement strong security measures, no system is completely secure. We cannot guarantee absolute security of your data.</p>
+            <p>
+              While we implement strong security measures, no system is
+              completely secure. We cannot guarantee absolute security of your
+              data.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>6. Data Retention</h2>
             <p>We retain your information for the following periods:</p>
             <ul>
-              <li><strong>Account Data:</strong> Retained while your account is active and for a reasonable period after closure</li>
-              <li><strong>Customer Feedback:</strong> Retained for analytics purposes and as required for service improvement</li>
-              <li><strong>Review Data:</strong> Cached for performance but refreshed regularly from source platforms</li>
-              <li><strong>Usage Analytics:</strong> Aggregated and anonymized for service improvement</li>
-              <li><strong>Legal Compliance:</strong> Retained as required by applicable laws and regulations</li>
+              <li>
+                <strong>Account Data:</strong> Retained while your account is
+                active and for a reasonable period after closure
+              </li>
+              <li>
+                <strong>Customer Feedback:</strong> Retained for analytics
+                purposes and as required for service improvement
+              </li>
+              <li>
+                <strong>Review Data:</strong> Cached for performance but
+                refreshed regularly from source platforms
+              </li>
+              <li>
+                <strong>Usage Analytics:</strong> Aggregated and anonymized for
+                service improvement
+              </li>
+              <li>
+                <strong>Legal Compliance:</strong> Retained as required by
+                applicable laws and regulations
+              </li>
             </ul>
-            <p>You may request deletion of your personal information subject to legal and legitimate business requirements.</p>
+            <p>
+              You may request deletion of your personal information subject to
+              legal and legitimate business requirements.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>7. Your Rights and Choices</h2>
-            <p>Depending on your location, you may have the following rights:</p>
+            <p>
+              Depending on your location, you may have the following rights:
+            </p>
 
             <h3>7.1 Access and Portability</h3>
             <ul>
@@ -1208,26 +1560,54 @@ function PrivacyPolicy() {
               <li>Analyze usage patterns and improve performance</li>
               <li>Provide personalized features and recommendations</li>
             </ul>
-            <p>You can control cookie preferences through your browser settings or device privacy controls.</p>
+            <p>
+              You can control cookie preferences through your browser settings
+              or device privacy controls.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>9. Third-Party Integrations</h2>
-            <p>BRC integrates with various third-party services. Your use of these integrations is subject to their respective privacy policies:</p>
+            <p>
+              BRC integrates with various third-party services. Your use of
+              these integrations is subject to their respective privacy
+              policies:
+            </p>
             <ul>
-              <li><strong>Review Platforms:</strong> Google, Yelp, TripAdvisor, and Trustpilot collect and process review data according to their policies</li>
-              <li><strong>Payment Services:</strong> RevenueCat processes payment information according to their privacy policy</li>
-              <li><strong>Communication Services:</strong> Twilio handles SMS delivery according to their privacy policy</li>
-              <li><strong>AI Services:</strong> OpenAI processes data for analysis according to their privacy policy</li>
+              <li>
+                <strong>Review Platforms:</strong> Google, Yelp, TripAdvisor,
+                and Trustpilot collect and process review data according to
+                their policies
+              </li>
+              <li>
+                <strong>Payment Services:</strong> RevenueCat processes payment
+                information according to their privacy policy
+              </li>
+              <li>
+                <strong>Communication Services:</strong> Twilio handles SMS
+                delivery according to their privacy policy
+              </li>
+              <li>
+                <strong>AI Services:</strong> OpenAI processes data for analysis
+                according to their privacy policy
+              </li>
             </ul>
           </section>
 
           <section className="legal-section">
             <h2>10. International Data Transfers</h2>
-            <p>Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for international transfers, including:</p>
+            <p>
+              Your information may be transferred to and processed in countries
+              other than your own. We ensure appropriate safeguards are in place
+              for international transfers, including:
+            </p>
             <ul>
-              <li>Standard contractual clauses approved by regulatory authorities</li>
-              <li>Adequacy decisions by relevant data protection authorities</li>
+              <li>
+                Standard contractual clauses approved by regulatory authorities
+              </li>
+              <li>
+                Adequacy decisions by relevant data protection authorities
+              </li>
               <li>Binding corporate rules for intra-group transfers</li>
               <li>Certification schemes and codes of conduct</li>
             </ul>
@@ -1235,17 +1615,37 @@ function PrivacyPolicy() {
 
           <section className="legal-section">
             <h2>11. Children's Privacy</h2>
-            <p>BRC is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If we become aware that we have collected personal information from a child under 13, we will take steps to delete such information.</p>
+            <p>
+              BRC is not intended for children under 13 years of age. We do not
+              knowingly collect personal information from children under 13. If
+              we become aware that we have collected personal information from a
+              child under 13, we will take steps to delete such information.
+            </p>
           </section>
 
           <section className="legal-section">
             <h2>12. SMS and Communication Compliance</h2>
-            <p>Our SMS communications comply with applicable telecommunications regulations:</p>
+            <p>
+              Our SMS communications comply with applicable telecommunications
+              regulations:
+            </p>
             <ul>
-              <li><strong>TCPA (US):</strong> We obtain appropriate consent and provide opt-out mechanisms</li>
-              <li><strong>CTIA Guidelines:</strong> We follow industry best practices for SMS messaging</li>
-              <li><strong>GDPR:</strong> We ensure lawful basis for electronic communications</li>
-              <li><strong>CAN-SPAM:</strong> We provide clear identification and opt-out options</li>
+              <li>
+                <strong>TCPA (US):</strong> We obtain appropriate consent and
+                provide opt-out mechanisms
+              </li>
+              <li>
+                <strong>CTIA Guidelines:</strong> We follow industry best
+                practices for SMS messaging
+              </li>
+              <li>
+                <strong>GDPR:</strong> We ensure lawful basis for electronic
+                communications
+              </li>
+              <li>
+                <strong>CAN-SPAM:</strong> We provide clear identification and
+                opt-out options
+              </li>
             </ul>
           </section>
 
@@ -1253,33 +1653,59 @@ function PrivacyPolicy() {
             <h2>13. AI Data Processing</h2>
             <p>When using AI services for analysis:</p>
             <ul>
-              <li>Data is processed securely and temporarily for analysis purposes</li>
-              <li>AI-generated insights are reviewed and validated by human operators</li>
-              <li>We do not use personal data to train AI models without explicit consent</li>
+              <li>
+                Data is processed securely and temporarily for analysis purposes
+              </li>
+              <li>
+                AI-generated insights are reviewed and validated by human
+                operators
+              </li>
+              <li>
+                We do not use personal data to train AI models without explicit
+                consent
+              </li>
               <li>You can opt-out of AI processing for your specific data</li>
             </ul>
           </section>
 
           <section className="legal-section">
             <h2>14. Changes to This Privacy Policy</h2>
-            <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will:</p>
+            <p>
+              We may update this Privacy Policy from time to time to reflect
+              changes in our practices or legal requirements. We will:
+            </p>
             <ul>
               <li>Post the updated policy on our website</li>
               <li>Update the "Last updated" date</li>
-              <li>Provide notice of material changes via email or in-app notifications</li>
+              <li>
+                Provide notice of material changes via email or in-app
+                notifications
+              </li>
               <li>Give you time to review changes before they take effect</li>
             </ul>
           </section>
 
           <section className="legal-section">
             <h2>15. Contact Us</h2>
-            <p>If you have questions about this Privacy Policy or our data practices:</p>
+            <p>
+              If you have questions about this Privacy Policy or our data
+              practices:
+            </p>
             <ul>
-              <li><strong>Email:</strong> privacy@brcapp.io</li>
-              <li><strong>Address:</strong> [Business Address]</li>
-              <li><strong>Data Protection Officer:</strong> dpo@brcapp.io</li>
+              <li>
+                <strong>Email:</strong> privacy@brcapp.io
+              </li>
+              <li>
+                <strong>Address:</strong> [Your Registered Business Address]
+              </li>
+              <li>
+                <strong>Data Protection Officer:</strong> dpo@brcapp.io
+              </li>
             </ul>
-            <p>We will respond to your inquiries within 30 days or as required by applicable law.</p>
+            <p>
+              We will respond to your inquiries within 30 days or as required by
+              applicable law.
+            </p>
           </section>
 
           <section className="legal-section">
@@ -1287,43 +1713,64 @@ function PrivacyPolicy() {
             <p>If you have concerns about our privacy practices:</p>
             <ul>
               <li>Contact us first to resolve the issue</li>
-              <li>You have the right to lodge a complaint with your local data protection authority</li>
-              <li>We will cooperate with regulatory investigations and provide necessary information</li>
+              <li>
+                You have the right to lodge a complaint with your local data
+                protection authority
+              </li>
+              <li>
+                We will cooperate with regulatory investigations and provide
+                necessary information
+              </li>
             </ul>
           </section>
         </div>
 
         <div className="legal-back">
-          <a href="#" className="btn btn-outline" onClick={(e) => {
-            e.preventDefault()
-            window.history.back()
-          }}>← Back to Home</a>
+          <a
+            href="#"
+            className="btn btn-outline"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.back();
+            }}
+          >
+            ← Back to Home
+          </a>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 
 const FOOTER_COLS = [
-  { heading: 'Product', links: ['Features', 'Pricing', 'Changelog', 'Roadmap'] },
-  { heading: 'Company', links: ['About', 'Blog', 'Careers', 'Press'] },
-  { heading: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'GDPR'] },
-  { heading: 'Support', links: ['Help Center', 'Contact Us', 'System Status', 'API Docs'] },
-]
+  {
+    heading: "Product",
+    links: ["Features", "Pricing", "Changelog", "Roadmap"],
+  },
+  { heading: "Company", links: ["About", "Blog", "Careers", "Press"] },
+  {
+    heading: "Legal",
+    links: ["Privacy Policy", "Terms of Service", "Cookie Policy", "GDPR"],
+  },
+  {
+    heading: "Support",
+    links: ["Help Center", "Contact Us", "System Status", "API Docs"],
+  },
+];
 
 function Footer({ onNavigate }) {
   const handleLinkClick = (link) => {
-    if (link === 'Terms of Service') {
-      onNavigate(PAGES.TERMS)
-    } else if (link === 'Privacy Policy') {
-      onNavigate(PAGES.PRIVACY)
+    if (link === "Terms of Service") {
+      onNavigate(PAGES.TERMS);
+    } else if (link === "Privacy Policy") {
+      onNavigate(PAGES.PRIVACY);
     } else {
       // Handle other links normally
-      console.log('Navigate to:', link)
+      console.log("Navigate to:", link);
     }
-  }
+  };
 
   return (
     <footer className="footer">
@@ -1334,67 +1781,86 @@ function Footer({ onNavigate }) {
             BRC
           </a>
           <p className="footer-tagline">
-            Recover bad experiences, grow reviews,<br />
-            and bring customers back — on autopilot.<br />
+            Recover bad experiences, grow reviews,
+            <br />
+            and bring customers back — on autopilot.
+            <br />
             Available on iOS, Android &amp; Web.
           </p>
           <div className="footer-socials">
-            {['X', 'IG', 'LI'].map(s => (
-              <a key={s} href="#" className="social-btn">{s}</a>
+            {["X", "IG", "LI"].map((s) => (
+              <a key={s} href="#" className="social-btn">
+                {s}
+              </a>
             ))}
           </div>
         </div>
-        {FOOTER_COLS.map(col => (
+        {FOOTER_COLS.map((col) => (
           <div key={col.heading} className="footer-col">
             <div className="footer-col-h">{col.heading}</div>
-            {col.links.map(l => (
-              <a key={l} href="#" className="footer-link" onClick={(e) => {
-                e.preventDefault()
-                handleLinkClick(l)
-              }}>{l}</a>
+            {col.links.map((l) => (
+              <a
+                key={l}
+                href="#"
+                className="footer-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(l);
+                }}
+              >
+                {l}
+              </a>
             ))}
           </div>
         ))}
       </div>
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
-          <span className="footer-copy">© {new Date().getFullYear()} BRC. All rights reserved.</span>
+          <span className="footer-copy">
+            © {new Date().getFullYear()} BRC. All rights reserved.
+          </span>
           <div className="footer-app-links">
-            <a href="#" className="footer-app-link">🍎 App Store</a>
-            <a href="#" className="footer-app-link">🤖 Google Play</a>
-            <a href="#" className="footer-app-link">🌐 Web App</a>
+            <a href="#" className="footer-app-link">
+              🍎 App Store
+            </a>
+            <a href="#" className="footer-app-link">
+              🤖 Google Play
+            </a>
+            <a href="#" className="footer-app-link">
+              🌐 Web App
+            </a>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState(PAGES.HOME)
+  const [currentPage, setCurrentPage] = useState(PAGES.HOME);
 
   const navigateTo = (page) => {
-    setCurrentPage(page)
-    window.scrollTo(0, 0)
-  }
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
 
   // Handle browser back button
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPage(PAGES.HOME)
-    }
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
+      setCurrentPage(PAGES.HOME);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   if (currentPage === PAGES.TERMS) {
-    return <TermsOfService />
+    return <TermsOfService />;
   }
 
   if (currentPage === PAGES.PRIVACY) {
-    return <PrivacyPolicy />
+    return <PrivacyPolicy />;
   }
 
   return (
@@ -1414,5 +1880,5 @@ export default function App() {
       </main>
       <Footer onNavigate={navigateTo} />
     </div>
-  )
+  );
 }
