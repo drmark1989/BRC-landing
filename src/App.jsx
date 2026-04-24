@@ -119,7 +119,8 @@ function Hero() {
             BRC captures private feedback tied to each customer&apos;s order,
             rewards them with a discount for sharing it, resolves problems before
             they go public, and follows up naturally to grow your reputation —
-            all without lifting a finger.
+            all while providing deep analytics across Google, Yelp, TripAdvisor,
+            and Trustpilot to keep you ahead of competitors.
           </p>
           <div className="hero-btns">
             <a href="#pricing" className="btn btn-primary btn-lg">
@@ -189,6 +190,8 @@ const STATS = [
   { value: '18.5k+', label: 'SMS win-back campaigns' },
   { value: '9.7k+', label: 'Tracked discount redemptions' },
   { value: '+67%', label: 'Average review lift' },
+  { value: '2.1M+', label: 'Reviews analyzed across platforms' },
+  { value: '99.5%', label: 'Fake review detection accuracy' },
 ]
 
 function StatsBar() {
@@ -247,8 +250,8 @@ const FEATURES = [
   {
     icon: '📊',
     accent: 'var(--orange)',
-    title: 'Staff, Menu & Campaign Analytics',
-    body: 'See staff performance scores, which menu items get the best feedback, which campaigns convert, and how your public reputation is trending — all from one dashboard.',
+    title: 'Advanced Analytics & Insights',
+    body: 'Track review trends across Google, Yelp, TripAdvisor & Trustpilot. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.',
     tag: 'Insights',
   },
 ]
@@ -417,6 +420,74 @@ function Platforms() {
               {f}
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── ANALYTICS ────────────────────────────────────────────────────────────────
+
+const ANALYTICS_FEATURES = [
+  {
+    icon: '📈',
+    title: 'Multi-Platform Review Tracking',
+    desc: 'Monitor your reputation across Google, Yelp, TripAdvisor, and Trustpilot in real-time. See rating trends, review volume, and response times all in one place.',
+  },
+  {
+    icon: '👥',
+    title: 'Competitor Intelligence',
+    desc: 'Track competitor ratings, review counts, and sentiment. Identify market opportunities and benchmark your performance against local rivals.',
+  },
+  {
+    icon: '🧠',
+    title: 'AI-Powered Review Analysis',
+    desc: 'Automatic sentiment analysis, fake review detection, and risk scoring. Get alerts for urgent reviews and insights into customer emotions.',
+  },
+  {
+    icon: '📊',
+    title: 'Advanced Dashboards',
+    desc: 'Interactive charts for feedback trends, campaign performance, staff ratings, and menu item popularity. Export data for deeper analysis.',
+  },
+  {
+    icon: '⚡',
+    title: 'Real-Time Notifications',
+    desc: 'Instant alerts for new reviews, low ratings, or competitor changes. Never miss a chance to respond or celebrate positive feedback.',
+  },
+  {
+    icon: '🎯',
+    title: 'Actionable Insights',
+    desc: 'Identify top-performing staff, best-selling items, and successful campaigns. Make data-driven decisions to improve your business.',
+  },
+]
+
+function Analytics() {
+  return (
+    <section className="section analytics-section">
+      <div className="container">
+        <div className="section-header">
+          <div className="section-tag">Analytics & Intelligence</div>
+          <h2 className="section-h2">
+            Turn data into<br />
+            <span className="grad-text">competitive advantage</span>
+          </h2>
+          <p className="section-p">
+            Don&apos;t just collect reviews — understand them. BRC&apos;s analytics give you the full picture of your reputation, competitors, and customers.
+          </p>
+        </div>
+        <div className="analytics-grid">
+          {ANALYTICS_FEATURES.map(f => (
+            <div key={f.title} className="analytics-card">
+              <div className="analytics-icon">{f.icon}</div>
+              <h3 className="analytics-title">{f.title}</h3>
+              <p className="analytics-desc">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className="analytics-cta">
+          <a href="#pricing" className="btn btn-primary btn-xl">
+            See Analytics in Action <span className="arrow">→</span>
+          </a>
         </div>
       </div>
     </section>
@@ -824,6 +895,7 @@ export default function App() {
         <Features />
         <HowItWorks />
         <Platforms />
+        <Analytics />
         <Campaigns />
         <Pricing />
         <FAQ />
