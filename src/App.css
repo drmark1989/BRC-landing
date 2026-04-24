@@ -678,7 +678,7 @@ img { max-width: 100%; }
 
 .stats-inner {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 24px;
 }
 
@@ -997,6 +997,50 @@ img { max-width: 100%; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* ─── ANALYTICS ──────────────────────────────────────────────────────────────── */
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.analytics-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 32px 24px;
+  text-align: center;
+  transition: border-color var(--ease), transform var(--ease);
+}
+.analytics-card:hover {
+  border-color: var(--border-s);
+  transform: translateY(-3px);
+}
+
+.analytics-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.analytics-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.analytics-desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.analytics-cta {
+  text-align: center;
 }
 
 /* ─── CAMPAIGNS ──────────────────────────────────────────────────────────────── */
