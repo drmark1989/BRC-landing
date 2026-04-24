@@ -67,11 +67,11 @@ function PhoneMockup() {
       <div className="phone-screen">
         <div className="phone-header">
           <div className="phone-header-logo">⬡ BRC</div>
-          <div className="phone-header-sub">Live Feedback</div>
+          <div className="phone-header-sub">Marco&apos;s Bistro</div>
         </div>
         <div className="phone-body">
-          <div className="phone-biz">Marco&apos;s Bistro</div>
-          <p className="phone-prompt">How was your experience today?</p>
+          <div className="phone-order-tag">Your order · Table 7</div>
+          <div className="phone-biz">How was your Margherita Pizza?</div>
           <div className="phone-stars">
             {[1,2,3,4,5].map(i => (
               <span key={i} className={`star ${i <= 4 ? 'star-on' : 'star-half'}`}>★</span>
@@ -79,7 +79,7 @@ function PhoneMockup() {
           </div>
           <div className="phone-divider" />
           <div className="phone-metrics">
-            {[['Food Quality', 92], ['Service', 100], ['Ambience', 78]].map(([label, pct]) => (
+            {[['Flavour', 95], ['Temperature', 100], ['Presentation', 78]].map(([label, pct]) => (
               <div key={label} className="metric-row">
                 <span className="metric-label">{label}</span>
                 <div className="metric-track">
@@ -88,8 +88,8 @@ function PhoneMockup() {
               </div>
             ))}
           </div>
-          <textarea className="phone-comment" readOnly value="Great pasta, will come back!" />
-          <button className="phone-cta">Submit &amp; Get My Discount →</button>
+          <textarea className="phone-comment" readOnly value="Loved the crust, sauce was perfect!" />
+          <button className="phone-cta">Submit &amp; Claim My Reward →</button>
         </div>
       </div>
     </div>
@@ -112,13 +112,14 @@ function Hero() {
             Available on iOS · Android · Web
           </div>
           <h1 className="hero-h1">
-            Turn every visit into a<br />
-            <span className="grad-text">glowing review</span>
+            Recover bad experiences,<br />
+            <span className="grad-text">grow reviews, keep customers.</span>
           </h1>
           <p className="hero-p">
-            BRC captures honest feedback at the point of experience, automatically
-            routes happy customers to Google and Yelp, and wins back unhappy ones
-            with targeted SMS campaigns — all on autopilot.
+            BRC captures private feedback tied to each customer&apos;s order,
+            rewards them with a discount for sharing it, resolves problems before
+            they go public, and follows up naturally to grow your reputation —
+            all without lifting a finger.
           </p>
           <div className="hero-btns">
             <a href="#pricing" className="btn btn-primary btn-lg">
@@ -136,7 +137,7 @@ function Hero() {
             </div>
             <div className="sp-text">
               <span className="sp-stars">★★★★★</span>
-              <span>Loved by <strong>2,400+</strong> businesses</span>
+              <span>Trusted by <strong>2,400+</strong> local businesses</span>
             </div>
           </div>
         </div>
@@ -146,25 +147,25 @@ function Hero() {
 
           <div className="float-card fc-review">
             <div className="fc-platform">
-              <span className="g-dot">G</span>
-              <span className="fc-platform-name">Posted to Google</span>
+              <span className="fc-discount-tag">🎁</span>
+              <span className="fc-platform-name">Reward sent</span>
             </div>
             <div className="fc-stars-sm">★★★★★</div>
-            <div className="fc-quote">&ldquo;Amazing food, will definitely be back!&rdquo;</div>
+            <div className="fc-quote">Code <strong>SAVE15</strong> delivered via SMS</div>
           </div>
 
           <div className="float-card fc-sms">
             <div className="fc-sms-icon">💬</div>
             <div className="fc-sms-body">
-              <div className="fc-sms-title">SMS Sent</div>
-              <div className="fc-sms-sub">Code <strong>SAVE20</strong> delivered</div>
+              <div className="fc-sms-title">Follow-up sent · 3 days later</div>
+              <div className="fc-sms-sub">Review request delivered naturally</div>
             </div>
             <div className="fc-sms-check">✓</div>
           </div>
 
           <div className="float-card fc-stat">
-            <div className="fc-stat-val">+47%</div>
-            <div className="fc-stat-label">More reviews this month</div>
+            <div className="fc-stat-val">+67%</div>
+            <div className="fc-stat-label">Review lift this month</div>
             <div className="fc-stat-spark">
               {[30, 50, 40, 70, 60, 90, 80].map((h, i) => (
                 <div key={i} className="spark-bar" style={{ height: `${h}%` }} />
@@ -184,10 +185,10 @@ function Hero() {
 // ─── STATS BAR ────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { value: '2,400+', label: 'Businesses active' },
-  { value: '1.2M+', label: 'Feedback collected' },
-  { value: '68%', label: 'More 5-star reviews' },
-  { value: '4.9 ★', label: 'Average app rating' },
+  { value: '48k+', label: 'Private feedback tickets' },
+  { value: '18.5k+', label: 'SMS win-back campaigns' },
+  { value: '9.7k+', label: 'Tracked discount redemptions' },
+  { value: '+67%', label: 'Average review lift' },
 ]
 
 function StatsBar() {
@@ -209,45 +210,45 @@ function StatsBar() {
 
 const FEATURES = [
   {
-    icon: '📱',
+    icon: '📋',
     accent: 'var(--purple)',
-    title: 'QR Feedback at the Moment',
-    body: 'Place QR codes on tables, receipts, or counters. Customers scan and rate in seconds — capturing genuine sentiment while the experience is still fresh.',
+    title: 'Feedback Tied to Their Order',
+    body: 'Customers don\'t get a generic form — they get questions about what they actually ordered. Every piece of feedback is contextual, specific, and far more actionable.',
     tag: 'Core',
   },
   {
-    icon: '⭐',
-    accent: 'var(--yellow)',
-    title: 'Amplify Happy Customers',
-    body: 'When customers rate 4–5 stars, BRC automatically guides them to leave a public review on Google, Yelp, TripAdvisor, or Trustpilot.',
-    tag: 'Growth',
+    icon: '🎁',
+    accent: 'var(--green)',
+    title: 'Instant Discount for Honest Feedback',
+    body: 'Every customer who leaves feedback gets a personalised discount code delivered immediately. They feel appreciated. You get real data. Everyone wins.',
+    tag: 'Retention',
+  },
+  {
+    icon: '🔒',
+    accent: 'var(--blue)',
+    title: 'Catch Problems Before They Go Public',
+    body: 'Unhappy customers can raise issues privately with your business. Your team resolves it before it becomes a public complaint — protecting your reputation while the experience is still salvageable.',
+    tag: 'Protection',
   },
   {
     icon: '💬',
     accent: 'var(--cyan)',
-    title: 'SMS Campaigns & Discounts',
-    body: 'Send targeted SMS campaigns with personalised discount codes. Reward loyal customers, recover unhappy ones, and win back lost visitors — automatically.',
+    title: 'Natural Review Follow-Up',
+    body: 'Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, TripAdvisor, or Trustpilot, whichever you choose.',
+    tag: 'Growth',
+  },
+  {
+    icon: '📣',
+    accent: 'var(--yellow)',
+    title: 'SMS Win-Back Campaigns',
+    body: 'Haven\'t seen a customer in a while? BRC identifies who\'s gone quiet and automatically sends them a compelling offer to bring them back — timed right, personalised, trackable.',
     tag: 'Revenue',
-  },
-  {
-    icon: '🔍',
-    accent: 'var(--blue)',
-    title: 'Monitor All Review Platforms',
-    body: 'Track every review across Google, Yelp, TripAdvisor, and Trustpilot from one dashboard. Get real-time notifications and never miss what customers are saying.',
-    tag: 'Monitoring',
-  },
-  {
-    icon: '🤖',
-    accent: 'var(--green)',
-    title: 'AI Review Analysis',
-    body: 'Our AI automatically flags suspicious or fake reviews so you can focus on genuine feedback and respond strategically. Understand trends before they become problems.',
-    tag: 'AI',
   },
   {
     icon: '📊',
     accent: 'var(--orange)',
-    title: 'Powerful Analytics Dashboard',
-    body: 'Track ratings over time, campaign redemption rates, staff performance scores, and revenue impact — with clean charts that tell the real story at a glance.',
+    title: 'Staff, Menu & Campaign Analytics',
+    body: 'See staff performance scores, which menu items get the best feedback, which campaigns convert, and how your public reputation is trending — all from one dashboard.',
     tag: 'Insights',
   },
 ]
@@ -259,11 +260,11 @@ function Features() {
         <div className="section-header">
           <div className="section-tag">Features</div>
           <h2 className="section-h2">
-            Everything you need to<br />
-            <span className="grad-text">own your reputation</span>
+            Built for what actually<br />
+            <span className="grad-text">happens in your business</span>
           </h2>
           <p className="section-p">
-            BRC gives local businesses the tools enterprise brands use — at a price that actually makes sense.
+            Not a generic CRM. Not just a review monitor. BRC is designed around the real daily loop — feedback in, issues resolved, customers followed up at the right time.
           </p>
         </div>
         <div className="features-grid">
@@ -288,9 +289,9 @@ function Features() {
 const STEPS = [
   {
     num: '01',
-    title: 'Set Up in 5 Minutes',
-    body: 'Create your business profile, generate your custom QR code, and place it anywhere customers interact with you — table tents, receipts, counter cards, or digital displays.',
-    tip: 'No technical knowledge required. QR codes are print-ready immediately.',
+    title: 'Customer Scans & Gives Feedback',
+    body: 'Place QR codes on tables, receipts, or counters. Customers scan and answer questions about their specific order — food items, service, atmosphere. It\'s personal, not generic.',
+    tip: 'Feedback forms are generated dynamically based on what the customer ordered.',
     visual: (
       <div className="step-visual sv-setup">
         <div className="sv-qr">
@@ -300,38 +301,30 @@ const STEPS = [
             ))}
           </div>
         </div>
-        <div className="sv-label">Your QR Code</div>
+        <div className="sv-label">Scan → Your order, your questions</div>
       </div>
     ),
   },
   {
     num: '02',
-    title: 'Customers Scan & Rate',
-    body: 'Customers scan the QR code and leave honest feedback — rating their overall experience, individual metrics like food or service, and specific staff members.',
-    tip: 'Happy customers (4-5 ★) are guided to your public Google or Yelp page.',
+    title: 'They Get Rewarded Instantly',
+    body: 'As soon as feedback is submitted, the customer receives a personalised discount code via SMS. They feel valued — and you get genuine, honest feedback worth acting on.',
+    tip: 'Businesses offering a reward see 3× more feedback submissions.',
     visual: (
       <div className="step-visual sv-scan">
-        <div className="sv-stars">
-          {[1,2,3,4,5].map(i => <span key={i} className="sv-star">★</span>)}
-        </div>
-        <div className="sv-route">
-          <div className="route-branch">
-            <div className="route-dot route-happy">😊</div>
-            <div className="route-label route-label-happy">→ Google Review</div>
-          </div>
-          <div className="route-branch">
-            <div className="route-dot route-sad">😕</div>
-            <div className="route-label route-label-sad">→ Private Resolution</div>
-          </div>
+        <div className="sv-reward">
+          <div className="sv-reward-icon">🎁</div>
+          <div className="sv-reward-code">SAVE15</div>
+          <div className="sv-reward-label">Delivered via SMS · Instantly</div>
         </div>
       </div>
     ),
   },
   {
     num: '03',
-    title: 'Grow on Autopilot',
-    body: 'BRC automatically sends discount codes, win-back SMS campaigns, and review prompts. Your reputation grows while you focus on delivering a great experience.',
-    tip: 'Average businesses see 68% more public reviews within 90 days.',
+    title: 'BRC Follows Up Naturally',
+    body: 'Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, TripAdvisor, or Trustpilot.',
+    tip: 'Average businesses see a 67% lift in public reviews within 90 days.',
     visual: (
       <div className="step-visual sv-grow">
         <div className="sv-chart">
@@ -339,7 +332,7 @@ const STEPS = [
             <div key={i} className="sv-bar" style={{ height: `${h}%` }} />
           ))}
         </div>
-        <div className="sv-chart-label">Reviews Over Time ↑</div>
+        <div className="sv-chart-label">Public reviews over time ↑</div>
       </div>
     ),
   },
@@ -352,8 +345,8 @@ function HowItWorks() {
         <div className="section-header">
           <div className="section-tag">How It Works</div>
           <h2 className="section-h2">
-            Up and running<br />
-            <span className="grad-text">before lunch</span>
+            Three steps.<br />
+            <span className="grad-text">Running before lunch.</span>
           </h2>
         </div>
         <div className="hiw-grid">
@@ -386,10 +379,10 @@ const PLATFORMS = [
 ]
 
 const PLATFORM_FEATURES = [
+  'You choose which platform to grow',
+  'Follow-ups feel natural, not automated',
   'AI flags fake & suspicious reviews',
-  'Real-time new review notifications',
-  'Side-by-side competitor tracking',
-  'Historical rating trend charts',
+  'Real-time notifications for new reviews',
 ]
 
 function Platforms() {
@@ -399,11 +392,11 @@ function Platforms() {
         <div className="section-header">
           <div className="section-tag">Review Monitoring</div>
           <h2 className="section-h2">
-            Every platform.<br />
-            <span className="grad-text">One dashboard.</span>
+            Your choice of platform.<br />
+            <span className="grad-text">One place to manage all of them.</span>
           </h2>
           <p className="section-p">
-            Stop bouncing between tabs. BRC pulls every review from every major platform into a single feed you can actually manage.
+            Choose where you want to grow your reviews. BRC follows up with customers on your behalf — naturally, and on the platform that matters most to your business.
           </p>
         </div>
         <div className="platforms-grid">
@@ -436,20 +429,20 @@ const JOURNEYS = [
   {
     icon: '💔',
     color: '#ef4444',
-    label: 'Low Rating Recovery',
-    desc: 'Reach out to dissatisfied customers within 24 hours with a personalised discount and a genuine apology.',
+    label: 'Private Recovery',
+    desc: 'Unhappy customers resolve their issue privately with your team — before it ever becomes a public complaint.',
   },
   {
-    icon: '⭐',
-    color: '#f59e0b',
-    label: 'High Rating Thank-You',
-    desc: 'Reward your best customers automatically and keep them coming back with exclusive loyalty offers.',
+    icon: '🎁',
+    color: '#10b981',
+    label: 'Feedback Reward',
+    desc: 'Every customer who submits feedback gets an instant discount code. Higher submission rates, genuine data, and a reason to come back.',
   },
   {
     icon: '👋',
     color: '#8b5cf6',
     label: 'Win-Back Campaign',
-    desc: "Re-engage customers who haven't visited in 45 days with a compelling comeback offer they can't ignore.",
+    desc: "Re-engage customers who haven't visited in 45 days with a compelling, personalised offer that's timed perfectly.",
   },
 ]
 
@@ -459,13 +452,13 @@ function Campaigns() {
       <div className="container">
         <div className="campaigns-layout">
           <div className="campaigns-copy">
-            <div className="section-tag">Automated Campaigns</div>
+            <div className="section-tag">Automated Journeys</div>
             <h2 className="section-h2">
               Set it once.<br />
               <span className="grad-text">Grow forever.</span>
             </h2>
             <p className="section-p" style={{ textAlign: 'left', maxWidth: 'none' }}>
-              BRC&apos;s automated journeys send the right message to the right customer at exactly the right time — without you doing a thing.
+              BRC runs the right communication at exactly the right moment — recovery, rewards, review requests, and win-backs — without you having to think about it.
             </p>
             <div className="journey-list">
               {JOURNEYS.map(j => (
@@ -535,14 +528,14 @@ const PLANS = [
     name: 'Free',
     monthly: 0,
     annual: 0,
-    desc: 'Perfect for getting started and collecting your first reviews.',
+    desc: 'Get started, collect feedback, and see how your customers really feel.',
     cta: 'Start for Free',
     highlight: false,
     badge: null,
     features: [
       '1 location',
       '50 feedback forms / month',
-      'QR code feedback collection',
+      'QR code & order-based feedback',
       'Basic analytics dashboard',
       'Email support',
     ],
@@ -551,17 +544,18 @@ const PLANS = [
     name: 'Growth',
     monthly: 49,
     annual: 39,
-    desc: 'For growing businesses serious about their online reputation.',
+    desc: 'For growing businesses serious about retention and reputation.',
     cta: 'Start 14-Day Trial',
     highlight: true,
     badge: 'Most Popular',
     features: [
       'Up to 3 locations',
       'Unlimited feedback forms',
+      'Instant discount rewards for feedback',
+      'Natural review follow-up (your platform)',
       'SMS campaigns (200 credits / mo)',
-      'Review monitoring — 4 platforms',
-      'Automated win-back journeys',
-      'Staff performance tracking',
+      'Win-back & recovery journeys',
+      'Staff & menu performance tracking',
       'Priority support',
     ],
   },
@@ -569,7 +563,7 @@ const PLANS = [
     name: 'Pro',
     monthly: 99,
     annual: 79,
-    desc: 'For multi-location businesses and power users who need everything.',
+    desc: 'For multi-location businesses that want everything working on autopilot.',
     cta: 'Start 14-Day Trial',
     highlight: false,
     badge: null,
@@ -660,24 +654,24 @@ function Pricing() {
 
 const FAQS = [
   {
-    q: 'How do customers leave feedback?',
-    a: 'You place a QR code — printed or digital — anywhere customers interact with you: table tents, receipts, counter signs, packaging, or digital displays. They scan with their phone camera and submit feedback in under 60 seconds. No app download required.',
+    q: 'How is the feedback form personalised to each customer?',
+    a: 'When a customer scans the QR code, BRC generates questions based on what they ordered — so instead of a generic "how was your visit?", they\'re asked specifically about their dish, the service they received, or the experience at their table. This makes the feedback far more useful and the form feel far more natural to fill in.',
   },
   {
-    q: 'Will customers actually scan the QR code?',
-    a: 'Businesses that offer a small incentive (10–20% discount) see scan rates of 30–50% of customers. Even without an incentive, QR codes at the point of experience typically convert 15–25% of customers who had a noteworthy experience.',
+    q: 'Do customers have to download an app to leave feedback?',
+    a: 'No. Customers scan the QR code with their phone camera and the feedback form opens instantly in their browser. No app download, no sign-up — just a quick, frictionless experience that takes under 60 seconds.',
   },
   {
-    q: 'Does BRC prevent bad reviews from going public?',
-    a: "BRC doesn't block reviews — customers can still post wherever they like. What BRC does is route unhappy customers toward a private resolution before they resort to a public complaint. Happy customers (4–5 ★) are proactively guided to share on Google or Yelp.",
+    q: 'How does the discount reward work?',
+    a: 'As soon as a customer submits their feedback, they receive a personalised discount code via SMS. The code is unique to them, trackable, and can be set to expire after a time of your choosing. Businesses using rewards typically see 3× more feedback submissions.',
   },
   {
-    q: 'Which review platforms do you monitor?',
-    a: 'BRC monitors Google, Yelp, TripAdvisor, and Trustpilot. Reviews are pulled and analysed automatically, with AI flagging suspicious reviews and instant notifications for new activity.',
+    q: 'When and how does BRC ask for public reviews?',
+    a: 'BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, TripAdvisor, or Trustpilot.',
   },
   {
-    q: 'How does the SMS campaign system work?',
-    a: "After a customer submits feedback, BRC can send them a personalised SMS with a unique discount code. Automated journeys then handle follow-ups: win-back messages for unhappy customers, thank-you offers for happy ones, and re-engagement messages for customers who haven't visited in a while.",
+    q: 'What happens when a customer leaves negative feedback?',
+    a: 'Unhappy customers are given a private channel to share their concerns directly with your business — before they consider posting a public review. Your team can resolve the issue, respond personally, and turn a bad experience into a reason to return.',
   },
   {
     q: 'Can I cancel my subscription at any time?',
@@ -725,13 +719,12 @@ function CTA() {
           <div className="cta-glow" />
           <div className="section-tag" style={{ marginBottom: 20 }}>Get Started</div>
           <h2 className="cta-h2">
-            Your reputation is<br />
-            <span className="grad-text">growing right now.</span><br />
-            Or it isn&apos;t.
+            Start with your business,<br />
+            <span className="grad-text">not a setup marathon.</span>
           </h2>
           <p className="cta-p">
-            Join thousands of local businesses using BRC to capture more reviews,
-            retain more customers, and grow on autopilot.
+            Create your account, connect your business, and start collecting
+            feedback and growing your reputation from the same app — today.
           </p>
           <div className="cta-btns">
             <a href="#pricing" className="btn btn-primary btn-xl">
@@ -786,7 +779,8 @@ function Footer() {
             BRC
           </a>
           <p className="footer-tagline">
-            Turn every visit into a glowing review.<br />
+            Recover bad experiences, grow reviews,<br />
+            and bring customers back — on autopilot.<br />
             Available on iOS, Android &amp; Web.
           </p>
           <div className="footer-socials">
