@@ -678,7 +678,7 @@ img { max-width: 100%; }
 
 .stats-inner {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 24px;
 }
 
@@ -997,6 +997,50 @@ img { max-width: 100%; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* ─── ANALYTICS ──────────────────────────────────────────────────────────────── */
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.analytics-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 32px 24px;
+  text-align: center;
+  transition: border-color var(--ease), transform var(--ease);
+}
+.analytics-card:hover {
+  border-color: var(--border-s);
+  transform: translateY(-3px);
+}
+
+.analytics-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.analytics-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.analytics-desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.analytics-cta {
+  text-align: center;
 }
 
 /* ─── CAMPAIGNS ──────────────────────────────────────────────────────────────── */
@@ -1560,4 +1604,74 @@ img { max-width: 100%; }
   .footer-app-links { flex-wrap: wrap; gap: 12px; }
   .cta-trust { flex-direction: column; gap: 12px; }
   .hero-badge { font-size: 11px; }
+}
+
+/* ─── LEGAL PAGES ───────────────────────────────────────────────────────────── */
+
+.legal-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  padding: 80px 0 40px;
+}
+
+.legal-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.legal-title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: 8px;
+}
+
+.legal-subtitle {
+  font-size: 16px;
+  color: var(--text-2);
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.legal-section {
+  margin-bottom: 32px;
+}
+
+.legal-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.legal-section h2:first-child {
+  margin-top: 0;
+}
+
+.legal-section p {
+  margin-bottom: 16px;
+  color: var(--text-2);
+}
+
+.legal-section ul {
+  margin-left: 20px;
+  margin-bottom: 16px;
+}
+
+.legal-section li {
+  margin-bottom: 8px;
+  color: var(--text-2);
+}
+
+.legal-back {
+  text-align: center;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
 }
