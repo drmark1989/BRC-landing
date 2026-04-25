@@ -1588,6 +1588,25 @@ img { max-width: 100%; }
 
 @media (max-width: 768px) {
   .section { padding: 64px 0; }
+  .glow {
+    filter: blur(56px);
+  }
+  .glow-1 {
+    width: 420px;
+    height: 420px;
+  }
+  .glow-2 {
+    width: 320px;
+    height: 320px;
+  }
+  .glow-3 {
+    width: 260px;
+    height: 260px;
+  }
+  .nav-scrolled {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
   .hero-inner { grid-template-columns: 1fr; text-align: center; }
   .hero-copy { order: 1; display: flex; flex-direction: column; align-items: center; }
   .hero-visual { order: 2; }
