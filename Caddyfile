@@ -1,0 +1,14 @@
+:{$PORT:80} {
+	root * {$PUBLIC_ROOT:dist}
+	try_files {path} /index.html
+	file_server
+
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	@shortCache path /robots.txt /sitemap.xml
+	header @shortCache Cache-Control "public, max-age=3600"
+
+	@html path / /index.html
+	header @html Cache-Control "no-cache"
+}

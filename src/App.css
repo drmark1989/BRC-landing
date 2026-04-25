@@ -32,7 +32,7 @@
   --r-lg:        24px;
   --r-xl:        32px;
   --ease:        0.22s cubic-bezier(.4,0,.2,1);
-  --font:        'Inter', system-ui, -apple-system, sans-serif;
+  --font:        ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 html {
