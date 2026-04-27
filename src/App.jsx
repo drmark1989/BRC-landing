@@ -704,57 +704,78 @@ function Campaigns() {
 
 const PLANS = [
   {
-    name: "Free",
+    name: "Starter",
     monthly: 0,
     annual: 0,
-    desc: "Get started, collect feedback, and see how your customers really feel.",
+    desc: "Try the basics with one location and Google reviews.",
     cta: "Start for Free",
     highlight: false,
     badge: null,
     features: [
       "1 location",
-      "50 feedback forms / month",
-      "QR code & order-based feedback",
+      "Google reviews only",
+      "Basic review inbox",
+      "Private feedback collection",
       "Basic analytics dashboard",
-      "Email support",
+      "Manual review sync",
+      "No AI, competitors, campaigns, or Public Signals",
     ],
   },
   {
     name: "Growth",
     monthly: 49,
     annual: 39,
-    desc: "For growing businesses serious about retention and reputation.",
+    desc: "For one active location managing reviews, feedback, and campaigns.",
     cta: "Start 14-Day Trial",
     highlight: true,
     badge: "Most Popular",
     features: [
-      "Up to 3 locations",
-      "Unlimited feedback forms",
-      "Instant discount rewards for feedback",
-      "Natural review follow-up (your platform)",
-      "SMS campaigns (200 credits / mo)",
-      "Win-back & recovery journeys",
-      "Staff & menu performance tracking",
-      "Priority support",
+      "1 location",
+      "Google, Yelp, Trustpilot, and TripAdvisor",
+      "Daily review sync",
+      "AI summaries and reply drafts",
+      "Competitor tracking up to 3",
+      "Private feedback and staff ratings",
+      "Campaign basics and feedback discounts",
+      "SMS prompts, credits paid separately",
     ],
   },
   {
     name: "Pro",
     monthly: 99,
     annual: 79,
-    desc: "For multi-location businesses that want everything working on autopilot.",
+    desc: "For growing businesses with a few locations and advanced insights.",
     cta: "Start 14-Day Trial",
     highlight: false,
     badge: null,
     features: [
-      "Unlimited locations",
-      "Unlimited feedback forms",
-      "SMS campaigns (800 credits / mo)",
-      "Review monitoring — 4 platforms",
-      "AI fake review detection",
-      "All automated journeys",
-      "Advanced analytics & CSV exports",
-      "Dedicated account manager",
+      "Up to 3 locations",
+      "Everything in Growth",
+      "Menu/product performance insights",
+      "Public Signals monitoring",
+      "Competitor tracking up to 10",
+      "Advanced campaigns and customer segments",
+      "Team notes and collaboration",
+      "Location comparison and priority support",
+    ],
+  },
+  {
+    name: "Business",
+    monthly: 249,
+    annual: 199,
+    desc: "For multi-location brands that need organisation-wide reporting.",
+    cta: "Talk to Us",
+    highlight: false,
+    badge: "Multi-location",
+    features: [
+      "Up to 15 locations, then custom",
+      "Everything in Pro",
+      "Organisation dashboard",
+      "Brand-level reputation reports",
+      "Multi-location alerts and campaigns",
+      "Scheduled reports and exports",
+      "Higher review sync and Public Signal allowances",
+      "Onboarding support",
     ],
   },
 ];
@@ -1141,15 +1162,19 @@ function TermsOfService() {
             <p>Some services require payment through subscription plans:</p>
             <ul>
               <li>
-                <strong>Free Plan:</strong> Basic features with usage limits
+                <strong>Starter Plan:</strong> Basic features with usage limits
               </li>
               <li>
                 <strong>Growth Plan:</strong> Advanced features for growing
-                businesses
+                single-location businesses
               </li>
               <li>
-                <strong>Pro Plan:</strong> Full feature access for established
-                businesses
+                <strong>Pro Plan:</strong> Advanced features for small
+                multi-location businesses
+              </li>
+              <li>
+                <strong>Business Plan:</strong> Higher allowances and reporting
+                for multi-location brands
               </li>
             </ul>
             <p>By subscribing, you agree to:</p>
