@@ -47,7 +47,7 @@ function Nav() {
             Sign In
           </a>
           <a href="#pricing" className="btn btn-primary">
-            Start Free
+            Start Trial
           </a>
         </div>
         <button
@@ -77,7 +77,7 @@ function Nav() {
           style={{ marginTop: 8 }}
           onClick={() => setMobileOpen(false)}
         >
-          Start Free
+          Start Trial
         </a>
       </div>
     </nav>
@@ -160,11 +160,11 @@ function Hero() {
             rewards them with a discount for sharing it, resolves problems
             before they go public, and follows up naturally to grow your
             reputation — all while providing deep analytics across Google, Yelp,
-            TripAdvisor, and Trustpilot to keep you ahead of competitors.
+            and TripAdvisor to keep you ahead of competitors.
           </p>
           <div className="hero-btns">
             <a href="#pricing" className="btn btn-primary btn-lg">
-              Start for Free <span className="arrow">→</span>
+              Start 7-Day Trial <span className="arrow">→</span>
             </a>
             <a href="#how-it-works" className="btn btn-outline btn-lg">
               See How It Works
@@ -289,7 +289,7 @@ const FEATURES = [
     icon: "💬",
     accent: "var(--cyan)",
     title: "Natural Review Follow-Up",
-    body: "Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, TripAdvisor, or Trustpilot, whichever you choose.",
+    body: "Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, or TripAdvisor, whichever you choose.",
     tag: "Growth",
   },
   {
@@ -303,7 +303,7 @@ const FEATURES = [
     icon: "📊",
     accent: "var(--orange)",
     title: "Advanced Analytics & Insights",
-    body: "Track review trends across Google, Yelp, TripAdvisor & Trustpilot. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.",
+    body: "Track review trends across Google, Yelp, and TripAdvisor. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.",
     tag: "Insights",
   },
 ];
@@ -387,7 +387,7 @@ const STEPS = [
   {
     num: "03",
     title: "BRC Follows Up Naturally",
-    body: "Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, TripAdvisor, or Trustpilot.",
+    body: "Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, or TripAdvisor.",
     tip: "Average businesses see a 67% lift in public reviews within 90 days.",
     visual: (
       <div className="step-visual sv-grow">
@@ -455,12 +455,6 @@ const PLATFORMS = [
     color: "#00AA6C",
     reviews: "590k+ reviews tracked",
   },
-  {
-    name: "Trustpilot",
-    letter: "tp",
-    color: "#00B67A",
-    reviews: "410k+ reviews tracked",
-  },
 ];
 
 const PLATFORM_FEATURES = [
@@ -517,7 +511,7 @@ const ANALYTICS_FEATURES = [
   {
     icon: "📈",
     title: "Multi-Platform Review Tracking",
-    desc: "Monitor your reputation across Google, Yelp, TripAdvisor, and Trustpilot in real-time. See rating trends, review volume, and response times all in one place.",
+    desc: "Monitor your reputation across Google, Yelp, and TripAdvisor in real-time. See rating trends, review volume, and response times all in one place.",
   },
   {
     icon: "👥",
@@ -704,57 +698,83 @@ function Campaigns() {
 
 const PLANS = [
   {
-    name: "Free",
-    monthly: 0,
-    annual: 0,
-    desc: "Get started, collect feedback, and see how your customers really feel.",
-    cta: "Start for Free",
-    highlight: false,
-    badge: null,
-    features: [
-      "1 location",
-      "50 feedback forms / month",
-      "QR code & order-based feedback",
-      "Basic analytics dashboard",
-      "Email support",
-    ],
-  },
-  {
     name: "Growth",
     monthly: 49,
     annual: 39,
-    desc: "For growing businesses serious about retention and reputation.",
-    cta: "Start 14-Day Trial",
+    desc: "For one active location managing reviews, feedback, and campaigns.",
+    cta: "Start 7-Day Trial",
     highlight: true,
     badge: "Most Popular",
     features: [
-      "Up to 3 locations",
-      "Unlimited feedback forms",
-      "Instant discount rewards for feedback",
-      "Natural review follow-up (your platform)",
-      "SMS campaigns (200 credits / mo)",
-      "Win-back & recovery journeys",
-      "Staff & menu performance tracking",
-      "Priority support",
+      "1 location",
+      "Google reviews only",
+      "Previous review fetching included: up to 50 reviews",
+      "Daily review sync",
+      "AI summaries and reply drafts",
+      "Competitor tracking up to 3",
+      "Private feedback and staff ratings",
+      "Campaign basics and feedback discounts",
+      "SMS prompts, credits paid separately",
     ],
   },
   {
     name: "Pro",
     monthly: 99,
     annual: 79,
-    desc: "For multi-location businesses that want everything working on autopilot.",
-    cta: "Start 14-Day Trial",
+    desc: "For growing businesses with a few locations and advanced insights.",
+    cta: "Start 7-Day Trial",
     highlight: false,
     badge: null,
     features: [
-      "Unlimited locations",
-      "Unlimited feedback forms",
-      "SMS campaigns (800 credits / mo)",
-      "Review monitoring — 4 platforms",
-      "AI fake review detection",
-      "All automated journeys",
-      "Advanced analytics & CSV exports",
-      "Dedicated account manager",
+      "Up to 3 locations",
+      "Everything in Growth",
+      "Yelp and TripAdvisor",
+      "Previous review fetching included: up to 500 reviews",
+      "Menu/product performance insights",
+      "Public Signals monitoring",
+      "Competitor tracking up to 10",
+      "Advanced campaigns and customer segments",
+      "Team notes and collaboration",
+      "Location comparison and priority support",
+    ],
+  },
+  {
+    name: "Business",
+    monthly: 249,
+    annual: 199,
+    desc: "For multi-location brands that need organisation-wide reporting.",
+    cta: "Start Business",
+    highlight: false,
+    badge: "Multi-location",
+    features: [
+      "Up to 10 locations, then custom",
+      "Everything in Pro",
+      "Previous review fetching included: up to 1,000 reviews",
+      "Organisation dashboard",
+      "Brand-level reputation reports",
+      "Multi-location alerts and campaigns",
+      "Scheduled reports and exports",
+      "10 manual Public Signal scans/day",
+      "Higher review sync allowance",
+      "Onboarding support",
+    ],
+  },
+  {
+    name: "Custom",
+    monthly: "Custom",
+    annual: "Custom",
+    desc: "For agencies, franchises, and teams with heavier scan volumes.",
+    cta: "Talk to Us",
+    highlight: false,
+    badge: "Enterprise",
+    features: [
+      "More than 10 locations",
+      "Custom Public Signal scan volume",
+      "Custom review sync allowance",
+      "Custom previous review fetching allowance",
+      "SLA and priority data sync",
+      "White-label or custom reports",
+      "Dedicated onboarding and support",
     ],
   },
 ];
@@ -773,8 +793,8 @@ function Pricing() {
             <span className="grad-text">pricing</span>
           </h2>
           <p className="section-p">
-            No hidden fees. No long-term contracts. Start free and upgrade when
-            you&apos;re ready.
+            Start with a 7-day Growth trial. Upgrade when your team needs more
+            locations or deeper monitoring.
           </p>
           <div className="billing-toggle">
             <span className={!annual ? "tgl-active" : "tgl-dim"}>Monthly</span>
@@ -799,13 +819,17 @@ function Pricing() {
               {p.badge && <div className="plan-badge">{p.badge}</div>}
               <div className="plan-name">{p.name}</div>
               <div className="plan-price">
-                <span className="plan-curr">$</span>
+                {typeof p.monthly === "number" && (
+                  <span className="plan-curr">$</span>
+                )}
                 <span className="plan-num">
                   {annual ? p.annual : p.monthly}
                 </span>
-                {p.monthly > 0 && <span className="plan-per">/mo</span>}
+                {typeof p.monthly === "number" && p.monthly > 0 && (
+                  <span className="plan-per">/mo</span>
+                )}
               </div>
-              {annual && p.monthly > 0 && (
+              {annual && typeof p.monthly === "number" && p.monthly > 0 && (
                 <div className="plan-billed">
                   Billed annually · Save ${(p.monthly - p.annual) * 12}/yr
                 </div>
@@ -861,7 +885,7 @@ const FAQS = [
   },
   {
     q: "When and how does BRC ask for public reviews?",
-    a: "BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, TripAdvisor, or Trustpilot.",
+    a: "BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, or TripAdvisor.",
   },
   {
     q: "What happens when a customer leaves negative feedback?",
@@ -926,7 +950,7 @@ function CTA() {
           </p>
           <div className="cta-btns">
             <a href="#pricing" className="btn btn-primary btn-xl">
-              Start Free Today <span className="arrow">→</span>
+              Start 7-Day Trial <span className="arrow">→</span>
             </a>
             <div className="store-btns">
               <a href="#" className="store-btn">
@@ -946,11 +970,11 @@ function CTA() {
             </div>
           </div>
           <div className="cta-trust">
-            {[
-              "Free plan available",
-              "No credit card required",
-              "Cancel any time",
-            ].map((t) => (
+	            {[
+	              "7-day Growth trial",
+	              "No long-term contract",
+	              "Cancel any time",
+	            ].map((t) => (
               <span key={t} className="cta-trust-item">
                 <span className="trust-check">✓</span> {t}
               </span>
@@ -994,8 +1018,8 @@ function TermsOfService() {
             <ul>
               <li>Private feedback collection and analysis via QR codes</li>
               <li>
-                Review monitoring and aggregation across Google, Yelp,
-                TripAdvisor, and Trustpilot
+                Review monitoring and aggregation across Google, Yelp, and
+                TripAdvisor
               </li>
               <li>
                 AI-powered sentiment analysis and review authenticity detection
@@ -1066,7 +1090,7 @@ function TermsOfService() {
               </li>
               <li>
                 <strong>Review Data:</strong> Public reviews and ratings from
-                integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)
+                integrated platforms (Google, Yelp, TripAdvisor)
               </li>
               <li>
                 <strong>Business Data:</strong> Business information, staff
@@ -1091,7 +1115,7 @@ function TermsOfService() {
                 Google Maps API for business verification and location data
               </li>
               <li>
-                Review platforms (Yelp, Trustpilot, TripAdvisor) for review
+                Review platforms (Yelp, TripAdvisor) for review
                 aggregation
               </li>
               <li>Twilio for SMS messaging services</li>
@@ -1141,15 +1165,16 @@ function TermsOfService() {
             <p>Some services require payment through subscription plans:</p>
             <ul>
               <li>
-                <strong>Free Plan:</strong> Basic features with usage limits
-              </li>
-              <li>
                 <strong>Growth Plan:</strong> Advanced features for growing
-                businesses
+                single-location businesses
               </li>
               <li>
-                <strong>Pro Plan:</strong> Full feature access for established
-                businesses
+                <strong>Pro Plan:</strong> Advanced features for small
+                multi-location businesses
+              </li>
+              <li>
+                <strong>Business Plan:</strong> Higher allowances and reporting
+                for multi-location brands
               </li>
             </ul>
             <p>By subscribing, you agree to:</p>
@@ -1342,7 +1367,7 @@ function PrivacyPolicy() {
               </li>
               <li>
                 <strong>Review Data:</strong> Public reviews and ratings from
-                integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)
+                integrated platforms (Google, Yelp, TripAdvisor)
               </li>
             </ul>
 
@@ -1575,8 +1600,8 @@ function PrivacyPolicy() {
             </p>
             <ul>
               <li>
-                <strong>Review Platforms:</strong> Google, Yelp, TripAdvisor,
-                and Trustpilot collect and process review data according to
+                <strong>Review Platforms:</strong> Google, Yelp, and TripAdvisor
+                collect and process review data according to
                 their policies
               </li>
               <li>

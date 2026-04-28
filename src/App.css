@@ -939,13 +939,15 @@ img { max-width: 100%; }
 /* ─── PLATFORMS ──────────────────────────────────────────────────────────────── */
 
 .platforms-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   margin-bottom: 40px;
 }
 
 .platform-card {
+  flex: 0 1 250px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
@@ -1238,7 +1240,7 @@ img { max-width: 100%; }
 
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   align-items: start;
   margin-bottom: 32px;
@@ -1576,9 +1578,9 @@ img { max-width: 100%; }
 
 @media (max-width: 1024px) {
   .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .plans-grid { grid-template-columns: repeat(2, 1fr); }
   .hiw-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
   .hiw-connector { display: none; }
-  .platforms-grid { grid-template-columns: repeat(2, 1fr); }
   .campaigns-layout { grid-template-columns: 1fr; gap: 40px; }
   .campaigns-copy .section-h2 { text-align: center; }
   .section-p[style] { text-align: center !important; }
@@ -1622,7 +1624,7 @@ img { max-width: 100%; }
   .phone { width: 240px; }
   .float-card { display: none; }
   .footer-top { grid-template-columns: 1fr 1fr; }
-  .platforms-grid { grid-template-columns: repeat(2, 1fr); }
+  .platform-card { flex-basis: min(100%, 320px); }
   .cta-card { padding: 48px 24px; border-radius: 28px; }
 }
 
