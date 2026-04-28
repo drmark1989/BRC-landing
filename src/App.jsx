@@ -714,6 +714,7 @@ const PLANS = [
     features: [
       "1 location",
       "Google reviews only",
+      "Audit and reply to the last 50 reviews + new reviews",
       "Daily review sync",
       "AI summaries and reply drafts",
       "Competitor tracking up to 3",
@@ -734,6 +735,7 @@ const PLANS = [
       "Up to 3 locations",
       "Everything in Growth",
       "Yelp, Trustpilot, and TripAdvisor",
+      "Audit and reply to the last 500 reviews + new reviews",
       "Menu/product performance insights",
       "Public Signals monitoring",
       "Competitor tracking up to 10",
@@ -753,6 +755,7 @@ const PLANS = [
     features: [
       "Up to 10 locations, then custom",
       "Everything in Pro",
+      "Audit and reply to the last 1,000 reviews + new reviews",
       "Organisation dashboard",
       "Brand-level reputation reports",
       "Multi-location alerts and campaigns",
@@ -774,6 +777,7 @@ const PLANS = [
       "More than 10 locations",
       "Custom Public Signal scan volume",
       "Custom review sync allowance",
+      "Custom review audit and reply allowance",
       "SLA and priority data sync",
       "White-label or custom reports",
       "Dedicated onboarding and support",
