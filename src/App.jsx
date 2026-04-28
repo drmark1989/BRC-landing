@@ -160,7 +160,7 @@ function Hero() {
             rewards them with a discount for sharing it, resolves problems
             before they go public, and follows up naturally to grow your
             reputation — all while providing deep analytics across Google, Yelp,
-            TripAdvisor, and Trustpilot to keep you ahead of competitors.
+            and TripAdvisor to keep you ahead of competitors.
           </p>
           <div className="hero-btns">
             <a href="#pricing" className="btn btn-primary btn-lg">
@@ -289,7 +289,7 @@ const FEATURES = [
     icon: "💬",
     accent: "var(--cyan)",
     title: "Natural Review Follow-Up",
-    body: "Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, TripAdvisor, or Trustpilot, whichever you choose.",
+    body: "Days after the visit, BRC sends a warm, natural follow-up asking customers to share their experience publicly — on Google, Yelp, or TripAdvisor, whichever you choose.",
     tag: "Growth",
   },
   {
@@ -303,7 +303,7 @@ const FEATURES = [
     icon: "📊",
     accent: "var(--orange)",
     title: "Advanced Analytics & Insights",
-    body: "Track review trends across Google, Yelp, TripAdvisor & Trustpilot. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.",
+    body: "Track review trends across Google, Yelp, and TripAdvisor. Monitor competitor performance, analyze sentiment, detect fake reviews with AI, and get real-time alerts — all in one comprehensive dashboard.",
     tag: "Insights",
   },
 ];
@@ -387,7 +387,7 @@ const STEPS = [
   {
     num: "03",
     title: "BRC Follows Up Naturally",
-    body: "Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, TripAdvisor, or Trustpilot.",
+    body: "Days after their visit, BRC sends a warm, well-timed message asking them to share their experience on the review platform you choose — Google, Yelp, or TripAdvisor.",
     tip: "Average businesses see a 67% lift in public reviews within 90 days.",
     visual: (
       <div className="step-visual sv-grow">
@@ -455,12 +455,6 @@ const PLATFORMS = [
     color: "#00AA6C",
     reviews: "590k+ reviews tracked",
   },
-  {
-    name: "Trustpilot",
-    letter: "tp",
-    color: "#00B67A",
-    reviews: "410k+ reviews tracked",
-  },
 ];
 
 const PLATFORM_FEATURES = [
@@ -517,7 +511,7 @@ const ANALYTICS_FEATURES = [
   {
     icon: "📈",
     title: "Multi-Platform Review Tracking",
-    desc: "Monitor your reputation across Google, Yelp, TripAdvisor, and Trustpilot in real-time. See rating trends, review volume, and response times all in one place.",
+    desc: "Monitor your reputation across Google, Yelp, and TripAdvisor in real-time. See rating trends, review volume, and response times all in one place.",
   },
   {
     icon: "👥",
@@ -714,7 +708,7 @@ const PLANS = [
     features: [
       "1 location",
       "Google reviews only",
-      "Audit and reply to the last 50 reviews + new reviews",
+      "Previous review fetching included: up to 50 reviews",
       "Daily review sync",
       "AI summaries and reply drafts",
       "Competitor tracking up to 3",
@@ -734,8 +728,8 @@ const PLANS = [
     features: [
       "Up to 3 locations",
       "Everything in Growth",
-      "Yelp, Trustpilot, and TripAdvisor",
-      "Audit and reply to the last 500 reviews + new reviews",
+      "Yelp and TripAdvisor",
+      "Previous review fetching included: up to 500 reviews",
       "Menu/product performance insights",
       "Public Signals monitoring",
       "Competitor tracking up to 10",
@@ -755,7 +749,7 @@ const PLANS = [
     features: [
       "Up to 10 locations, then custom",
       "Everything in Pro",
-      "Audit and reply to the last 1,000 reviews + new reviews",
+      "Previous review fetching included: up to 1,000 reviews",
       "Organisation dashboard",
       "Brand-level reputation reports",
       "Multi-location alerts and campaigns",
@@ -777,7 +771,7 @@ const PLANS = [
       "More than 10 locations",
       "Custom Public Signal scan volume",
       "Custom review sync allowance",
-      "Custom review audit and reply allowance",
+      "Custom previous review fetching allowance",
       "SLA and priority data sync",
       "White-label or custom reports",
       "Dedicated onboarding and support",
@@ -891,7 +885,7 @@ const FAQS = [
   },
   {
     q: "When and how does BRC ask for public reviews?",
-    a: "BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, TripAdvisor, or Trustpilot.",
+    a: "BRC sends a natural, well-timed follow-up message a few days after the visit — not immediately. The message feels like a genuine check-in rather than an automated prompt, and directs customers to whichever platform you want to grow: Google, Yelp, or TripAdvisor.",
   },
   {
     q: "What happens when a customer leaves negative feedback?",
@@ -1024,8 +1018,8 @@ function TermsOfService() {
             <ul>
               <li>Private feedback collection and analysis via QR codes</li>
               <li>
-                Review monitoring and aggregation across Google, Yelp,
-                TripAdvisor, and Trustpilot
+                Review monitoring and aggregation across Google, Yelp, and
+                TripAdvisor
               </li>
               <li>
                 AI-powered sentiment analysis and review authenticity detection
@@ -1096,7 +1090,7 @@ function TermsOfService() {
               </li>
               <li>
                 <strong>Review Data:</strong> Public reviews and ratings from
-                integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)
+                integrated platforms (Google, Yelp, TripAdvisor)
               </li>
               <li>
                 <strong>Business Data:</strong> Business information, staff
@@ -1121,7 +1115,7 @@ function TermsOfService() {
                 Google Maps API for business verification and location data
               </li>
               <li>
-                Review platforms (Yelp, Trustpilot, TripAdvisor) for review
+                Review platforms (Yelp, TripAdvisor) for review
                 aggregation
               </li>
               <li>Twilio for SMS messaging services</li>
@@ -1373,7 +1367,7 @@ function PrivacyPolicy() {
               </li>
               <li>
                 <strong>Review Data:</strong> Public reviews and ratings from
-                integrated platforms (Google, Yelp, TripAdvisor, Trustpilot)
+                integrated platforms (Google, Yelp, TripAdvisor)
               </li>
             </ul>
 
@@ -1606,8 +1600,8 @@ function PrivacyPolicy() {
             </p>
             <ul>
               <li>
-                <strong>Review Platforms:</strong> Google, Yelp, TripAdvisor,
-                and Trustpilot collect and process review data according to
+                <strong>Review Platforms:</strong> Google, Yelp, and TripAdvisor
+                collect and process review data according to
                 their policies
               </li>
               <li>
