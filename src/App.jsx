@@ -2268,7 +2268,7 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
 
   return (
     <div className="app">
-      <Nav theme={theme} onToggleTheme={onToggleTheme} onDarkHero activeHref="/hardware" />
+      <Nav theme={theme} onToggleTheme={onToggleTheme} activeHref="/hardware" />
       <main className="hardware-page">
         <section className="hardware-hero">
           <HardwareVisual />
