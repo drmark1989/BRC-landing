@@ -2250,32 +2250,42 @@ const HARDWARE_KITS = [
 ];
 
 function HardwareVisual() {
-  const previewItems = [
-    ["Screen", "iPad or Galaxy Tab"],
-    ["Stand", "Counter mount"],
-    ["Payment", "Card reader"],
-    ["Counter", "Printer, drawer, scanner"],
-  ];
-
   return (
     <div className="hardware-visual" aria-hidden="true">
-      <div className="hardware-device-row">
-        <div className="hardware-tablet-frame">
-          <div className="hardware-tablet-screen">
-            <span>BRC Register</span>
-            <strong>Ready for service</strong>
-            <div />
-            <div />
-            <div />
+      <div className="hardware-counter-scene">
+        <div className="hardware-pos-station">
+          <div className="hardware-tablet-frame">
+            <div className="hardware-tablet-screen">
+              <span>BRC Register</span>
+              <strong>Ready for service</strong>
+              <div />
+              <div />
+              <div />
+            </div>
           </div>
+          <div className="hardware-stand-post" />
+          <div className="hardware-stand-foot" />
         </div>
-        <div className="hardware-stand-base" />
+        <div className="hardware-terminal-device">
+          <span />
+          <strong>Card terminal</strong>
+          <small>Tap, chip, PIN</small>
+        </div>
+        <div className="hardware-printer-device">
+          <span />
+          <strong>Receipt printer</strong>
+        </div>
+        <div className="hardware-cash-drawer">
+          <span />
+          <strong>Cash drawer</strong>
+        </div>
+        <div className="hardware-counter-surface" />
       </div>
-      <div className="hardware-preview-list">
-        {previewItems.map(([type, name]) => (
-          <div className="hardware-preview-item" key={type}>
-            <span>{type}</span>
-            <strong>{name}</strong>
+      <div className="hardware-scene-list">
+        {["Tablet screen", "Secure stand", "Payment terminal", "Receipt printer", "Cash drawer"].map((item) => (
+          <div key={item}>
+            <span />
+            {item}
           </div>
         ))}
       </div>
@@ -2331,38 +2341,6 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
           </div>
         </section>
 
-        <section className="section hardware-kits-section">
-          <div className="container">
-            <div className="section-header">
-              <div className="section-tag">Setup Kits</div>
-              <h2 className="section-h2">
-                Choose the right setup,
-                <br />
-                <span className="grad-text">for the way you serve customers</span>
-              </h2>
-              <p className="section-p">
-                Start with the business type, then match the tablet, stand,
-                payment reader, printer, drawer, and scanner to the counter
-                your team will actually use.
-              </p>
-            </div>
-            <div className="hardware-kit-grid">
-              {HARDWARE_KITS.map((kit) => (
-                <article className="hardware-kit-card" key={kit.name}>
-                  <span>{kit.stand}</span>
-                  <h3>{kit.name}</h3>
-                  <p>{kit.bestFor}</p>
-                  <div className="hardware-kit-list">
-                    {kit.includes.map((item) => (
-                      <strong key={item}>{item}</strong>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="section hardware-matrix-section">
           <div className="container">
             <div className="section-header feature-left-header">
@@ -2397,6 +2375,38 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
                     ))}
                   </div>
                 </section>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section hardware-kits-section">
+          <div className="container">
+            <div className="section-header">
+              <div className="section-tag">Setup Kits</div>
+              <h2 className="section-h2">
+                Choose the right setup,
+                <br />
+                <span className="grad-text">for the way you serve customers</span>
+              </h2>
+              <p className="section-p">
+                Start with the business type, then match the tablet, stand,
+                payment reader, printer, drawer, and scanner to the counter
+                your team will actually use.
+              </p>
+            </div>
+            <div className="hardware-kit-grid">
+              {HARDWARE_KITS.map((kit) => (
+                <article className="hardware-kit-card" key={kit.name}>
+                  <span>{kit.stand}</span>
+                  <h3>{kit.name}</h3>
+                  <p>{kit.bestFor}</p>
+                  <div className="hardware-kit-list">
+                    {kit.includes.map((item) => (
+                      <strong key={item}>{item}</strong>
+                    ))}
+                  </div>
+                </article>
               ))}
             </div>
           </div>
