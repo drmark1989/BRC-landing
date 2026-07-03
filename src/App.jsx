@@ -2251,18 +2251,14 @@ const HARDWARE_KITS = [
 
 function HardwareVisual() {
   const previewItems = [
-    ["Screen", "iPad or Galaxy Tab", "Amazon"],
-    ["Stand", "Bouncepad Core Twist", "Partner"],
-    ["Payment", "Stripe Terminal reader", "Stripe"],
-    ["Counter", "Printer, drawer, scanner", "Amazon"],
+    ["Screen", "iPad or Galaxy Tab"],
+    ["Stand", "Counter mount"],
+    ["Payment", "Card reader"],
+    ["Counter", "Printer, drawer, scanner"],
   ];
 
   return (
     <div className="hardware-visual" aria-hidden="true">
-      <div className="hardware-preview-top">
-        <span>Recommended counter</span>
-        <strong>BRC Starter Kit</strong>
-      </div>
       <div className="hardware-device-row">
         <div className="hardware-tablet-frame">
           <div className="hardware-tablet-screen">
@@ -2276,11 +2272,10 @@ function HardwareVisual() {
         <div className="hardware-stand-base" />
       </div>
       <div className="hardware-preview-list">
-        {previewItems.map(([type, name, source]) => (
+        {previewItems.map(([type, name]) => (
           <div className="hardware-preview-item" key={type}>
             <span>{type}</span>
             <strong>{name}</strong>
-            <em>{source}</em>
           </div>
         ))}
       </div>
@@ -2300,12 +2295,11 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
             <div className="hardware-copy">
               <div className="section-tag">Recommended Hardware</div>
               <h1 className="hardware-title">
-                Recommended hardware for a serious BRC counter.
+                Build the counter your business actually needs.
               </h1>
               <p className="hardware-subhead">
-                Start with an iPad or Samsung tablet, mount it properly, then
-                add payments, receipts, cash, scanning, and labels from one
-                curated buying guide.
+                Choose a tablet, stand, payment reader, printer, drawer, and
+                scanner setup that fits how your team sells in person.
               </p>
               <div className="hero-btns">
                 <a href={trialHref} className="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
@@ -2314,11 +2308,6 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
                 <a href="/contact" className="btn btn-outline btn-lg">
                   Ask About Hardware
                 </a>
-              </div>
-              <div className="hardware-assurance">
-                <span>Amazon purchase options for tablets and accessories</span>
-                <span>Bouncepad for counter stands</span>
-                <span>Stripe Terminal for payments</span>
               </div>
             </div>
             <HardwareVisual />
@@ -2347,14 +2336,14 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
             <div className="section-header">
               <div className="section-tag">Setup Kits</div>
               <h2 className="section-h2">
-                Sell the complete counter,
+                Choose the right setup,
                 <br />
-                <span className="grad-text">not just the app</span>
+                <span className="grad-text">for the way you serve customers</span>
               </h2>
               <p className="section-p">
-                These kits make BRC easier to understand for merchants: choose
-                the business setup, then match the stand, screen, payment
-                reader, printer, drawer, and scanner.
+                Start with the business type, then match the tablet, stand,
+                payment reader, printer, drawer, and scanner to the counter
+                your team will actually use.
               </p>
             </div>
             <div className="hardware-kit-grid">
