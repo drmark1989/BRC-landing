@@ -2154,7 +2154,7 @@ function FeatureIndexPage({ onNavigate, theme, onToggleTheme }) {
 
 const HARDWARE_STATUS = {
   recommended: "BRC recommended",
-  amazon: "Amazon option",
+  screen: "Recommended screen",
   compatible: "Compatible path",
   planned: "Planned",
   manual: "Manual setup",
@@ -2166,10 +2166,10 @@ const HARDWARE_CATEGORIES = [
     body: "The main POS screen should be easy to source, easy to replace, and powerful enough for a busy counter.",
     accent: "var(--blue)",
     items: [
-      { name: "Apple iPad 11-inch (A16)", fit: "Best starter iPad for a polished BRC counter", status: HARDWARE_STATUS.amazon },
-      { name: "Apple iPad Air 11-inch", fit: "Premium staff screen for busier counters and longer lifecycle", status: HARDWARE_STATUS.amazon },
-      { name: "Samsung Galaxy Tab A11+ / A9+", fit: "Affordable Android tablet path for BRC on Android", status: HARDWARE_STATUS.amazon },
-      { name: "Samsung Galaxy Tab S10 FE", fit: "Stronger Android tablet for pro counters and customer displays", status: HARDWARE_STATUS.amazon },
+      { name: "Apple iPad 11-inch (A16)", fit: "Best starter iPad for a polished BRC counter", status: HARDWARE_STATUS.screen },
+      { name: "Apple iPad Air 11-inch", fit: "Premium staff screen for busier counters and longer lifecycle", status: HARDWARE_STATUS.screen },
+      { name: "Samsung Galaxy Tab A11+ / A9+", fit: "Affordable Android tablet path for BRC on Android", status: HARDWARE_STATUS.screen },
+      { name: "Samsung Galaxy Tab S10 FE", fit: "Stronger Android tablet for pro counters and customer displays", status: HARDWARE_STATUS.screen },
       { name: "Generic 10-11 inch Android tablet", fit: "Budget screen option after BRC performance testing", status: HARDWARE_STATUS.manual },
     ],
   },
@@ -2190,7 +2190,7 @@ const HARDWARE_CATEGORIES = [
     accent: "var(--blue)",
     items: [
       { name: "Stripe Reader S700 / S710", fit: "Flagship smart reader for serious countertop checkout", status: HARDWARE_STATUS.compatible },
-      { name: "BBPOS WisePOS E", fit: "Countertop payment terminal for stores and hospitality", status: HARDWARE_STATUS.compatible },
+      { name: "BBPOS WisePOS E", fit: "Countertop payment terminal for fixed counters and hospitality", status: HARDWARE_STATUS.compatible },
       { name: "Stripe Reader M2", fit: "Bluetooth mobile checkout in supported markets", status: HARDWARE_STATUS.compatible },
       { name: "BBPOS WisePad 3", fit: "Mobile/tablet checkout with PIN pad in supported markets", status: HARDWARE_STATUS.compatible },
       { name: "Tap to Pay on iPhone / Android", fit: "No separate reader for early mobile setups", status: HARDWARE_STATUS.compatible },
@@ -2210,12 +2210,12 @@ const HARDWARE_CATEGORIES = [
   },
   {
     title: "Scanning and labels",
-    body: "Inventory, retail checkout, and catalog work best with hardware that feels instant.",
+    body: "Inventory, barcode checkout, and catalog work best with hardware that feels instant.",
     accent: "var(--purple)",
     items: [
-      { name: "Socket Mobile Bluetooth scanners", fit: "Tablet-friendly barcode scanning for retail", status: HARDWARE_STATUS.recommended },
+      { name: "Socket Mobile Bluetooth scanners", fit: "Tablet-friendly barcode scanning for item lookup", status: HARDWARE_STATUS.recommended },
       { name: "Zebra DS2208 / DS2278", fit: "USB or Bluetooth scanning for fixed counters", status: HARDWARE_STATUS.compatible },
-      { name: "Netum Bluetooth scanners", fit: "Budget scanner path for small stores", status: HARDWARE_STATUS.manual },
+      { name: "Netum Bluetooth scanners", fit: "Budget scanner path for smaller counters", status: HARDWARE_STATUS.manual },
       { name: "Zebra ZD421 / ZD410", fit: "Professional barcode and stock label printing", status: HARDWARE_STATUS.planned },
       { name: "DYMO LabelWriter 550 / 5XL", fit: "Desktop labels where manual export is acceptable", status: HARDWARE_STATUS.manual },
     ],
@@ -2226,7 +2226,7 @@ const HARDWARE_KITS = [
   {
     name: "Starter Counter Kit",
     stand: "Bouncepad Core Twist",
-    bestFor: "Small retail, salon, cafe, mobile counter, or reception desk",
+    bestFor: "Salon, cafe, service desk, mobile counter, or reception desk",
     includes: ["iPad 11-inch or Galaxy Tab", "Stripe Tap to Pay or compact reader", "Star receipt printer", "Optional cash drawer"],
   },
   {
@@ -2236,59 +2236,29 @@ const HARDWARE_KITS = [
     includes: ["Staff iPad or Samsung tablet", "Customer-facing tablet", "Stripe S700/S710 or WisePOS E", "Star printer", "APG or Star cash drawer"],
   },
   {
-    name: "Retail Stock Kit",
+    name: "Inventory Counter Kit",
     stand: "Bouncepad Core Twist plus scanner dock",
-    bestFor: "Retailers that need product lookup, barcode checkout, receiving, and labels",
-    includes: ["Tablet POS from Amazon", "Socket or Zebra scanner", "Receipt printer", "Zebra label printer path"],
+    bestFor: "Businesses that need product lookup, barcode checkout, receiving, and labels",
+    includes: ["Tablet POS screen", "Socket or Zebra scanner", "Receipt printer", "Zebra label printer path"],
   },
   {
-    name: "Restaurant Screen Kit",
+    name: "Back-of-House Screen Kit",
     stand: "Bouncepad Wall Mount",
-    bestFor: "Kitchen display, pickup screen, and order progress workflows",
-    includes: ["Kitchen tablet", "Wall mount", "Kitchen printer option", "Counter reader for payment"],
+    bestFor: "Prep areas, pickup screens, queue displays, and order progress workflows",
+    includes: ["Back-of-house tablet", "Wall mount", "Printer option", "Counter reader for payment"],
   },
 ];
 
 function HardwareVisual() {
   return (
-    <div className="hardware-visual" aria-hidden="true">
-      <div className="hardware-counter-scene">
-        <div className="hardware-pos-station">
-          <div className="hardware-tablet-frame">
-            <div className="hardware-tablet-screen">
-              <span>BRC Register</span>
-              <strong>Ready for service</strong>
-              <div />
-              <div />
-              <div />
-            </div>
-          </div>
-          <div className="hardware-stand-post" />
-          <div className="hardware-stand-foot" />
-        </div>
-        <div className="hardware-terminal-device">
-          <span />
-          <strong>Card terminal</strong>
-          <small>Tap, chip, PIN</small>
-        </div>
-        <div className="hardware-printer-device">
-          <span />
-          <strong>Receipt printer</strong>
-        </div>
-        <div className="hardware-cash-drawer">
-          <span />
-          <strong>Cash drawer</strong>
-        </div>
-        <div className="hardware-counter-surface" />
-      </div>
-      <div className="hardware-scene-list">
-        {["Tablet screen", "Secure stand", "Payment terminal", "Receipt printer", "Cash drawer"].map((item) => (
-          <div key={item}>
-            <span />
-            {item}
-          </div>
-        ))}
-      </div>
+    <div className="hardware-visual">
+      <img
+        className="hardware-hero-image"
+        src="/images/hardware-pos-counter.png"
+        alt="Professional dual-screen POS counter setup with an open cash drawer, receipt printer, payment terminal, and scanner"
+        loading="eager"
+        fetchpriority="high"
+      />
     </div>
   );
 }
@@ -2328,7 +2298,7 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
           <div className="container hardware-proof-grid">
             <article>
               <strong>Best starter screen</strong>
-              <p>iPad 11-inch or Samsung Galaxy Tab gives merchants a familiar POS screen that can be sourced from Amazon or another trusted retailer.</p>
+              <p>iPad 11-inch or Samsung Galaxy Tab gives merchants a familiar POS screen that fits a professional counter.</p>
             </article>
             <article>
               <strong>Best pro stand</strong>
@@ -2352,8 +2322,8 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
               </h2>
               <p className="section-p">
                 Exact region, connector, SDK, and model support can vary. BRC
-                should mark products as recommended, compatible, manual, or
-                planned until each setup has been tested end to end.
+                labels each setup so businesses can choose hardware with the
+                right level of support.
               </p>
             </div>
             <div className="hardware-category-list">
@@ -2417,14 +2387,14 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
             <div>
               <div className="section-tag">Buying Notes</div>
               <h2 className="section-h2">
-                Buy common devices from trusted retailers and specialist POS gear from approved providers.
+                Choose common devices from trusted sellers and specialist POS gear from approved providers.
               </h2>
               <p className="hardware-partner-copy">
                 iPads, Samsung tablets, generic Android tablets, mounts,
-                scanners, drawers, and selected accessories can be sourced from
-                trusted retailers such as Amazon. Stripe readers and specialist
-                POS hardware should come from the official provider,
-                manufacturer, or approved distributor when available.
+                scanners, drawers, and selected accessories can be matched to
+                the recommended setup. Stripe readers and specialist POS
+                hardware should come from the official provider, manufacturer,
+                or approved distributor when available.
               </p>
             </div>
             <div className="hardware-disclosure">
@@ -8327,7 +8297,7 @@ export function seoForRoute(route) {
       description:
         "Explore recommended BRC hardware setups for iPad, Samsung Galaxy Tab, Android tablets, Bouncepad stands, Stripe Terminal readers, receipt printers, cash drawers, barcode scanners, and label printers.",
       keywords:
-        "BRC hardware, POS hardware recommendations, iPad POS tablet, Samsung Galaxy Tab POS, Android POS tablet, Amazon affiliate POS hardware, Bouncepad Core Twist, Bouncepad Core Twin, Stripe Terminal POS hardware, receipt printer POS, barcode scanner POS, cash drawer POS, tablet stand POS",
+        "BRC hardware, POS hardware recommendations, iPad POS tablet, Samsung Galaxy Tab POS, Android POS tablet, Bouncepad Core Twist, Bouncepad Core Twin, Stripe Terminal POS hardware, receipt printer POS, barcode scanner POS, cash drawer POS, tablet stand POS",
     };
   }
 
