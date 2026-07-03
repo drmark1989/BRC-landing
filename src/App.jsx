@@ -25,7 +25,7 @@ const WEB_APP_URL =
 const SITE_URL = "https://brcapp.io";
 const IOS_APP_URL =
   import.meta.env.VITE_IOS_APP_URL ||
-  "https://apps.apple.com/search?term=BRC%20Business%20Reputation%20Customer%20Operations";
+  "https://apps.apple.com/app/brc/id6778130912";
 const ANDROID_APP_URL =
   import.meta.env.VITE_ANDROID_APP_URL ||
   "https://play.google.com/store/apps/details?id=io.brcapp.app";
