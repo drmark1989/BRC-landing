@@ -2268,10 +2268,9 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
 
   return (
     <div className="app">
-      <Nav theme={theme} onToggleTheme={onToggleTheme} activeHref="/hardware" />
+      <Nav theme={theme} onToggleTheme={onToggleTheme} onDarkHero />
       <main className="hardware-page">
         <section className="hardware-hero">
-          <HardwareVisual />
           <div className="container hardware-hero-inner">
             <div className="hardware-copy">
               <div className="section-tag">Recommended Hardware</div>
@@ -2291,6 +2290,7 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
                 </a>
               </div>
             </div>
+            <HardwareVisual />
           </div>
         </section>
 
