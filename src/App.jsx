@@ -2276,11 +2276,11 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
             <div className="hardware-copy">
               <div className="section-tag">Recommended Hardware</div>
               <h1 className="hardware-title">
-                Build the counter your business actually needs.
+                Build a complete counter.
               </h1>
               <p className="hardware-subhead">
-                Choose a tablet, stand, payment reader, printer, drawer, and
-                scanner setup that fits how your team sells in person.
+                Tablet, stand, payment reader, printer, drawer, and scanner
+                recommendations for a proper in-person checkout.
               </p>
               <div className="hero-btns">
                 <a href={trialHref} className="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
