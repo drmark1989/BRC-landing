@@ -2649,17 +2649,15 @@ img { max-width: 100%; }
 
 .hardware-hero {
   position: relative;
-  min-height: min(760px, calc(100vh - 86px));
-  padding: 126px 0 0;
+  min-height: min(820px, calc(100vh - 86px));
+  padding: 126px 0 72px;
   display: flex;
   align-items: center;
   overflow: hidden;
   isolation: isolate;
   color: #fff;
   border-bottom: 1px solid rgba(255,255,255,.14);
-  background:
-    radial-gradient(circle at 24% 18%, rgba(20,184,166,.16), transparent 34%),
-    linear-gradient(135deg, #071016 0%, #0a121b 48%, #080b10 100%);
+  background: #070a10;
 }
 
 .hardware-hero::before {
@@ -2669,10 +2667,8 @@ img { max-width: 100%; }
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 100%),
-    linear-gradient(180deg, rgba(255,255,255,.035) 0 1px, transparent 1px 100%);
-  background-size: 72px 72px;
-  opacity: .22;
+    linear-gradient(90deg, rgba(5,8,15,.96) 0%, rgba(5,8,15,.78) 24%, rgba(5,8,15,.18) 42%, rgba(5,8,15,0) 66%),
+    linear-gradient(180deg, rgba(5,8,15,.06) 0%, rgba(5,8,15,0) 50%, rgba(5,8,15,.34) 100%);
 }
 
 .hardware-hero::after {
@@ -2682,8 +2678,8 @@ img { max-width: 100%; }
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 74% 34%, rgba(245,158,11,.16), transparent 28%),
-    radial-gradient(circle at 88% 12%, rgba(20,184,166,.18), transparent 32%);
+    radial-gradient(circle at 22% 26%, rgba(20,184,166,.22), transparent 31%),
+    radial-gradient(circle at 78% 12%, rgba(245,158,11,.16), transparent 28%);
   mix-blend-mode: screen;
 }
 
@@ -2696,17 +2692,14 @@ img { max-width: 100%; }
 .hardware-hero-inner {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(300px, .58fr) minmax(560px, 1.42fr);
-  gap: clamp(32px, 5vw, 76px);
+  display: flex;
   align-items: center;
   min-height: inherit;
-  width: 100%;
 }
 
 .hardware-copy {
-  max-width: 460px;
-  padding: 10px 0 48px;
+  max-width: 430px;
+  padding-top: 18px;
 }
 
 .hardware-copy .section-tag {
@@ -2718,8 +2711,8 @@ img { max-width: 100%; }
 }
 
 .hardware-title {
-  max-width: 460px;
-  font-size: clamp(44px, 4.6vw, 68px);
+  max-width: 430px;
+  font-size: clamp(42px, 4.3vw, 60px);
   line-height: 1;
   letter-spacing: -.025em;
   margin-bottom: 24px;
@@ -2729,7 +2722,7 @@ img { max-width: 100%; }
 }
 
 .hardware-subhead {
-  max-width: 430px;
+  max-width: 420px;
   color: rgba(255,255,255,.82);
   font-size: 17px;
   line-height: 1.68;
@@ -2765,10 +2758,11 @@ img { max-width: 100%; }
 }
 
 .hardware-visual {
-  position: relative;
-  z-index: 2;
-  width: calc(100% + clamp(24px, 5vw, 92px));
-  height: min(640px, calc(100vh - 150px));
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
   min-width: 0;
   border: 0;
   border-radius: 0;
@@ -2777,8 +2771,6 @@ img { max-width: 100%; }
   padding: 0;
   overflow: hidden;
   transform: none;
-  align-self: end;
-  margin-right: calc(clamp(24px, 5vw, 92px) * -1);
 }
 
 :root[data-theme="dark"] .hardware-visual {
@@ -2789,7 +2781,7 @@ img { max-width: 100%; }
 
 .hardware-hero-image {
   display: block;
-  width: 100%;
+  width: 118%;
   height: 100%;
   object-fit: cover;
   object-position: center;
