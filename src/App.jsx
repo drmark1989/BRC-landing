@@ -190,7 +190,7 @@ function trackMarketingEvent(eventType, metadata = {}) {
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
 
-function Nav({ theme = "dark", onToggleTheme, onDarkHero = false }) {
+function Nav({ theme = "dark", onToggleTheme, onDarkHero = false, activeHref = "" }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const trialHref = trialSignupUrl();
@@ -220,7 +220,7 @@ function Nav({ theme = "dark", onToggleTheme, onDarkHero = false }) {
         </a>
         <div className="nav-links">
           {links.map((l) => (
-            <a key={l.label} href={l.href} className="nav-link">
+            <a key={l.label} href={l.href} className={`nav-link ${activeHref === l.href ? "nav-link-active" : ""}`}>
               {l.label}
             </a>
           ))}
@@ -2268,7 +2268,7 @@ function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
 
   return (
     <div className="app">
-      <Nav theme={theme} onToggleTheme={onToggleTheme} />
+      <Nav theme={theme} onToggleTheme={onToggleTheme} onDarkHero activeHref="/hardware" />
       <main className="hardware-page">
         <section className="hardware-hero">
           <HardwareVisual />

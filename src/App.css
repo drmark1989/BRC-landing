@@ -851,13 +851,32 @@ img { max-width: 100%; }
 .nav-on-dark:not(.nav-scrolled) .nav-logo-text,
 .nav-on-dark:not(.nav-scrolled) .nav-link,
 .nav-on-dark:not(.nav-scrolled) .btn-ghost {
-  color: rgba(255,255,255,.86);
+  color: rgba(255,255,255,.9);
+}
+
+.nav-on-dark:not(.nav-scrolled) .nav-inner {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 14px;
+  padding-right: 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 16px;
+  background: rgba(6,10,18,.58);
+  box-shadow: 0 18px 70px rgba(0,0,0,.28);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .nav-on-dark:not(.nav-scrolled) .nav-link:hover,
 .nav-on-dark:not(.nav-scrolled) .btn-ghost:hover {
   color: #fff;
-  background: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.14);
+}
+
+.nav-on-dark:not(.nav-scrolled) .nav-link-active {
+  color: #fff;
+  background: rgba(20,184,166,.18);
+  box-shadow: inset 0 0 0 1px rgba(94,234,212,.22);
 }
 
 .nav-on-dark:not(.nav-scrolled) .theme-toggle {
@@ -2656,8 +2675,8 @@ img { max-width: 100%; }
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5,8,15,.92) 0%, rgba(5,8,15,.8) 31%, rgba(5,8,15,.38) 58%, rgba(5,8,15,.16) 100%),
-    linear-gradient(180deg, rgba(5,8,15,.18) 0%, rgba(5,8,15,.08) 48%, rgba(5,8,15,.58) 100%);
+    linear-gradient(90deg, rgba(5,8,15,.96) 0%, rgba(5,8,15,.82) 28%, rgba(5,8,15,.28) 48%, rgba(5,8,15,0) 72%),
+    linear-gradient(180deg, rgba(5,8,15,.06) 0%, rgba(5,8,15,0) 50%, rgba(5,8,15,.34) 100%);
 }
 
 .hardware-hero::after {
@@ -2687,7 +2706,7 @@ img { max-width: 100%; }
 }
 
 .hardware-copy {
-  max-width: 690px;
+  max-width: 520px;
   padding-top: 18px;
 }
 
@@ -2700,8 +2719,8 @@ img { max-width: 100%; }
 }
 
 .hardware-title {
-  max-width: 720px;
-  font-size: clamp(48px, 6vw, 84px);
+  max-width: 520px;
+  font-size: clamp(44px, 4.65vw, 66px);
   line-height: 1;
   letter-spacing: -.025em;
   margin-bottom: 24px;
@@ -2711,7 +2730,7 @@ img { max-width: 100%; }
 }
 
 .hardware-subhead {
-  max-width: 620px;
+  max-width: 500px;
   color: rgba(255,255,255,.82);
   font-size: 18px;
   line-height: 1.78;
@@ -2721,6 +2740,10 @@ img { max-width: 100%; }
 
 .hardware-copy .btn {
   border-radius: 8px;
+}
+
+.hardware-copy .hero-btns {
+  justify-content: flex-start;
 }
 
 .hardware-copy .btn-outline {
@@ -2768,7 +2791,7 @@ img { max-width: 100%; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: 70% center;
   border-radius: 0;
   box-shadow: none;
 }
