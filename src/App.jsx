@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import "./App.css?v=2224";
+import "./App.css?v=2225";
 
 // ─── ROUTING ──────────────────────────────────────────────────────────────────
 
@@ -11,6 +11,7 @@ export const PAGES = {
   CONTACT: "contact",
   FEATURES: "features",
   FEATURE: "feature",
+  HARDWARE: "hardware",
   CONTENT: "content",
   INDUSTRY: "industry",
   MIGRATION: "migration",
@@ -205,6 +206,7 @@ function Nav({ theme = "dark", onToggleTheme, onDarkHero = false }) {
     { label: "Features", href: "/features" },
     { label: "AI", href: "/features/ai-intelligence" },
     { label: "POS", href: "/features/pos" },
+    { label: "Hardware", href: "/hardware" },
     { label: "Pricing", href: "/#pricing" },
     { label: "Contact Us", href: "/contact" },
   ];
@@ -2141,6 +2143,288 @@ function FeatureIndexPage({ onNavigate, theme, onToggleTheme }) {
       <Nav theme={theme} onToggleTheme={onToggleTheme} />
       <main className="feature-page">
         <Features />
+        <CTA />
+      </main>
+      <Footer onNavigate={onNavigate} />
+    </div>
+  );
+}
+
+// ─── HARDWARE RECOMMENDATIONS ────────────────────────────────────────────────
+
+const HARDWARE_STATUS = {
+  recommended: "BRC recommended",
+  compatible: "Compatible path",
+  planned: "Planned",
+  manual: "Manual setup",
+};
+
+const HARDWARE_CATEGORIES = [
+  {
+    title: "Tablet stands and screen holders",
+    body: "Professional countertop and kiosk mounts for the screen customers actually see.",
+    accent: "var(--green)",
+    items: [
+      { name: "Bouncepad Core Twist", fit: "Starter counter setup with one rotating tablet", status: HARDWARE_STATUS.recommended },
+      { name: "Bouncepad Core Twin", fit: "Pro counter setup with staff and customer-facing screens", status: HARDWARE_STATUS.recommended },
+      { name: "Bouncepad Wall Mount", fit: "Kitchen display, pickup screen, or back-of-house order view", status: HARDWARE_STATUS.compatible },
+      { name: "Bouncepad Floor Stand", fit: "Self-service kiosk, reception, check-in, or queue ordering", status: HARDWARE_STATUS.planned },
+    ],
+  },
+  {
+    title: "Payment readers",
+    body: "Card-present payment hardware should run through Stripe Terminal while BRC stays the POS.",
+    accent: "var(--blue)",
+    items: [
+      { name: "Stripe Reader S700 / S710", fit: "Flagship smart reader for serious countertop checkout", status: HARDWARE_STATUS.compatible },
+      { name: "BBPOS WisePOS E", fit: "Countertop payment terminal for stores and hospitality", status: HARDWARE_STATUS.compatible },
+      { name: "Stripe Reader M2", fit: "Bluetooth mobile checkout in supported markets", status: HARDWARE_STATUS.compatible },
+      { name: "BBPOS WisePad 3", fit: "Mobile/tablet checkout with PIN pad in supported markets", status: HARDWARE_STATUS.compatible },
+      { name: "Tap to Pay on iPhone / Android", fit: "No separate reader for early mobile setups", status: HARDWARE_STATUS.compatible },
+    ],
+  },
+  {
+    title: "Receipts and cash",
+    body: "Printers and drawers turn BRC from app software into a complete checkout counter.",
+    accent: "var(--orange)",
+    items: [
+      { name: "Star Micronics TSP100IV / TSP143IV", fit: "Reliable receipt printing for most counters", status: HARDWARE_STATUS.recommended },
+      { name: "Star Micronics mC-Print3", fit: "Compact receipt printer for modern counters", status: HARDWARE_STATUS.recommended },
+      { name: "Epson TM-m30III", fit: "Advanced receipt printing where Epson is already installed", status: HARDWARE_STATUS.manual },
+      { name: "APG Vasario cash drawer", fit: "Printer-driven cash drawer for fixed tills", status: HARDWARE_STATUS.compatible },
+      { name: "Star Micronics CD4 cash drawer", fit: "Drawer option for Star printer-led setups", status: HARDWARE_STATUS.compatible },
+    ],
+  },
+  {
+    title: "Scanning and labels",
+    body: "Inventory, retail checkout, and catalog work best with hardware that feels instant.",
+    accent: "var(--purple)",
+    items: [
+      { name: "Socket Mobile Bluetooth scanners", fit: "Tablet-friendly barcode scanning for retail", status: HARDWARE_STATUS.recommended },
+      { name: "Zebra DS2208 / DS2278", fit: "USB or Bluetooth scanning for fixed counters", status: HARDWARE_STATUS.compatible },
+      { name: "Netum Bluetooth scanners", fit: "Budget scanner path for small stores", status: HARDWARE_STATUS.manual },
+      { name: "Zebra ZD421 / ZD410", fit: "Professional barcode and stock label printing", status: HARDWARE_STATUS.planned },
+      { name: "DYMO LabelWriter 550 / 5XL", fit: "Desktop labels where manual export is acceptable", status: HARDWARE_STATUS.manual },
+    ],
+  },
+];
+
+const HARDWARE_KITS = [
+  {
+    name: "Starter Counter Kit",
+    stand: "Bouncepad Core Twist",
+    bestFor: "Small retail, salon, cafe, mobile counter, or reception desk",
+    includes: ["iPad or Samsung tablet", "Stripe Tap to Pay or compact reader", "Star receipt printer", "Optional cash drawer"],
+  },
+  {
+    name: "Pro Counter Kit",
+    stand: "Bouncepad Core Twin",
+    bestFor: "Checkout counters where customers should see basket, total, loyalty, tip, and payment status",
+    includes: ["Staff tablet", "Customer-facing tablet", "Stripe S700/S710 or WisePOS E", "Star printer", "APG or Star cash drawer"],
+  },
+  {
+    name: "Retail Stock Kit",
+    stand: "Bouncepad Core Twist plus scanner dock",
+    bestFor: "Retailers that need product lookup, barcode checkout, receiving, and labels",
+    includes: ["Tablet POS", "Socket or Zebra scanner", "Receipt printer", "Zebra label printer path"],
+  },
+  {
+    name: "Restaurant Screen Kit",
+    stand: "Bouncepad Wall Mount",
+    bestFor: "Kitchen display, pickup screen, and order progress workflows",
+    includes: ["Kitchen tablet", "Wall mount", "Kitchen printer option", "Counter reader for payment"],
+  },
+];
+
+function HardwareVisual() {
+  return (
+    <div className="hardware-visual" aria-hidden="true">
+      <div className="hardware-counter">
+        <div className="hardware-stand hardware-stand-staff">
+          <div className="hardware-screen">
+            <span>BRC POS</span>
+            <strong>$42.80</strong>
+            <div />
+            <div />
+            <div />
+          </div>
+          <span className="hardware-neck" />
+        </div>
+        <div className="hardware-stand hardware-stand-customer">
+          <div className="hardware-screen hardware-screen-customer">
+            <span>Customer</span>
+            <strong>Ready</strong>
+            <div />
+          </div>
+          <span className="hardware-neck" />
+        </div>
+        <div className="hardware-reader">
+          <span />
+          <strong>Stripe</strong>
+        </div>
+        <div className="hardware-printer">
+          <span />
+          <strong>Receipt</strong>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HardwareRecommendationPage({ onNavigate, theme, onToggleTheme }) {
+  const trialHref = trialSignupUrl();
+
+  return (
+    <div className="app">
+      <Nav theme={theme} onToggleTheme={onToggleTheme} onDarkHero />
+      <main className="hardware-page">
+        <section className="hardware-hero">
+          <div className="hardware-hero-media" />
+          <div className="container hardware-hero-inner">
+            <div className="hardware-copy">
+              <div className="section-tag">Recommended Hardware</div>
+              <h1 className="hardware-title">
+                Build a BRC counter that looks like a real POS.
+              </h1>
+              <p className="hardware-subhead">
+                BRC is the software layer. These stands, readers, printers,
+                scanners, drawers, and screens are the practical hardware path
+                for retail, hospitality, and service businesses.
+              </p>
+              <div className="hero-btns">
+                <a href={trialHref} className="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
+                  Start Free <span className="arrow">→</span>
+                </a>
+                <a href="/contact" className="btn btn-outline btn-lg">
+                  Ask About Hardware
+                </a>
+              </div>
+              <div className="hardware-assurance">
+                <span>Clear support labels</span>
+                <span>Merchant-grade kits</span>
+                <span>Affiliate links coming after partner approval</span>
+              </div>
+            </div>
+            <HardwareVisual />
+          </div>
+        </section>
+
+        <section className="hardware-proof-strip">
+          <div className="container hardware-proof-grid">
+            <article>
+              <strong>Best first stand</strong>
+              <p>Bouncepad Core Twist gives small merchants a polished one-screen counter without needing customer display software on day one.</p>
+            </article>
+            <article>
+              <strong>Best pro stand</strong>
+              <p>Bouncepad Core Twin is the upgrade path for basket review, loyalty, tips, receipts, and payment progress on a second screen.</p>
+            </article>
+            <article>
+              <strong>Payments layer</strong>
+              <p>Stripe Terminal handles card-present payment while BRC owns the POS, orders, inventory, staff, and reporting experience.</p>
+            </article>
+          </div>
+        </section>
+
+        <section className="section hardware-kits-section">
+          <div className="container">
+            <div className="section-header">
+              <div className="section-tag">Setup Kits</div>
+              <h2 className="section-h2">
+                Sell the complete counter,
+                <br />
+                <span className="grad-text">not just the app</span>
+              </h2>
+              <p className="section-p">
+                These kits make BRC easier to understand for merchants: choose
+                the business setup, then match the stand, screen, payment
+                reader, printer, drawer, and scanner.
+              </p>
+            </div>
+            <div className="hardware-kit-grid">
+              {HARDWARE_KITS.map((kit) => (
+                <article className="hardware-kit-card" key={kit.name}>
+                  <span>{kit.stand}</span>
+                  <h3>{kit.name}</h3>
+                  <p>{kit.bestFor}</p>
+                  <div className="hardware-kit-list">
+                    {kit.includes.map((item) => (
+                      <strong key={item}>{item}</strong>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section hardware-matrix-section">
+          <div className="container">
+            <div className="section-header feature-left-header">
+              <div className="section-tag">Compatibility Matrix</div>
+              <h2 className="section-h2">
+                Hardware BRC can recommend
+                <br />
+                <span className="grad-text">with the right support label</span>
+              </h2>
+              <p className="section-p">
+                Exact region, connector, SDK, and model support can vary. BRC
+                should mark products as recommended, compatible, manual, or
+                planned until each setup has been tested end to end.
+              </p>
+            </div>
+            <div className="hardware-category-list">
+              {HARDWARE_CATEGORIES.map((category) => (
+                <section className="hardware-category" key={category.title} style={{ "--accent": category.accent }}>
+                  <div className="hardware-category-copy">
+                    <span>{category.title}</span>
+                    <p>{category.body}</p>
+                  </div>
+                  <div className="hardware-item-list">
+                    {category.items.map((item) => (
+                      <article className="hardware-item" key={item.name}>
+                        <div>
+                          <strong>{item.name}</strong>
+                          <p>{item.fit}</p>
+                        </div>
+                        <span>{item.status}</span>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section hardware-partner-section">
+          <div className="container hardware-partner-inner">
+            <div>
+              <div className="section-tag">Partner Ready</div>
+              <h2 className="section-h2">
+                Use affiliate links only after the hardware partner approves the route.
+              </h2>
+              <p className="hardware-partner-copy">
+                Until partner links are approved, this page can drive merchants
+                to contact BRC for recommended setups. After approval, each item
+                can use a tracked Bouncepad, Star, Zebra, Socket, or distributor
+                purchase link with a clear affiliate disclosure.
+              </p>
+            </div>
+            <div className="hardware-disclosure">
+              <strong>Disclosure copy to keep</strong>
+              <p>
+                Some recommended hardware links may earn BRC a commission at no
+                extra cost to you. BRC only recommends hardware that fits the
+                setup path shown on this page.
+              </p>
+              <a href="/contact" className="btn btn-primary">
+                Contact BRC
+              </a>
+            </div>
+          </div>
+        </section>
+
         <CTA />
       </main>
       <Footer onNavigate={onNavigate} />
@@ -6394,6 +6678,7 @@ const CONTENT_PAGES = {
 
 const FOOTER_LINKS = {
   Features: "/features",
+  Hardware: "/hardware",
   Pricing: "/pricing",
   Changelog: "/changelog",
   Roadmap: "/roadmap",
@@ -7817,7 +8102,7 @@ function HelpCentrePage({ initialArticleId, theme, onToggleTheme, onNavigate }) 
 const FOOTER_COLS = [
   {
     heading: "Product",
-    links: ["Features", "Pricing", "Changelog", "Roadmap"],
+    links: ["Features", "Hardware", "Pricing", "Roadmap"],
   },
   { heading: "Company", links: ["About", "Blog", "Careers", "Press"] },
   {
@@ -7838,6 +8123,8 @@ function Footer({ onNavigate }) {
       onNavigate(PAGES.PRIVACY);
     } else if (link === "Contact Us") {
       onNavigate(PAGES.CONTACT);
+    } else if (link === "Hardware") {
+      onNavigate(PAGES.HARDWARE);
     } else if (FOOTER_LINKS[link]) {
       onNavigate(PAGES.CONTENT, { slug: FOOTER_LINKS[link].replace(/^\//, "") });
     } else {
@@ -7967,6 +8254,7 @@ export function routePath(route) {
   if (route.page === PAGES.CONTACT) return "/contact";
   if (route.page === PAGES.FEATURES) return "/features";
   if (route.page === PAGES.FEATURE) return `/features/${route.slug || "pos"}`;
+  if (route.page === PAGES.HARDWARE) return "/hardware";
   if (route.page === PAGES.INDUSTRY) return `/${route.slug || "restaurants"}`;
   if (route.page === PAGES.MIGRATION) return "/switch-pos-to-brc";
   if (route.page === PAGES.CONTENT) {
@@ -8013,6 +8301,17 @@ export function seoForRoute(route) {
         "Explore every BRC OS module across POS, table QR, ordering, bookings, reviews, reputation, campaigns, rewards, inventory, rota, payroll, finance, analytics, and BRC AI.",
       keywords:
         "BRC features, BRC OS modules, POS features, reputation management features, inventory software, rota payroll finance AI",
+    };
+  }
+
+  if (route.page === PAGES.HARDWARE) {
+    return {
+      ...base,
+      title: "BRC Recommended Hardware | POS Stands, Readers, Printers, Scanners",
+      description:
+        "Explore recommended BRC hardware setups for tablet stands, Bouncepad Core Twist and Core Twin, Stripe Terminal readers, receipt printers, cash drawers, barcode scanners, and label printers.",
+      keywords:
+        "BRC hardware, POS hardware recommendations, Bouncepad Core Twist, Bouncepad Core Twin, Stripe Terminal POS hardware, receipt printer POS, barcode scanner POS, cash drawer POS, tablet stand POS",
     };
   }
 
@@ -8264,6 +8563,23 @@ export function buildStructuredData(route, seo) {
         },
       })),
     });
+  } else if (route.page === PAGES.HARDWARE) {
+    graph.push({
+      "@type": "WebPage",
+      name: "BRC Recommended Hardware",
+      description: seo.description,
+      url: canonical,
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: HARDWARE_CATEGORIES.flatMap((category) =>
+          category.items.map((item) => ({
+            "@type": "ListItem",
+            name: item.name,
+            description: `${category.title}: ${item.fit}`,
+          }))
+        ),
+      },
+    });
   }
 
   return { "@context": "https://schema.org", "@graph": graph };
@@ -8312,6 +8628,7 @@ export function getPrerenderRoutes() {
     { page: PAGES.TERMS },
     { page: PAGES.PRIVACY },
     { page: PAGES.MIGRATION },
+    { page: PAGES.HARDWARE },
     { page: PAGES.FEATURES },
     ...Object.keys(INDUSTRY_PAGES).map((slug) => ({ page: PAGES.INDUSTRY, slug })),
     ...FEATURES.map((feature) => ({ page: PAGES.FEATURE, slug: feature.slug })),
@@ -8333,6 +8650,7 @@ export default function App({ initialRoute = null }) {
     if (pathname === "/terms") return { page: PAGES.TERMS };
     if (pathname === "/privacy") return { page: PAGES.PRIVACY };
     if (pathname === "/switch-pos-to-brc") return { page: PAGES.MIGRATION };
+    if (pathname === "/hardware") return { page: PAGES.HARDWARE };
     if (pathname.startsWith("/help/")) {
       return {
         page: PAGES.CONTENT,
@@ -8410,6 +8728,8 @@ export default function App({ initialRoute = null }) {
             ? "/contact"
             : page === PAGES.FEATURES
               ? "/features"
+              : page === PAGES.HARDWARE
+                ? "/hardware"
             : page === PAGES.CONTENT && options.slug
               ? `/${options.slug}`
             : "/";
@@ -8442,6 +8762,7 @@ export default function App({ initialRoute = null }) {
         url.pathname === "/terms" ||
         url.pathname === "/privacy" ||
         url.pathname === "/switch-pos-to-brc" ||
+        url.pathname === "/hardware" ||
         [
           "/features",
           "/pricing",
@@ -8581,6 +8902,16 @@ export default function App({ initialRoute = null }) {
   if (currentPage === PAGES.FEATURES) {
     return (
       <FeatureIndexPage
+        onNavigate={navigateTo}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+    );
+  }
+
+  if (currentPage === PAGES.HARDWARE) {
+    return (
+      <HardwareRecommendationPage
         onNavigate={navigateTo}
         theme={theme}
         onToggleTheme={toggleTheme}
