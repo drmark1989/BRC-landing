@@ -2667,7 +2667,8 @@ img { max-width: 100%; }
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(5,8,15,.96) 0%, rgba(5,8,15,.78) 24%, rgba(5,8,15,.18) 42%, rgba(5,8,15,0) 66%),
+    linear-gradient(180deg, rgba(5,8,15,.74) 0%, rgba(5,8,15,.52) 112px, rgba(5,8,15,.16) 254px, rgba(5,8,15,0) 390px),
+    linear-gradient(90deg, rgba(5,8,15,.96) 0%, rgba(5,8,15,.76) 23%, rgba(5,8,15,.16) 40%, rgba(5,8,15,0) 64%),
     linear-gradient(180deg, rgba(5,8,15,.06) 0%, rgba(5,8,15,0) 50%, rgba(5,8,15,.34) 100%);
 }
 
@@ -2784,7 +2785,7 @@ img { max-width: 100%; }
   width: 118%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: 20% center;
   border-radius: 0;
   box-shadow: none;
 }
@@ -5870,7 +5871,7 @@ img { max-width: 100%; }
   .hardware-hero-image {
     height: 100%;
     aspect-ratio: auto;
-    object-position: center;
+    object-position: 30% center;
   }
   .hardware-proof-grid,
   .hardware-kit-grid {
@@ -6169,7 +6170,7 @@ img { max-width: 100%; }
   }
   .hardware-hero-image {
     aspect-ratio: auto;
-    object-position: center;
+    object-position: 36% center;
   }
   .hardware-category-copy {
     padding-left: 14px;
