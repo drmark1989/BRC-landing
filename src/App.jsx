@@ -81,6 +81,37 @@ function trialSignupUrl() {
   return signupUrl({ plan: "free", billing: "monthly" });
 }
 
+function redirectAuthConfirm() {
+  if (typeof window === "undefined") return;
+  const params = new URLSearchParams(window.location.search);
+  const nextPathByKey = {
+    "email-change-success": "email-change-success",
+    login: "login",
+    "reset-password": "reset-password",
+    "verify-email": "verify-email",
+  };
+  const next = nextPathByKey[params.get("next")] || "verify-email";
+  const target = new URL(`/${next}`, WEB_APP_URL);
+  params.forEach((value, key) => {
+    if (key !== "next") target.searchParams.set(key, value);
+  });
+
+  const mobileUserAgent =
+    /Android|iPhone|iPad|iPod/i.test(window.navigator.userAgent || "");
+  if (mobileUserAgent) {
+    const appTarget = `brc://${next}?${target.searchParams.toString()}`;
+    window.location.assign(appTarget);
+    window.setTimeout(() => {
+      if (document.visibilityState === "visible") {
+        window.location.replace(target.toString());
+      }
+    }, 900);
+    return;
+  }
+
+  window.location.replace(target.toString());
+}
+
 function safeStorageGet(key) {
   try {
     return window.localStorage.getItem(key);
@@ -8628,6 +8659,8 @@ export function getPrerenderRoutes() {
 }
 
 export default function App({ initialRoute = null }) {
+  const isAuthConfirmRoute =
+    typeof window !== "undefined" && window.location.pathname === "/auth/confirm";
   const readRoute = () => {
     if (typeof window === "undefined") return initialRoute || { page: PAGES.HOME };
     const pathname = window.location.pathname;
@@ -8818,6 +8851,10 @@ export default function App({ initialRoute = null }) {
   }, [currentPage, route.slug, route.articleId]);
 
   useEffect(() => {
+    if (isAuthConfirmRoute) redirectAuthConfirm();
+  }, [isAuthConfirmRoute]);
+
+  useEffect(() => {
     const handleMarketingClick = (event) => {
       const link = event.target.closest?.("a");
       if (!link) return;
@@ -8841,6 +8878,14 @@ export default function App({ initialRoute = null }) {
     document.addEventListener("click", handleMarketingClick, true);
     return () => document.removeEventListener("click", handleMarketingClick, true);
   }, []);
+
+  if (isAuthConfirmRoute) {
+    return (
+      <main className="section" style={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
+        <p>Opening BRC...</p>
+      </main>
+    );
+  }
 
   if (currentPage === PAGES.TERMS) {
     return <EnhancedTermsOfService />;
