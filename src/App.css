@@ -2381,6 +2381,8 @@ img { max-width: 100%; }
 /* ─── FEATURES ───────────────────────────────────────────────────────────────── */
 
 .operations-stack-section {
+  --operations-card-height: 258px;
+  --operations-card-gap: 16px;
   background:
     linear-gradient(180deg, rgba(255,255,255,.74), rgba(255,255,255,.94)),
     radial-gradient(circle at 86% 10%, rgba(8,145,178,.11), transparent 32%),
@@ -2420,18 +2422,37 @@ img { max-width: 100%; }
   margin-top: 28px;
 }
 
-.operations-carousel-controls {
+.operations-stack-panel {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.operations-carousel-controls {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 22px;
+  align-self: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 18px 46px rgba(23,18,45,.08);
+  backdrop-filter: blur(12px);
+}
+
+:root[data-theme="dark"] .operations-carousel-controls {
+  background: rgba(255,255,255,.06);
+  box-shadow: none;
 }
 
 .operations-carousel-controls > button {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: rgba(255,255,255,.82);
@@ -2461,12 +2482,13 @@ img { max-width: 100%; }
 .operations-carousel-dots {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
+  padding: 0 2px;
 }
 
 .operations-carousel-dots button {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border: 0;
   border-radius: 999px;
   background: color-mix(in srgb, var(--text-3) 58%, transparent);
@@ -2476,13 +2498,14 @@ img { max-width: 100%; }
 }
 
 .operations-carousel-dots button.active {
-  width: 28px;
+  width: 24px;
   background: var(--green);
 }
 
 .operations-stack-viewport {
   position: relative;
-  min-height: clamp(470px, 64vh, 620px);
+  height: calc((var(--operations-card-height) * 2) + var(--operations-card-gap));
+  min-height: 0;
   overflow: hidden;
   isolation: isolate;
 }
@@ -2490,7 +2513,7 @@ img { max-width: 100%; }
 .operations-stack-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: var(--operations-card-gap);
   transition: transform .28s cubic-bezier(.2,.78,.2,1);
   will-change: transform;
 }
@@ -2499,15 +2522,16 @@ img { max-width: 100%; }
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  min-height: 220px;
-  padding: 24px;
+  gap: 10px;
+  height: var(--operations-card-height);
+  min-height: var(--operations-card-height);
+  padding: 22px;
   border: 1px solid var(--border);
   border-radius: var(--r);
   background: rgba(255,255,255,.82);
   box-shadow: var(--shadow-sm);
-  opacity: .62;
-  transform: scale(.985);
+  opacity: .82;
+  transform: scale(.99);
   transition:
     opacity .38s ease,
     transform .46s cubic-bezier(.2,.78,.2,1),
@@ -2556,14 +2580,14 @@ img { max-width: 100%; }
 
 .operations-stack-card h3 {
   color: var(--text);
-  font-size: 20px;
+  font-size: 19px;
   line-height: 1.22;
 }
 
 .operations-stack-card p {
   color: var(--text-2);
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .operations-chip-row {
@@ -2616,7 +2640,7 @@ img { max-width: 100%; }
 .operations-local-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 8px;
 }
 
 .operations-local-links a {
@@ -2624,8 +2648,8 @@ img { max-width: 100%; }
   border: 1px solid color-mix(in srgb, var(--green) 28%, var(--border));
   border-radius: 999px;
   background: color-mix(in srgb, var(--green) 8%, transparent);
-  padding: 7px 10px;
-  font-size: 12px;
+  padding: 6px 9px;
+  font-size: 11px;
   font-weight: 900;
 }
 
@@ -5596,6 +5620,10 @@ img { max-width: 100%; }
 /* ─── RESPONSIVE ─────────────────────────────────────────────────────────────── */
 
 @media (max-width: 1024px) {
+  .operations-stack-section {
+    --operations-card-height: 248px;
+    --operations-card-gap: 14px;
+  }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .plans-grid { grid-template-columns: repeat(2, 1fr); }
   .plan-card-wide .plan-features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -5856,11 +5884,10 @@ img { max-width: 100%; }
   }
   .hero-social-proof { justify-content: center; }
   .operations-stack-viewport {
-    min-height: 430px;
+    min-height: 0;
   }
   .operations-stack-card {
-    padding: 22px;
-    min-height: 210px;
+    padding: 20px;
   }
   .ai-os-inner,
   .ai-os-grid { grid-template-columns: 1fr; }

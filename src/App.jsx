@@ -884,18 +884,27 @@ function OperationsStack() {
       eyebrow: "Local Hub",
       title: "Coordinate venue screens and supported hardware",
       body:
-        "Run BRC Local Hub on a macOS, Windows, Linux, or Docker host to help trusted in-store screens and devices work together while the cloud still handles accounts, payments, reviews, and reporting.",
+        "Run BRC Local Hub on macOS, Windows, Linux, or Docker to coordinate trusted venue screens and supported hardware while cloud services handle accounts, payments, reviews, and reporting.",
       items: LOCAL_HUB_PLATFORMS,
       type: "localHub",
     },
   ];
 
-  const updateActiveCardForOffset = (nextOffset) => {
+  const getOperationsCardStep = () => {
     const cards = cardsRef.current;
     const firstCard = cards?.children?.[0];
-    const cardHeight = firstCard?.getBoundingClientRect().height || 220;
-    const step = cardHeight + 16;
-    const nextIndex = Math.round(nextOffset / step);
+    const cardHeight = firstCard?.getBoundingClientRect().height || 258;
+    const styles = cards && typeof window !== "undefined" ? window.getComputedStyle(cards) : null;
+    const gap = Number.parseFloat(styles?.rowGap || styles?.gap || "16") || 16;
+    return cardHeight + gap;
+  };
+
+  const updateActiveCardForOffset = (nextOffset) => {
+    const step = getOperationsCardStep();
+    const nextIndex =
+      maxCardOffsetRef.current > 0 && nextOffset >= maxCardOffsetRef.current - 1
+        ? operationCards.length - 1
+        : Math.round(nextOffset / step);
     setActiveCard(Math.max(0, Math.min(operationCards.length - 1, nextIndex)));
   };
 
@@ -938,8 +947,7 @@ function OperationsStack() {
   }, [cardOffset]);
 
   const nudgeOperationsCards = (direction) => {
-    const viewport = viewportRef.current;
-    const distance = viewport ? viewport.clientHeight * 0.62 : 260;
+    const distance = getOperationsCardStep();
     setOperationsOffset(cardOffsetRef.current + direction * distance);
   };
 
@@ -989,6 +997,52 @@ function OperationsStack() {
               Explore POS
             </a>
           </div>
+        </div>
+        <div className="operations-stack-panel">
+          <div
+            ref={viewportRef}
+            className="operations-stack-viewport"
+            aria-label="All-in-one operations cards"
+          >
+            <div
+              ref={cardsRef}
+              className="operations-stack-grid"
+              style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
+            >
+              {operationCards.map((item, index) => (
+                <article
+                  className={[
+                    "operations-stack-card",
+                    item.type === "localHub" ? "operations-local-hub-card" : "",
+                    index === activeCard ? "operations-card-active" : "",
+                  ].filter(Boolean).join(" ")}
+                  key={item.title}
+                >
+                  <span>{item.eyebrow}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                  <div className="operations-chip-row">
+                    {item.items.map((chip) => (
+                      <strong key={chip}>{chip}</strong>
+                    ))}
+                  </div>
+                  {item.type === "localHub" ? (
+                    <div className="operations-local-links">
+                      {LOCAL_HUB_OPERATION_LINKS.map((link) => (
+                        <a key={link.href} href={link.href}>
+                          {link.label} <span>→</span>
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <a href="/features" className="operations-card-link">
+                      View full features <span>→</span>
+                    </a>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
           <div className="operations-carousel-controls" aria-label="Operations card controls">
             <button
               type="button"
@@ -1017,50 +1071,6 @@ function OperationsStack() {
             >
               ↓
             </button>
-          </div>
-        </div>
-        <div
-          ref={viewportRef}
-          className="operations-stack-viewport"
-          aria-label="All-in-one operations cards"
-        >
-          <div
-            ref={cardsRef}
-            className="operations-stack-grid"
-            style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
-          >
-            {operationCards.map((item, index) => (
-              <article
-                className={[
-                  "operations-stack-card",
-                  item.type === "localHub" ? "operations-local-hub-card" : "",
-                  index === activeCard ? "operations-card-active" : "",
-                ].filter(Boolean).join(" ")}
-                key={item.title}
-              >
-                <span>{item.eyebrow}</span>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                <div className="operations-chip-row">
-                  {item.items.map((chip) => (
-                    <strong key={chip}>{chip}</strong>
-                  ))}
-                </div>
-                {item.type === "localHub" ? (
-                  <div className="operations-local-links">
-                    {LOCAL_HUB_OPERATION_LINKS.map((link) => (
-                      <a key={link.href} href={link.href}>
-                        {link.label} <span>→</span>
-                      </a>
-                    ))}
-                  </div>
-                ) : (
-                  <a href="/features" className="operations-card-link">
-                    View full features <span>→</span>
-                  </a>
-                )}
-              </article>
-            ))}
           </div>
         </div>
       </div>
