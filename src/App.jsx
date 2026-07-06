@@ -871,9 +871,29 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
+  const cardsRef = useRef(null);
+
+  const handleOperationsWheel = (event) => {
+    const cards = cardsRef.current;
+    if (!cards) return;
+
+    const maxScrollTop = cards.scrollHeight - cards.clientHeight;
+    if (maxScrollTop <= 1) return;
+
+    const deltaY = event.deltaY;
+    const atTop = cards.scrollTop <= 0;
+    const atBottom = cards.scrollTop >= maxScrollTop - 1;
+    const shouldScrollCards =
+      (deltaY > 0 && !atBottom) || (deltaY < 0 && !atTop);
+
+    if (!shouldScrollCards) return;
+
+    event.preventDefault();
+    cards.scrollTop += deltaY;
+  };
 
   return (
-    <section className="section operations-stack-section">
+    <section className="section operations-stack-section" onWheel={handleOperationsWheel}>
       <div className="container operations-stack-inner">
         <div className="operations-stack-copy">
           <div className="section-tag">All-In-One Operations</div>
@@ -898,7 +918,12 @@ function OperationsStack() {
             </a>
           </div>
         </div>
-        <div className="operations-stack-grid">
+        <div
+          ref={cardsRef}
+          className="operations-stack-grid"
+          tabIndex={0}
+          aria-label="All-in-one operations cards"
+        >
           {OPERATIONS_STACK.map((item) => (
             <article className="operations-stack-card" key={item.title}>
               <span>{item.eyebrow}</span>
