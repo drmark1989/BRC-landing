@@ -875,9 +875,12 @@ function OperationsStack() {
   const cardsRef = useRef(null);
   const cardOffsetRef = useRef(0);
   const maxCardOffsetRef = useRef(0);
+  const manualMaxCardOffsetRef = useRef(0);
+  const loopResetOffsetRef = useRef(0);
   const [activeCard, setActiveCard] = useState(0);
   const [cardOffset, setCardOffset] = useState(0);
   const [maxCardOffset, setMaxCardOffset] = useState(0);
+  const [manualMaxCardOffset, setManualMaxCardOffset] = useState(0);
   const [isAutoScrollPaused, setIsAutoScrollPaused] = useState(false);
   const [isAutoScrollResetting, setIsAutoScrollResetting] = useState(false);
   const operationCards = [
@@ -890,6 +893,10 @@ function OperationsStack() {
       items: LOCAL_HUB_PLATFORMS,
       type: "localHub",
     },
+  ];
+  const loopedOperationCards = [
+    ...operationCards,
+    ...operationCards.slice(0, 2).map((item) => ({ ...item, isLoopClone: true })),
   ];
 
   const getOperationsCardStep = () => {
@@ -904,14 +911,18 @@ function OperationsStack() {
   const updateActiveCardForOffset = (nextOffset) => {
     const step = getOperationsCardStep();
     const maxActiveIndex = Math.max(0, operationCards.length - 2);
+    const normalizedOffset =
+      loopResetOffsetRef.current > 0 && nextOffset >= loopResetOffsetRef.current - 1
+        ? 0
+        : nextOffset;
     const nextIndex =
-      maxCardOffsetRef.current > 0 && nextOffset >= maxCardOffsetRef.current - 1
+      manualMaxCardOffsetRef.current > 0 && normalizedOffset >= manualMaxCardOffsetRef.current - 1
         ? maxActiveIndex
-        : Math.round(nextOffset / step);
+        : Math.round(normalizedOffset / step);
     setActiveCard(Math.max(0, Math.min(maxActiveIndex, nextIndex)));
   };
 
-  const setOperationsOffset = (nextOffset, behavior = "smooth") => {
+  const setOperationsOffset = (nextOffset) => {
     const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
     cardOffsetRef.current = clampedOffset;
     setCardOffset(clampedOffset);
@@ -925,8 +936,14 @@ function OperationsStack() {
       if (!viewport || !cards) return;
 
       const nextMax = Math.max(0, cards.scrollHeight - viewport.clientHeight);
+      const step = getOperationsCardStep();
+      const nextManualMax = Math.max(0, (operationCards.length - 2) * step);
+      const nextLoopResetOffset = Math.max(0, operationCards.length * step);
       maxCardOffsetRef.current = nextMax;
+      manualMaxCardOffsetRef.current = nextManualMax;
+      loopResetOffsetRef.current = nextLoopResetOffset;
       setMaxCardOffset(nextMax);
+      setManualMaxCardOffset(nextManualMax);
       setCardOffset((current) => {
         const nextOffset = Math.max(0, Math.min(nextMax, current));
         cardOffsetRef.current = nextOffset;
@@ -979,15 +996,6 @@ function OperationsStack() {
       const currentMaxOffset = maxCardOffsetRef.current;
       if (currentMaxOffset <= 1) return;
 
-      if (currentOffset >= currentMaxOffset - 1) {
-        setIsAutoScrollResetting(true);
-        setOperationsOffset(0);
-        window.requestAnimationFrame(() => {
-          setIsAutoScrollResetting(false);
-        });
-        return;
-      }
-
       setOperationsOffset(Math.min(currentMaxOffset, currentOffset + step));
     }, 3600);
 
@@ -996,7 +1004,7 @@ function OperationsStack() {
 
   const nudgeOperationsCards = (direction) => {
     const distance = getOperationsCardStep();
-    setOperationsOffset(cardOffsetRef.current + direction * distance);
+    setOperationsOffset(Math.max(0, Math.min(manualMaxCardOffsetRef.current, cardOffsetRef.current + direction * distance)));
   };
 
   const showOperationsCard = (index) => {
@@ -1005,6 +1013,17 @@ function OperationsStack() {
     if (!target) return;
 
     setOperationsOffset(target.offsetTop);
+  };
+
+  const handleOperationsTransitionEnd = (event) => {
+    if (event.propertyName !== "transform") return;
+    if (loopResetOffsetRef.current <= 0 || cardOffsetRef.current < loopResetOffsetRef.current - 1) return;
+
+    setIsAutoScrollResetting(true);
+    setOperationsOffset(0);
+    window.requestAnimationFrame(() => {
+      setIsAutoScrollResetting(false);
+    });
   };
 
   return (
@@ -1057,15 +1076,17 @@ function OperationsStack() {
                   isAutoScrollResetting ? "operations-stack-grid-resetting" : "",
                 ].filter(Boolean).join(" ")}
                 style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
+                onTransitionEnd={handleOperationsTransitionEnd}
               >
-                {operationCards.map((item, index) => (
+                {loopedOperationCards.map((item, index) => (
                   <article
                     className={[
                       "operations-stack-card",
                       item.type === "localHub" ? "operations-local-hub-card" : "",
-                      index === activeCard ? "operations-card-active" : "",
+                      !item.isLoopClone && index === activeCard ? "operations-card-active" : "",
                     ].filter(Boolean).join(" ")}
-                    key={item.title}
+                    key={`${item.title}-${index}`}
+                    aria-hidden={item.isLoopClone ? "true" : undefined}
                   >
                     <span>{item.eyebrow}</span>
                     <h3>{item.title}</h3>
@@ -1115,7 +1136,7 @@ function OperationsStack() {
               <button
                 type="button"
                 onClick={() => nudgeOperationsCards(1)}
-                disabled={cardOffset >= maxCardOffset - 1}
+                disabled={cardOffset >= manualMaxCardOffset - 1}
                 aria-label="Scroll operations cards down"
               >
                 ↓
