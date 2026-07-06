@@ -871,7 +871,7 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
-  const railRef = useRef(null);
+  const wheelLockRef = useRef(false);
   const [activeCard, setActiveCard] = useState(0);
   const operationCards = [
     ...OPERATIONS_STACK.map((item) => ({ ...item, type: "standard" })),
@@ -885,30 +885,33 @@ function OperationsStack() {
     },
   ];
 
-  const scrollOperationsRail = (direction) => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const nextIndex = Math.max(
-      0,
-      Math.min(operationCards.length - 1, activeCard + direction),
+  const changeOperationsCard = (direction) => {
+    setActiveCard((current) =>
+      Math.max(0, Math.min(operationCards.length - 1, current + direction)),
     );
-    const target = rail.children[nextIndex];
-    if (target) target.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-    setActiveCard(nextIndex);
   };
 
-  const handleOperationsScroll = () => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const card = rail.children[0];
-    const cardWidth = card?.getBoundingClientRect().width || rail.clientWidth;
-    const gap = 16;
-    const nextIndex = Math.round(rail.scrollLeft / (cardWidth + gap));
-    setActiveCard(Math.max(0, Math.min(operationCards.length - 1, nextIndex)));
+  const handleOperationsWheel = (event) => {
+    if (Math.abs(event.deltaY) < 8) return;
+
+    const direction = event.deltaY > 0 ? 1 : -1;
+    const atStart = activeCard === 0 && direction < 0;
+    const atEnd = activeCard === operationCards.length - 1 && direction > 0;
+
+    if (atStart || atEnd) return;
+
+    event.preventDefault();
+    if (wheelLockRef.current) return;
+
+    wheelLockRef.current = true;
+    changeOperationsCard(direction);
+    window.setTimeout(() => {
+      wheelLockRef.current = false;
+    }, 520);
   };
 
   return (
-    <section className="section operations-stack-section">
+    <section className="section operations-stack-section" onWheel={handleOperationsWheel}>
       <div className="container operations-stack-inner">
         <div className="operations-stack-copy">
           <div className="section-tag">All-In-One Operations</div>
@@ -935,11 +938,11 @@ function OperationsStack() {
           <div className="operations-carousel-controls" aria-label="Operations card controls">
             <button
               type="button"
-              onClick={() => scrollOperationsRail(-1)}
+              onClick={() => changeOperationsCard(-1)}
               disabled={activeCard === 0}
               aria-label="Previous operations card"
             >
-              ←
+              ↑
             </button>
             <div className="operations-carousel-dots" aria-label="Operations card progress">
               {operationCards.map((item, index) => (
@@ -947,36 +950,36 @@ function OperationsStack() {
                   key={item.title}
                   type="button"
                   className={index === activeCard ? "active" : ""}
-                  onClick={() => {
-                    const rail = railRef.current;
-                    const target = rail?.children[index];
-                    if (target) target.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-                    setActiveCard(index);
-                  }}
+                  onClick={() => setActiveCard(index)}
                   aria-label={`Show ${item.eyebrow}`}
                 />
               ))}
             </div>
             <button
               type="button"
-              onClick={() => scrollOperationsRail(1)}
+              onClick={() => changeOperationsCard(1)}
               disabled={activeCard === operationCards.length - 1}
               aria-label="Next operations card"
             >
-              →
+              ↓
             </button>
           </div>
         </div>
         <div
-          ref={railRef}
           className="operations-stack-grid"
-          onScroll={handleOperationsScroll}
           aria-label="All-in-one operations cards"
         >
-          {operationCards.map((item) => (
+          {operationCards.map((item, index) => (
             <article
-              className={`operations-stack-card ${item.type === "localHub" ? "operations-local-hub-card" : ""}`}
+              className={[
+                "operations-stack-card",
+                item.type === "localHub" ? "operations-local-hub-card" : "",
+                index === activeCard ? "operations-card-active" : "",
+                index < activeCard ? "operations-card-before" : "",
+                index > activeCard ? "operations-card-after" : "",
+              ].filter(Boolean).join(" ")}
               key={item.title}
+              aria-hidden={index !== activeCard}
             >
               <span>{item.eyebrow}</span>
               <h3>{item.title}</h3>
