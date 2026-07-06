@@ -871,7 +871,6 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
-  const innerRef = useRef(null);
   const viewportRef = useRef(null);
   const cardsRef = useRef(null);
   const cardOffsetRef = useRef(0);
@@ -979,94 +978,10 @@ function OperationsStack() {
     setOperationsOffset(target.offsetTop);
   };
 
-  const getOperationsStageMetrics = () => {
-    const inner = innerRef.current;
-    if (!inner || typeof window === "undefined" || window.innerWidth <= 1024) return null;
-
-    const rect = inner.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const navClearance = 96;
-    const bottomClearance = 28;
-    const availableHeight = viewportHeight - navClearance - bottomClearance;
-    const centeredTop = (viewportHeight - rect.height) / 2;
-    const desiredTop = rect.height <= availableHeight
-      ? Math.max(navClearance, centeredTop)
-      : navClearance;
-    const targetScrollY = window.scrollY + rect.top - desiredTop;
-    const distanceToStage = targetScrollY - window.scrollY;
-    const visibleTop = Math.max(rect.top, navClearance);
-    const visibleBottom = Math.min(rect.bottom, viewportHeight - bottomClearance);
-    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-    const canFitFully = rect.height <= availableHeight;
-    const fullAreaVisible = canFitFully
-      ? rect.top >= navClearance && rect.bottom <= viewportHeight - bottomClearance
-      : visibleHeight >= availableHeight * 0.88;
-    const centerDelta = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2);
-    const centeredEnough = centerDelta <= Math.max(72, viewportHeight * 0.14);
-    const isVisible = rect.bottom > navClearance && rect.top < viewportHeight - bottomClearance;
-
-    return {
-      centeredEnough,
-      distanceToStage,
-      fullAreaVisible,
-      isVisible,
-      targetScrollY,
-    };
-  };
-
-  const handleOperationsWheel = (event) => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-
-    const currentOffset = cardOffsetRef.current;
-    const currentMaxOffset = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
-    maxCardOffsetRef.current = currentMaxOffset;
-    if (currentMaxOffset <= 1 || Math.abs(event.deltaY) < 2) return;
-
-    const stage = getOperationsStageMetrics();
-    if (!stage || !stage.isVisible) return;
-
-    const isStaged = Math.abs(stage.distanceToStage) <= 3
-      || (stage.fullAreaVisible && stage.centeredEnough);
-    const nextPageScrollY = window.scrollY + event.deltaY;
-    const crossesStage =
-      (window.scrollY - stage.targetScrollY) * (nextPageScrollY - stage.targetScrollY) <= 0;
-    const movingTowardStage =
-      (stage.distanceToStage > 0 && event.deltaY > 0)
-      || (stage.distanceToStage < 0 && event.deltaY < 0);
-    const closeToStage = Math.abs(stage.distanceToStage) <= Math.max(96, Math.abs(event.deltaY) * 1.35);
-
-    const atStart = currentOffset <= 1 && event.deltaY < 0;
-    const atEnd = currentOffset >= currentMaxOffset - 1 && event.deltaY > 0;
-
-    if (!isStaged) {
-      if (!movingTowardStage || (!crossesStage && !closeToStage)) return;
-
-      event.preventDefault();
-      window.scrollTo({ top: stage.targetScrollY, behavior: "auto" });
-      return;
-    }
-
-    if (atStart || atEnd) return;
-
-    event.preventDefault();
-    setOperationsOffset(currentOffset + event.deltaY, "auto");
-  };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    window.addEventListener("wheel", handleOperationsWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener("wheel", handleOperationsWheel);
-    };
-  }, []);
-
   return (
     <section className="section operations-stack-section">
       <div className="operations-stack-sticky">
-        <div ref={innerRef} className="container operations-stack-inner">
+        <div className="container operations-stack-inner">
           <div className="operations-stack-copy">
             <div className="section-tag">All-In-One Operations</div>
             <h2 className="section-h2">
