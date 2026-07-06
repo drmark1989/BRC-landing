@@ -879,6 +879,7 @@ function OperationsStack() {
   const [cardOffset, setCardOffset] = useState(0);
   const [maxCardOffset, setMaxCardOffset] = useState(0);
   const [isAutoScrollPaused, setIsAutoScrollPaused] = useState(false);
+  const [isAutoScrollResetting, setIsAutoScrollResetting] = useState(false);
   const operationCards = [
     ...OPERATIONS_STACK.map((item) => ({ ...item, type: "standard" })),
     {
@@ -978,10 +979,16 @@ function OperationsStack() {
       const currentMaxOffset = maxCardOffsetRef.current;
       if (currentMaxOffset <= 1) return;
 
-      const nextOffset = currentOffset >= currentMaxOffset - 1
-        ? 0
-        : Math.min(currentMaxOffset, currentOffset + step);
-      setOperationsOffset(nextOffset);
+      if (currentOffset >= currentMaxOffset - 1) {
+        setIsAutoScrollResetting(true);
+        setOperationsOffset(0);
+        window.requestAnimationFrame(() => {
+          setIsAutoScrollResetting(false);
+        });
+        return;
+      }
+
+      setOperationsOffset(Math.min(currentMaxOffset, currentOffset + step));
     }, 3600);
 
     return () => window.clearInterval(intervalId);
@@ -1045,7 +1052,10 @@ function OperationsStack() {
             >
               <div
                 ref={cardsRef}
-                className="operations-stack-grid"
+                className={[
+                  "operations-stack-grid",
+                  isAutoScrollResetting ? "operations-stack-grid-resetting" : "",
+                ].filter(Boolean).join(" ")}
                 style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
               >
                 {operationCards.map((item, index) => (

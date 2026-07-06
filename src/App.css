@@ -2527,6 +2527,10 @@ img { max-width: 100%; }
   will-change: transform;
 }
 
+.operations-stack-grid-resetting {
+  transition: none;
+}
+
 .operations-stack-card {
   min-width: 0;
   scroll-snap-align: start;
