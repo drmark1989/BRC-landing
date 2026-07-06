@@ -990,9 +990,9 @@ function OperationsStack() {
           <div className="operations-stack-copy">
             <div className="section-tag">All-In-One Operations</div>
             <h2 className="section-h2">
-              The modules sit under four owner outcomes.
+              All your core workflows,
               <br />
-              <span className="grad-text">No feature maze required.</span>
+              <span className="grad-text">without the feature maze.</span>
             </h2>
             <p className="section-p">
               BRC still gives operators POS, reviews, stock, rota, payroll,
