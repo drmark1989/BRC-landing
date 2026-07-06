@@ -878,6 +878,7 @@ function OperationsStack() {
   const [activeCard, setActiveCard] = useState(0);
   const [cardOffset, setCardOffset] = useState(0);
   const [maxCardOffset, setMaxCardOffset] = useState(0);
+  const [isAutoScrollPaused, setIsAutoScrollPaused] = useState(false);
   const operationCards = [
     ...OPERATIONS_STACK.map((item) => ({ ...item, type: "standard" })),
     {
@@ -965,6 +966,27 @@ function OperationsStack() {
     updateActiveCardForOffset(cardOffset);
   }, [cardOffset]);
 
+  useEffect(() => {
+    if (isAutoScrollPaused) return undefined;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      const step = getOperationsCardStep();
+      const currentOffset = cardOffsetRef.current;
+      const currentMaxOffset = maxCardOffsetRef.current;
+      if (currentMaxOffset <= 1) return;
+
+      const nextOffset = currentOffset >= currentMaxOffset - 1
+        ? 0
+        : Math.min(currentMaxOffset, currentOffset + step);
+      setOperationsOffset(nextOffset);
+    }, 3600);
+
+    return () => window.clearInterval(intervalId);
+  }, [isAutoScrollPaused]);
+
   const nudgeOperationsCards = (direction) => {
     const distance = getOperationsCardStep();
     setOperationsOffset(cardOffsetRef.current + direction * distance);
@@ -1005,7 +1027,17 @@ function OperationsStack() {
               </a>
             </div>
           </div>
-          <div className="operations-stack-panel">
+          <div
+            className="operations-stack-panel"
+            onMouseEnter={() => setIsAutoScrollPaused(true)}
+            onMouseLeave={() => setIsAutoScrollPaused(false)}
+            onFocusCapture={() => setIsAutoScrollPaused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setIsAutoScrollPaused(false);
+              }
+            }}
+          >
             <div
               ref={viewportRef}
               className="operations-stack-viewport"
