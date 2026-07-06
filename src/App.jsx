@@ -829,89 +829,12 @@ function BusinessFitStrip() {
   );
 }
 
-const LOCAL_HUB_POINTS = [
-  {
-    title: "A local bridge for service",
-    body: "Run Local Hub on an in-store computer so BRC screens and supported devices can find each other on the venue network during service.",
-  },
-  {
-    title: "Designed for real stations",
-    body: "Use it with register, kitchen, customer display, manager, and back-office workflows that need local awareness instead of another cloud-only tab.",
-  },
-  {
-    title: "Cloud still stays in charge",
-    body: "Login, billing, reporting, payments, messaging, review sync, and account data still use BRC cloud services when the internet is available.",
-  },
-];
-
 const LOCAL_HUB_PLATFORMS = [
   "macOS app",
   "Windows app",
   "Linux target",
   "Docker container option",
 ];
-
-function LocalHubHomeSection() {
-  return (
-    <section className="section local-hub-section">
-      <div className="container local-hub-inner">
-        <div className="local-hub-copy">
-          <div className="section-tag">Local Hub</div>
-          <h2 className="section-h2">
-            Bring BRC closer to the venue.
-            <br />
-            <span className="grad-text">Keep local screens and devices coordinated.</span>
-          </h2>
-          <p className="section-p">
-            BRC Local Hub is the on-premise companion for operators who run
-            multiple screens, displays, and supported hardware in-store. It is
-            planned for macOS and Windows, with Linux and Docker deployment
-            options for more technical or managed environments.
-          </p>
-          <div className="local-hub-actions">
-            <a href="/help/local-hub" className="btn btn-primary btn-lg">
-              Read the Local Hub guide <span className="arrow">→</span>
-            </a>
-            <a href="/hardware" className="btn btn-outline btn-lg">
-              View hardware options
-            </a>
-          </div>
-        </div>
-
-        <div className="local-hub-panel" aria-label="Local Hub overview">
-          <div className="local-hub-flow">
-            <div>
-              <span>Cloud console</span>
-              <strong>Accounts, reporting, payments, reviews</strong>
-            </div>
-            <div>
-              <span>Local Hub</span>
-              <strong>Device discovery, local coordination, service resilience</strong>
-            </div>
-            <div>
-              <span>Venue screens</span>
-              <strong>Register, kitchen, customer display, manager station</strong>
-            </div>
-          </div>
-          <div className="local-hub-platforms">
-            {LOCAL_HUB_PLATFORMS.map((platform) => (
-              <span key={platform}>{platform}</span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="container local-hub-grid">
-        {LOCAL_HUB_POINTS.map((point) => (
-          <article key={point.title} className="local-hub-card">
-            <h3>{point.title}</h3>
-            <p>{point.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 const OPERATIONS_STACK = [
   {
@@ -938,6 +861,12 @@ const OPERATIONS_STACK = [
     body: "Use owner briefs, analytics, forecasts, market signals, competitor context, and reporting to understand what changed and where the next manager minute should go.",
     items: ["AI brief", "Analytics", "Forecasts", "Reports"],
   },
+];
+
+const LOCAL_HUB_OPERATION_LINKS = [
+  { label: "Local Hub guide", href: "/help/local-hub" },
+  { label: "Hardware discovery", href: "/help/hardware-discovery" },
+  { label: "Offline sync", href: "/help/offline-sync" },
 ];
 
 function OperationsStack() {
@@ -985,6 +914,27 @@ function OperationsStack() {
               </a>
             </article>
           ))}
+          <article className="operations-stack-card operations-local-hub-card">
+            <span>Local Hub</span>
+            <h3>Coordinate venue screens and supported hardware</h3>
+            <p>
+              Run BRC Local Hub on a macOS, Windows, Linux, or Docker host to
+              help trusted in-store screens and devices work together while the
+              cloud still handles accounts, payments, reviews, and reporting.
+            </p>
+            <div className="operations-chip-row">
+              {LOCAL_HUB_PLATFORMS.map((platform) => (
+                <strong key={platform}>{platform}</strong>
+              ))}
+            </div>
+            <div className="operations-local-links">
+              {LOCAL_HUB_OPERATION_LINKS.map((link) => (
+                <a key={link.href} href={link.href}>
+                  {link.label} <span>→</span>
+                </a>
+              ))}
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -9070,7 +9020,6 @@ export default function App({ initialRoute = null }) {
         <AskBrcDemo />
         <StatsBar />
         <ProductProof />
-        <LocalHubHomeSection />
         <AiBusinessOS />
         <BusinessFitStrip />
         <OperationsStack />
