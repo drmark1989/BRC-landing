@@ -2383,18 +2383,11 @@ img { max-width: 100%; }
 .operations-stack-section {
   --operations-card-height: 258px;
   --operations-card-gap: 16px;
-  --operations-sticky-top: 96px;
-  --operations-scroll-distance: 0px;
-  position: relative;
-  min-height: calc(100vh + var(--operations-scroll-distance));
-  padding: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,.74), rgba(255,255,255,.94)),
     radial-gradient(circle at 86% 10%, rgba(8,145,178,.11), transparent 32%),
     radial-gradient(circle at 4% 80%, rgba(5,150,105,.09), transparent 30%);
   border-bottom: 1px solid var(--border);
-  content-visibility: visible;
-  contain-intrinsic-size: auto;
 }
 
 :root[data-theme="dark"] .operations-stack-section {
@@ -2404,12 +2397,7 @@ img { max-width: 100%; }
 }
 
 .operations-stack-sticky {
-  position: sticky;
-  top: var(--operations-sticky-top);
-  display: flex;
-  align-items: center;
-  min-height: calc(100vh - var(--operations-sticky-top));
-  padding: 80px 0;
+  display: block;
 }
 
 .operations-stack-inner {
@@ -2520,8 +2508,17 @@ img { max-width: 100%; }
   position: relative;
   height: calc((var(--operations-card-height) * 2) + var(--operations-card-gap));
   min-height: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   isolation: isolate;
+  overscroll-behavior-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+
+.operations-stack-viewport::-webkit-scrollbar {
+  display: none;
 }
 
 .operations-stack-grid {
@@ -2533,6 +2530,8 @@ img { max-width: 100%; }
 
 .operations-stack-card {
   min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -2555,27 +2554,6 @@ img { max-width: 100%; }
 .operations-card-active {
   opacity: 1;
   transform: scale(1);
-}
-
-.operations-stack-viewport::before,
-.operations-stack-viewport::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: 12%;
-  right: 12%;
-  height: 72px;
-  pointer-events: none;
-}
-
-.operations-stack-viewport::before {
-  top: -18px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, transparent), transparent);
-}
-
-.operations-stack-viewport::after {
-  bottom: -18px;
-  background: linear-gradient(0deg, color-mix(in srgb, var(--bg) 88%, transparent), transparent);
 }
 
 :root[data-theme="dark"] .operations-stack-card {
@@ -5636,13 +5614,9 @@ img { max-width: 100%; }
   .operations-stack-section {
     --operations-card-height: 248px;
     --operations-card-gap: 14px;
-    min-height: 0;
-    padding: 64px 0;
   }
   .operations-stack-sticky {
-    position: static;
-    min-height: 0;
-    padding: 0;
+    display: block;
   }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .plans-grid { grid-template-columns: repeat(2, 1fr); }

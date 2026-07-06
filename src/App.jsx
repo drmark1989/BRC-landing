@@ -871,7 +871,6 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
-  const sectionRef = useRef(null);
   const viewportRef = useRef(null);
   const cardsRef = useRef(null);
   const cardOffsetRef = useRef(0);
@@ -902,41 +901,23 @@ function OperationsStack() {
 
   const updateActiveCardForOffset = (nextOffset) => {
     const step = getOperationsCardStep();
+    const maxActiveIndex = Math.max(0, operationCards.length - 2);
     const nextIndex =
       maxCardOffsetRef.current > 0 && nextOffset >= maxCardOffsetRef.current - 1
-        ? operationCards.length - 1
+        ? maxActiveIndex
         : Math.round(nextOffset / step);
-    setActiveCard(Math.max(0, Math.min(operationCards.length - 1, nextIndex)));
+    setActiveCard(Math.max(0, Math.min(maxActiveIndex, nextIndex)));
   };
 
-  const setOperationsOffset = (nextOffset) => {
+  const setOperationsOffset = (nextOffset, behavior = "smooth") => {
     const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
+    const viewport = viewportRef.current;
+    if (viewport) {
+      viewport.scrollTo({ top: clampedOffset, behavior });
+    }
     cardOffsetRef.current = clampedOffset;
     setCardOffset(clampedOffset);
     updateActiveCardForOffset(clampedOffset);
-  };
-
-  const getOperationsStickyTop = () => {
-    if (typeof window === "undefined") return 96;
-    return 96;
-  };
-
-  const isOperationsScrollLinked = () =>
-    typeof window !== "undefined" && window.innerWidth > 1024;
-
-  const scrollOperationsToOffset = (nextOffset) => {
-    const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
-    const section = sectionRef.current;
-    if (!section || !isOperationsScrollLinked()) {
-      setOperationsOffset(clampedOffset);
-      return;
-    }
-
-    const sectionTop = window.scrollY + section.getBoundingClientRect().top;
-    window.scrollTo({
-      top: sectionTop - getOperationsStickyTop() + clampedOffset,
-      behavior: "smooth",
-    });
   };
 
   useEffect(() => {
@@ -950,6 +931,7 @@ function OperationsStack() {
       setMaxCardOffset(nextMax);
       setCardOffset((current) => {
         const nextOffset = Math.max(0, Math.min(nextMax, current));
+        viewport.scrollTop = nextOffset;
         cardOffsetRef.current = nextOffset;
         return nextOffset;
       });
@@ -967,35 +949,20 @@ function OperationsStack() {
   }, []);
 
   useEffect(() => {
-    let frame = 0;
+    const viewport = viewportRef.current;
+    if (!viewport) return undefined;
 
-    const syncOffsetToPageScroll = () => {
-      frame = 0;
-      const section = sectionRef.current;
-      if (!section) return;
-      if (!isOperationsScrollLinked()) {
-        if (cardOffsetRef.current !== 0) setOperationsOffset(0);
-        return;
-      }
-
-      const sectionTop = window.scrollY + section.getBoundingClientRect().top;
-      const nextOffset = window.scrollY - sectionTop + getOperationsStickyTop();
-      setOperationsOffset(nextOffset);
+    const syncOffsetToNativeScroll = () => {
+      const nextOffset = viewport.scrollTop;
+      cardOffsetRef.current = nextOffset;
+      setCardOffset(nextOffset);
+      updateActiveCardForOffset(nextOffset);
     };
 
-    const requestSync = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(syncOffsetToPageScroll);
-    };
-
-    requestSync();
-    window.addEventListener("scroll", requestSync, { passive: true });
-    window.addEventListener("resize", requestSync);
+    viewport.addEventListener("scroll", syncOffsetToNativeScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", requestSync);
-      window.removeEventListener("resize", requestSync);
-      if (frame) window.cancelAnimationFrame(frame);
+      viewport.removeEventListener("scroll", syncOffsetToNativeScroll);
     };
   }, []);
 
@@ -1005,7 +972,7 @@ function OperationsStack() {
 
   const nudgeOperationsCards = (direction) => {
     const distance = getOperationsCardStep();
-    scrollOperationsToOffset(cardOffsetRef.current + direction * distance);
+    setOperationsOffset(cardOffsetRef.current + direction * distance);
   };
 
   const showOperationsCard = (index) => {
@@ -1013,15 +980,11 @@ function OperationsStack() {
     const target = cards?.children?.[index];
     if (!target) return;
 
-    scrollOperationsToOffset(target.offsetTop);
+    setOperationsOffset(target.offsetTop);
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="section operations-stack-section"
-      style={{ "--operations-scroll-distance": `${maxCardOffset}px` }}
-    >
+    <section className="section operations-stack-section">
       <div className="operations-stack-sticky">
         <div className="container operations-stack-inner">
           <div className="operations-stack-copy">
@@ -1056,7 +1019,6 @@ function OperationsStack() {
               <div
                 ref={cardsRef}
                 className="operations-stack-grid"
-                style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
               >
                 {operationCards.map((item, index) => (
                   <article
@@ -1102,7 +1064,7 @@ function OperationsStack() {
                 ↑
               </button>
               <div className="operations-carousel-dots" aria-label="Operations card progress">
-                {operationCards.map((item, index) => (
+                {operationCards.slice(0, -1).map((item, index) => (
                   <button
                     key={item.title}
                     type="button"
