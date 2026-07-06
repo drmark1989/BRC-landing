@@ -2334,7 +2334,7 @@ function HardwareVisual() {
     <div className="hardware-visual">
       <img
         className="hardware-hero-image"
-        src="/images/hardware-pos-counter.png"
+        src="/images/hardware-pos-counter-modern-terminal.png"
         alt="Professional dual-screen POS counter setup with an open cash drawer, receipt printer, payment terminal, and scanner"
         loading="eager"
         fetchpriority="high"
