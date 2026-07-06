@@ -6,8 +6,8 @@ are published.
 
 ## Android
 
-Create `public/.well-known/assetlinks.json` after copying the production
-SHA-256 signing certificate fingerprint from Google Play Console.
+`public/.well-known/assetlinks.json` uses the production SHA-256 signing
+certificate fingerprint from Google Play Console.
 
 ```json
 [
@@ -17,15 +17,15 @@ SHA-256 signing certificate fingerprint from Google Play Console.
       "namespace": "android_app",
       "package_name": "io.brcapp.app",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_GOOGLE_PLAY_APP_SIGNING_SHA256"
+        "B3:A5:18:95:FE:B1:61:5D:01:9C:D5:1B:C6:DE:7A:0D:4A:7F:0B:58:A5:07:53:E5:89:FD:81:29:8C:CE:A6:AC"
       ]
     }
   }
 ]
 ```
 
-Use the Google Play app signing certificate fingerprint, not the local debug
-keystore fingerprint.
+Use the Google Play app signing certificate fingerprint, not the upload key or
+local debug keystore fingerprint.
 
 ## iOS
 
