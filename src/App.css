@@ -5888,9 +5888,7 @@ img { max-width: 100%; }
   }
   .operations-stack-viewport {
     min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
   }
   .operations-stack-card {
     gap: 8px;

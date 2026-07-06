@@ -912,10 +912,6 @@ function OperationsStack() {
 
   const setOperationsOffset = (nextOffset, behavior = "smooth") => {
     const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
-    const viewport = viewportRef.current;
-    if (viewport) {
-      viewport.scrollTo({ top: clampedOffset, behavior });
-    }
     cardOffsetRef.current = clampedOffset;
     setCardOffset(clampedOffset);
     updateActiveCardForOffset(clampedOffset);
@@ -932,7 +928,6 @@ function OperationsStack() {
       setMaxCardOffset(nextMax);
       setCardOffset((current) => {
         const nextOffset = Math.max(0, Math.min(nextMax, current));
-        viewport.scrollTop = nextOffset;
         cardOffsetRef.current = nextOffset;
         return nextOffset;
       });
@@ -984,44 +979,92 @@ function OperationsStack() {
     setOperationsOffset(target.offsetTop);
   };
 
-  const isOperationsAreaCentered = () => {
+  const getOperationsStageMetrics = () => {
     const inner = innerRef.current;
-    if (!inner || typeof window === "undefined" || window.innerWidth <= 1024) return false;
+    if (!inner || typeof window === "undefined" || window.innerWidth <= 1024) return null;
 
     const rect = inner.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     const navClearance = 96;
     const bottomClearance = 28;
     const availableHeight = viewportHeight - navClearance - bottomClearance;
-    const canFitFully = rect.height <= availableHeight;
+    const centeredTop = (viewportHeight - rect.height) / 2;
+    const desiredTop = rect.height <= availableHeight
+      ? Math.max(navClearance, centeredTop)
+      : navClearance;
+    const targetScrollY = window.scrollY + rect.top - desiredTop;
+    const distanceToStage = targetScrollY - window.scrollY;
     const visibleTop = Math.max(rect.top, navClearance);
     const visibleBottom = Math.min(rect.bottom, viewportHeight - bottomClearance);
     const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const canFitFully = rect.height <= availableHeight;
     const fullAreaVisible = canFitFully
       ? rect.top >= navClearance && rect.bottom <= viewportHeight - bottomClearance
       : visibleHeight >= availableHeight * 0.88;
     const centerDelta = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2);
     const centeredEnough = centerDelta <= Math.max(72, viewportHeight * 0.14);
+    const isVisible = rect.bottom > navClearance && rect.top < viewportHeight - bottomClearance;
 
-    return fullAreaVisible && centeredEnough;
+    return {
+      centeredEnough,
+      distanceToStage,
+      fullAreaVisible,
+      isVisible,
+      targetScrollY,
+    };
   };
 
   const handleOperationsWheel = (event) => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
     const currentOffset = cardOffsetRef.current;
-    const currentMaxOffset = maxCardOffsetRef.current;
+    const currentMaxOffset = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
+    maxCardOffsetRef.current = currentMaxOffset;
     if (currentMaxOffset <= 1 || Math.abs(event.deltaY) < 2) return;
-    if (!isOperationsAreaCentered()) return;
+
+    const stage = getOperationsStageMetrics();
+    if (!stage || !stage.isVisible) return;
+
+    const isStaged = Math.abs(stage.distanceToStage) <= 3
+      || (stage.fullAreaVisible && stage.centeredEnough);
+    const nextPageScrollY = window.scrollY + event.deltaY;
+    const crossesStage =
+      (window.scrollY - stage.targetScrollY) * (nextPageScrollY - stage.targetScrollY) <= 0;
+    const movingTowardStage =
+      (stage.distanceToStage > 0 && event.deltaY > 0)
+      || (stage.distanceToStage < 0 && event.deltaY < 0);
+    const closeToStage = Math.abs(stage.distanceToStage) <= Math.max(96, Math.abs(event.deltaY) * 1.35);
 
     const atStart = currentOffset <= 1 && event.deltaY < 0;
     const atEnd = currentOffset >= currentMaxOffset - 1 && event.deltaY > 0;
+
+    if (!isStaged) {
+      if (!movingTowardStage || (!crossesStage && !closeToStage)) return;
+
+      event.preventDefault();
+      window.scrollTo({ top: stage.targetScrollY, behavior: "auto" });
+      return;
+    }
+
     if (atStart || atEnd) return;
 
     event.preventDefault();
     setOperationsOffset(currentOffset + event.deltaY, "auto");
   };
 
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    window.addEventListener("wheel", handleOperationsWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleOperationsWheel);
+    };
+  }, []);
+
   return (
-    <section className="section operations-stack-section" onWheel={handleOperationsWheel}>
+    <section className="section operations-stack-section">
       <div className="operations-stack-sticky">
         <div ref={innerRef} className="container operations-stack-inner">
           <div className="operations-stack-copy">
@@ -1056,6 +1099,7 @@ function OperationsStack() {
               <div
                 ref={cardsRef}
                 className="operations-stack-grid"
+                style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
               >
                 {operationCards.map((item, index) => (
                   <article
