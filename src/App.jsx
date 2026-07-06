@@ -871,6 +871,7 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
+  const innerRef = useRef(null);
   const viewportRef = useRef(null);
   const cardsRef = useRef(null);
   const cardOffsetRef = useRef(0);
@@ -983,10 +984,39 @@ function OperationsStack() {
     setOperationsOffset(target.offsetTop);
   };
 
+  const isOperationsAreaCentered = () => {
+    const inner = innerRef.current;
+    if (!inner || typeof window === "undefined" || window.innerWidth <= 1024) return false;
+
+    const rect = inner.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const navClearance = 96;
+    const bottomClearance = 28;
+    const fullAreaVisible = rect.top >= navClearance && rect.bottom <= viewportHeight - bottomClearance;
+    const centerDelta = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2);
+    const centeredEnough = centerDelta <= Math.max(42, viewportHeight * 0.08);
+
+    return fullAreaVisible && centeredEnough;
+  };
+
+  const handleOperationsWheel = (event) => {
+    const currentOffset = cardOffsetRef.current;
+    const currentMaxOffset = maxCardOffsetRef.current;
+    if (currentMaxOffset <= 1 || Math.abs(event.deltaY) < 2) return;
+    if (!isOperationsAreaCentered()) return;
+
+    const atStart = currentOffset <= 1 && event.deltaY < 0;
+    const atEnd = currentOffset >= currentMaxOffset - 1 && event.deltaY > 0;
+    if (atStart || atEnd) return;
+
+    event.preventDefault();
+    setOperationsOffset(currentOffset + event.deltaY, "auto");
+  };
+
   return (
-    <section className="section operations-stack-section">
+    <section className="section operations-stack-section" onWheel={handleOperationsWheel}>
       <div className="operations-stack-sticky">
-        <div className="container operations-stack-inner">
+        <div ref={innerRef} className="container operations-stack-inner">
           <div className="operations-stack-copy">
             <div className="section-tag">All-In-One Operations</div>
             <h2 className="section-h2">

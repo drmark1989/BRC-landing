@@ -2508,10 +2508,8 @@ img { max-width: 100%; }
   position: relative;
   height: calc((var(--operations-card-height) * 2) + var(--operations-card-gap));
   min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   isolation: isolate;
-  overscroll-behavior-y: auto;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
