@@ -2398,7 +2398,7 @@ img { max-width: 100%; }
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   gap: 42px;
-  align-items: stretch;
+  align-items: center;
 }
 
 .operations-stack-copy {
@@ -2420,27 +2420,82 @@ img { max-width: 100%; }
   margin-top: 28px;
 }
 
+.operations-carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.operations-carousel-controls > button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,.82);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  transition: border-color var(--ease), color var(--ease), transform var(--ease), background var(--ease);
+}
+
+.operations-carousel-controls > button:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--green) 42%, var(--border));
+  color: var(--green);
+  transform: translateY(-1px);
+}
+
+.operations-carousel-controls > button:disabled {
+  cursor: default;
+  opacity: .38;
+}
+
+:root[data-theme="dark"] .operations-carousel-controls > button {
+  background: rgba(255,255,255,.07);
+}
+
+.operations-carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.operations-carousel-dots button {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-3) 58%, transparent);
+  cursor: pointer;
+  padding: 0;
+  transition: width var(--ease), background var(--ease);
+}
+
+.operations-carousel-dots button.active {
+  width: 28px;
+  background: var(--green);
+}
+
 .operations-stack-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-auto-columns: minmax(280px, 86%);
+  grid-auto-flow: column;
   gap: 16px;
-  max-height: clamp(420px, calc(100vh - 180px), 680px);
-  min-height: 420px;
-  overflow-y: auto;
-  padding-right: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 4px 18px;
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: x mandatory;
   scrollbar-color: color-mix(in srgb, var(--green) 42%, var(--border)) transparent;
   scrollbar-width: thin;
 }
 
-.operations-stack-grid:focus {
-  outline: 2px solid color-mix(in srgb, var(--green) 38%, transparent);
-  outline-offset: 4px;
-}
-
 .operations-stack-grid::-webkit-scrollbar {
-  width: 8px;
+  height: 8px;
 }
 
 .operations-stack-grid::-webkit-scrollbar-track {
@@ -2457,13 +2512,14 @@ img { max-width: 100%; }
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 210px;
+  min-height: 390px;
   padding: 24px;
   border: 1px solid var(--border);
   border-radius: var(--r);
   background: rgba(255,255,255,.82);
   box-shadow: var(--shadow-sm);
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 :root[data-theme="dark"] .operations-stack-card {
@@ -5528,7 +5584,8 @@ img { max-width: 100%; }
   .operations-stack-inner { grid-template-columns: 1fr; }
   .operations-stack-copy { position: static; text-align: center; }
   .operations-stack-copy .section-p { text-align: center; margin-left: auto; margin-right: auto; }
-  .operations-stack-actions { justify-content: center; }
+  .operations-stack-actions,
+  .operations-carousel-controls { justify-content: center; }
   .business-fit-inner { align-items: flex-start; flex-direction: column; }
   .trust-proof-inner,
   .product-proof-header { grid-template-columns: 1fr; }
@@ -5780,11 +5837,10 @@ img { max-width: 100%; }
   }
   .hero-social-proof { justify-content: center; }
   .operations-stack-grid {
-    max-height: 480px;
-    min-height: 360px;
+    grid-auto-columns: minmax(260px, 88%);
   }
   .operations-stack-card {
-    min-height: 190px;
+    min-height: 340px;
   }
   .ai-os-inner,
   .ai-os-grid { grid-template-columns: 1fr; }

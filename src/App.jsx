@@ -871,29 +871,44 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
-  const cardsRef = useRef(null);
+  const railRef = useRef(null);
+  const [activeCard, setActiveCard] = useState(0);
+  const operationCards = [
+    ...OPERATIONS_STACK.map((item) => ({ ...item, type: "standard" })),
+    {
+      eyebrow: "Local Hub",
+      title: "Coordinate venue screens and supported hardware",
+      body:
+        "Run BRC Local Hub on a macOS, Windows, Linux, or Docker host to help trusted in-store screens and devices work together while the cloud still handles accounts, payments, reviews, and reporting.",
+      items: LOCAL_HUB_PLATFORMS,
+      type: "localHub",
+    },
+  ];
 
-  const handleOperationsWheel = (event) => {
-    const cards = cardsRef.current;
-    if (!cards) return;
+  const scrollOperationsRail = (direction) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const nextIndex = Math.max(
+      0,
+      Math.min(operationCards.length - 1, activeCard + direction),
+    );
+    const target = rail.children[nextIndex];
+    if (target) target.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    setActiveCard(nextIndex);
+  };
 
-    const maxScrollTop = cards.scrollHeight - cards.clientHeight;
-    if (maxScrollTop <= 1) return;
-
-    const deltaY = event.deltaY;
-    const atTop = cards.scrollTop <= 0;
-    const atBottom = cards.scrollTop >= maxScrollTop - 1;
-    const shouldScrollCards =
-      (deltaY > 0 && !atBottom) || (deltaY < 0 && !atTop);
-
-    if (!shouldScrollCards) return;
-
-    event.preventDefault();
-    cards.scrollTop += deltaY;
+  const handleOperationsScroll = () => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const card = rail.children[0];
+    const cardWidth = card?.getBoundingClientRect().width || rail.clientWidth;
+    const gap = 16;
+    const nextIndex = Math.round(rail.scrollLeft / (cardWidth + gap));
+    setActiveCard(Math.max(0, Math.min(operationCards.length - 1, nextIndex)));
   };
 
   return (
-    <section className="section operations-stack-section" onWheel={handleOperationsWheel}>
+    <section className="section operations-stack-section">
       <div className="container operations-stack-inner">
         <div className="operations-stack-copy">
           <div className="section-tag">All-In-One Operations</div>
@@ -917,15 +932,52 @@ function OperationsStack() {
               Explore POS
             </a>
           </div>
+          <div className="operations-carousel-controls" aria-label="Operations card controls">
+            <button
+              type="button"
+              onClick={() => scrollOperationsRail(-1)}
+              disabled={activeCard === 0}
+              aria-label="Previous operations card"
+            >
+              ←
+            </button>
+            <div className="operations-carousel-dots" aria-label="Operations card progress">
+              {operationCards.map((item, index) => (
+                <button
+                  key={item.title}
+                  type="button"
+                  className={index === activeCard ? "active" : ""}
+                  onClick={() => {
+                    const rail = railRef.current;
+                    const target = rail?.children[index];
+                    if (target) target.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                    setActiveCard(index);
+                  }}
+                  aria-label={`Show ${item.eyebrow}`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => scrollOperationsRail(1)}
+              disabled={activeCard === operationCards.length - 1}
+              aria-label="Next operations card"
+            >
+              →
+            </button>
+          </div>
         </div>
         <div
-          ref={cardsRef}
+          ref={railRef}
           className="operations-stack-grid"
-          tabIndex={0}
+          onScroll={handleOperationsScroll}
           aria-label="All-in-one operations cards"
         >
-          {OPERATIONS_STACK.map((item) => (
-            <article className="operations-stack-card" key={item.title}>
+          {operationCards.map((item) => (
+            <article
+              className={`operations-stack-card ${item.type === "localHub" ? "operations-local-hub-card" : ""}`}
+              key={item.title}
+            >
               <span>{item.eyebrow}</span>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
@@ -934,32 +986,21 @@ function OperationsStack() {
                   <strong key={chip}>{chip}</strong>
                 ))}
               </div>
-              <a href="/features" className="operations-card-link">
-                View full features <span>→</span>
-              </a>
+              {item.type === "localHub" ? (
+                <div className="operations-local-links">
+                  {LOCAL_HUB_OPERATION_LINKS.map((link) => (
+                    <a key={link.href} href={link.href}>
+                      {link.label} <span>→</span>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <a href="/features" className="operations-card-link">
+                  View full features <span>→</span>
+                </a>
+              )}
             </article>
           ))}
-          <article className="operations-stack-card operations-local-hub-card">
-            <span>Local Hub</span>
-            <h3>Coordinate venue screens and supported hardware</h3>
-            <p>
-              Run BRC Local Hub on a macOS, Windows, Linux, or Docker host to
-              help trusted in-store screens and devices work together while the
-              cloud still handles accounts, payments, reviews, and reporting.
-            </p>
-            <div className="operations-chip-row">
-              {LOCAL_HUB_PLATFORMS.map((platform) => (
-                <strong key={platform}>{platform}</strong>
-              ))}
-            </div>
-            <div className="operations-local-links">
-              {LOCAL_HUB_OPERATION_LINKS.map((link) => (
-                <a key={link.href} href={link.href}>
-                  {link.label} <span>→</span>
-                </a>
-              ))}
-            </div>
-          </article>
         </div>
       </div>
     </section>
