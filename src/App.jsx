@@ -992,9 +992,16 @@ function OperationsStack() {
     const viewportHeight = window.innerHeight;
     const navClearance = 96;
     const bottomClearance = 28;
-    const fullAreaVisible = rect.top >= navClearance && rect.bottom <= viewportHeight - bottomClearance;
+    const availableHeight = viewportHeight - navClearance - bottomClearance;
+    const canFitFully = rect.height <= availableHeight;
+    const visibleTop = Math.max(rect.top, navClearance);
+    const visibleBottom = Math.min(rect.bottom, viewportHeight - bottomClearance);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const fullAreaVisible = canFitFully
+      ? rect.top >= navClearance && rect.bottom <= viewportHeight - bottomClearance
+      : visibleHeight >= availableHeight * 0.88;
     const centerDelta = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2);
-    const centeredEnough = centerDelta <= Math.max(42, viewportHeight * 0.08);
+    const centeredEnough = centerDelta <= Math.max(72, viewportHeight * 0.14);
 
     return fullAreaVisible && centeredEnough;
   };
