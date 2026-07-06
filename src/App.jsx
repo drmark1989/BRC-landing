@@ -871,6 +871,7 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
+  const sectionRef = useRef(null);
   const viewportRef = useRef(null);
   const cardsRef = useRef(null);
   const cardOffsetRef = useRef(0);
@@ -915,6 +916,29 @@ function OperationsStack() {
     updateActiveCardForOffset(clampedOffset);
   };
 
+  const getOperationsStickyTop = () => {
+    if (typeof window === "undefined") return 96;
+    return 96;
+  };
+
+  const isOperationsScrollLinked = () =>
+    typeof window !== "undefined" && window.innerWidth > 1024;
+
+  const scrollOperationsToOffset = (nextOffset) => {
+    const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
+    const section = sectionRef.current;
+    if (!section || !isOperationsScrollLinked()) {
+      setOperationsOffset(clampedOffset);
+      return;
+    }
+
+    const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+    window.scrollTo({
+      top: sectionTop - getOperationsStickyTop() + clampedOffset,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     const measure = () => {
       const viewport = viewportRef.current;
@@ -943,12 +967,45 @@ function OperationsStack() {
   }, []);
 
   useEffect(() => {
+    let frame = 0;
+
+    const syncOffsetToPageScroll = () => {
+      frame = 0;
+      const section = sectionRef.current;
+      if (!section) return;
+      if (!isOperationsScrollLinked()) {
+        if (cardOffsetRef.current !== 0) setOperationsOffset(0);
+        return;
+      }
+
+      const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+      const nextOffset = window.scrollY - sectionTop + getOperationsStickyTop();
+      setOperationsOffset(nextOffset);
+    };
+
+    const requestSync = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(syncOffsetToPageScroll);
+    };
+
+    requestSync();
+    window.addEventListener("scroll", requestSync, { passive: true });
+    window.addEventListener("resize", requestSync);
+
+    return () => {
+      window.removeEventListener("scroll", requestSync);
+      window.removeEventListener("resize", requestSync);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
     updateActiveCardForOffset(cardOffset);
   }, [cardOffset]);
 
   const nudgeOperationsCards = (direction) => {
     const distance = getOperationsCardStep();
-    setOperationsOffset(cardOffsetRef.current + direction * distance);
+    scrollOperationsToOffset(cardOffsetRef.current + direction * distance);
   };
 
   const showOperationsCard = (index) => {
@@ -956,121 +1013,114 @@ function OperationsStack() {
     const target = cards?.children?.[index];
     if (!target) return;
 
-    setOperationsOffset(target.offsetTop);
-  };
-
-  const handleOperationsWheel = (event) => {
-    const currentOffset = cardOffsetRef.current;
-    const currentMaxOffset = maxCardOffsetRef.current;
-    if (currentMaxOffset <= 1 || Math.abs(event.deltaY) < 2) return;
-
-    const atStart = currentOffset <= 0 && event.deltaY < 0;
-    const atEnd = currentOffset >= currentMaxOffset - 1 && event.deltaY > 0;
-    if (atStart || atEnd) return;
-
-    event.preventDefault();
-    setOperationsOffset(currentOffset + event.deltaY);
+    scrollOperationsToOffset(target.offsetTop);
   };
 
   return (
-    <section className="section operations-stack-section" onWheel={handleOperationsWheel}>
-      <div className="container operations-stack-inner">
-        <div className="operations-stack-copy">
-          <div className="section-tag">All-In-One Operations</div>
-          <h2 className="section-h2">
-            The modules sit under four owner outcomes.
-            <br />
-            <span className="grad-text">No feature maze required.</span>
-          </h2>
-          <p className="section-p">
-            BRC still gives operators POS, reviews, stock, rota, payroll,
-            finance, loyalty, campaigns, analytics, orders, and controls. The
-            homepage story is simpler: increase revenue, recover customers, run
-            operations, and understand the business without stitching together
-            another stack of subscriptions.
-          </p>
-          <div className="operations-stack-actions">
-            <a href={trialHref} className="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
-              Start free <span className="arrow">→</span>
-            </a>
-            <a href="/features/pos" className="btn btn-outline btn-lg">
-              Explore POS
-            </a>
+    <section
+      ref={sectionRef}
+      className="section operations-stack-section"
+      style={{ "--operations-scroll-distance": `${maxCardOffset}px` }}
+    >
+      <div className="operations-stack-sticky">
+        <div className="container operations-stack-inner">
+          <div className="operations-stack-copy">
+            <div className="section-tag">All-In-One Operations</div>
+            <h2 className="section-h2">
+              The modules sit under four owner outcomes.
+              <br />
+              <span className="grad-text">No feature maze required.</span>
+            </h2>
+            <p className="section-p">
+              BRC still gives operators POS, reviews, stock, rota, payroll,
+              finance, loyalty, campaigns, analytics, orders, and controls. The
+              homepage story is simpler: increase revenue, recover customers, run
+              operations, and understand the business without stitching together
+              another stack of subscriptions.
+            </p>
+            <div className="operations-stack-actions">
+              <a href={trialHref} className="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">
+                Start free <span className="arrow">→</span>
+              </a>
+              <a href="/features/pos" className="btn btn-outline btn-lg">
+                Explore POS
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="operations-stack-panel">
-          <div
-            ref={viewportRef}
-            className="operations-stack-viewport"
-            aria-label="All-in-one operations cards"
-          >
+          <div className="operations-stack-panel">
             <div
-              ref={cardsRef}
-              className="operations-stack-grid"
-              style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
+              ref={viewportRef}
+              className="operations-stack-viewport"
+              aria-label="All-in-one operations cards"
             >
-              {operationCards.map((item, index) => (
-                <article
-                  className={[
-                    "operations-stack-card",
-                    item.type === "localHub" ? "operations-local-hub-card" : "",
-                    index === activeCard ? "operations-card-active" : "",
-                  ].filter(Boolean).join(" ")}
-                  key={item.title}
-                >
-                  <span>{item.eyebrow}</span>
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                  <div className="operations-chip-row">
-                    {item.items.map((chip) => (
-                      <strong key={chip}>{chip}</strong>
-                    ))}
-                  </div>
-                  {item.type === "localHub" ? (
-                    <div className="operations-local-links">
-                      {LOCAL_HUB_OPERATION_LINKS.map((link) => (
-                        <a key={link.href} href={link.href}>
-                          {link.label} <span>→</span>
-                        </a>
+              <div
+                ref={cardsRef}
+                className="operations-stack-grid"
+                style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
+              >
+                {operationCards.map((item, index) => (
+                  <article
+                    className={[
+                      "operations-stack-card",
+                      item.type === "localHub" ? "operations-local-hub-card" : "",
+                      index === activeCard ? "operations-card-active" : "",
+                    ].filter(Boolean).join(" ")}
+                    key={item.title}
+                  >
+                    <span>{item.eyebrow}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                    <div className="operations-chip-row">
+                      {item.items.map((chip) => (
+                        <strong key={chip}>{chip}</strong>
                       ))}
                     </div>
-                  ) : (
-                    <a href="/features" className="operations-card-link">
-                      View full features <span>→</span>
-                    </a>
-                  )}
-                </article>
-              ))}
+                    {item.type === "localHub" ? (
+                      <div className="operations-local-links">
+                        {LOCAL_HUB_OPERATION_LINKS.map((link) => (
+                          <a key={link.href} href={link.href}>
+                            {link.label} <span>→</span>
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      <a href="/features" className="operations-card-link">
+                        View full features <span>→</span>
+                      </a>
+                    )}
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="operations-carousel-controls" aria-label="Operations card controls">
-            <button
-              type="button"
-              onClick={() => nudgeOperationsCards(-1)}
-              disabled={cardOffset <= 0}
-              aria-label="Scroll operations cards up"
-            >
-              ↑
-            </button>
-            <div className="operations-carousel-dots" aria-label="Operations card progress">
-              {operationCards.map((item, index) => (
-                <button
-                  key={item.title}
-                  type="button"
-                  className={index === activeCard ? "active" : ""}
-                  onClick={() => showOperationsCard(index)}
-                  aria-label={`Show ${item.eyebrow}`}
-                />
-              ))}
+            <div className="operations-carousel-controls" aria-label="Operations card controls">
+              <button
+                type="button"
+                onClick={() => nudgeOperationsCards(-1)}
+                disabled={cardOffset <= 0}
+                aria-label="Scroll operations cards up"
+              >
+                ↑
+              </button>
+              <div className="operations-carousel-dots" aria-label="Operations card progress">
+                {operationCards.map((item, index) => (
+                  <button
+                    key={item.title}
+                    type="button"
+                    className={index === activeCard ? "active" : ""}
+                    onClick={() => showOperationsCard(index)}
+                    aria-label={`Show ${item.eyebrow}`}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => nudgeOperationsCards(1)}
+                disabled={cardOffset >= maxCardOffset - 1}
+                aria-label="Scroll operations cards down"
+              >
+                ↓
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => nudgeOperationsCards(1)}
-              disabled={cardOffset >= maxCardOffset - 1}
-              aria-label="Scroll operations cards down"
-            >
-              ↓
-            </button>
           </div>
         </div>
       </div>
