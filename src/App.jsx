@@ -829,6 +829,90 @@ function BusinessFitStrip() {
   );
 }
 
+const LOCAL_HUB_POINTS = [
+  {
+    title: "A local bridge for service",
+    body: "Run Local Hub on an in-store computer so BRC screens and supported devices can find each other on the venue network during service.",
+  },
+  {
+    title: "Designed for real stations",
+    body: "Use it with register, kitchen, customer display, manager, and back-office workflows that need local awareness instead of another cloud-only tab.",
+  },
+  {
+    title: "Cloud still stays in charge",
+    body: "Login, billing, reporting, payments, messaging, review sync, and account data still use BRC cloud services when the internet is available.",
+  },
+];
+
+const LOCAL_HUB_PLATFORMS = [
+  "macOS app",
+  "Windows app",
+  "Linux target",
+  "Docker container option",
+];
+
+function LocalHubHomeSection() {
+  return (
+    <section className="section local-hub-section">
+      <div className="container local-hub-inner">
+        <div className="local-hub-copy">
+          <div className="section-tag">Local Hub</div>
+          <h2 className="section-h2">
+            Bring BRC closer to the venue.
+            <br />
+            <span className="grad-text">Keep local screens and devices coordinated.</span>
+          </h2>
+          <p className="section-p">
+            BRC Local Hub is the on-premise companion for operators who run
+            multiple screens, displays, and supported hardware in-store. It is
+            planned for macOS and Windows, with Linux and Docker deployment
+            options for more technical or managed environments.
+          </p>
+          <div className="local-hub-actions">
+            <a href="/help/local-hub" className="btn btn-primary btn-lg">
+              Read the Local Hub guide <span className="arrow">→</span>
+            </a>
+            <a href="/hardware" className="btn btn-outline btn-lg">
+              View hardware options
+            </a>
+          </div>
+        </div>
+
+        <div className="local-hub-panel" aria-label="Local Hub overview">
+          <div className="local-hub-flow">
+            <div>
+              <span>Cloud console</span>
+              <strong>Accounts, reporting, payments, reviews</strong>
+            </div>
+            <div>
+              <span>Local Hub</span>
+              <strong>Device discovery, local coordination, service resilience</strong>
+            </div>
+            <div>
+              <span>Venue screens</span>
+              <strong>Register, kitchen, customer display, manager station</strong>
+            </div>
+          </div>
+          <div className="local-hub-platforms">
+            {LOCAL_HUB_PLATFORMS.map((platform) => (
+              <span key={platform}>{platform}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="container local-hub-grid">
+        {LOCAL_HUB_POINTS.map((point) => (
+          <article key={point.title} className="local-hub-card">
+            <h3>{point.title}</h3>
+            <p>{point.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const OPERATIONS_STACK = [
   {
     eyebrow: "Increase Revenue",
@@ -7503,11 +7587,12 @@ const HELP_ARTICLES = [
     id: "local-hub",
     category: "Local hub",
     title: "Local Hub for on-premise operations",
-    summary: "Use BRC Local Hub to coordinate supported in-store devices, hardware discovery, and local network workflows.",
+    summary: "Use BRC Local Hub to coordinate supported in-store devices, venue screens, hardware discovery, and local network workflows.",
     overview:
-      "BRC Local Hub is the on-premise bridge for operators who want browser, tablet, display, and hardware workflows to work together on the local network. It is designed for venues that run counter, kitchen, manager, customer display, and hardware-adjacent screens during service and need a local coordination point alongside the cloud console.",
+      "BRC Local Hub is the on-premise companion for the BRC app. It gives a business a local coordination point inside the venue, so register screens, kitchen displays, customer displays, manager stations, and supported hardware can work together on the same trusted network while the BRC cloud continues to handle accounts, reporting, payments, messaging, reviews, and subscription state.",
     steps: [
-      "Choose the device that will run Local Hub during service, such as a back-office computer, manager laptop, or supported always-on workstation.",
+      "Choose the device that will run Local Hub during service, such as a back-office computer, manager laptop, supported always-on workstation, or managed container host.",
+      "Install the Local Hub app or service for the environment the business uses. BRC is planned for macOS and Windows, with Linux and Docker options for technical or managed deployments.",
       "Connect the hub device to the same trusted local network as the screens and hardware you want BRC to discover or coordinate.",
       "Start Local Hub before service and confirm the console shows the hub as reachable for the business or location.",
       "Open the relevant BRC screens: register, POS surface, kitchen display, customer display, manager closeout, offline sync, or device settings.",
@@ -7515,15 +7600,18 @@ const HELP_ARTICLES = [
     ],
     details: [
       "Local Hub complements the BRC cloud service; it does not replace account login, billing, payments, review sync, messaging, or cloud reporting.",
-      "The strongest Local Hub use cases are local device discovery, hardware visibility, screen coordination, and service resilience when the venue has several operator screens.",
+      "The strongest Local Hub use cases are local device discovery, hardware visibility, screen coordination, customer display and kitchen display routing, and service resilience when the venue has several operator screens.",
+      "The macOS and Windows apps are intended for owner-operated venues that want a straightforward desktop install. Linux and Docker are better suited to managed terminals, back-office servers, or operators who already run container infrastructure.",
       "The hub device should stay awake, connected to power, and on the same network segment as the devices it needs to discover.",
       "Firewalls, guest Wi-Fi isolation, VPNs, captive portals, and router client-isolation settings can prevent discovery even when the internet connection works.",
       "Use location-specific naming for hubs and devices so managers can tell which register, kitchen screen, display, or workstation they are looking at.",
+      "If Local Hub is not running, cloud features can still work, but local discovery, local screen coordination, and some hardware-adjacent workflows may be unavailable.",
     ],
     tips: [
-      "Run Local Hub on a stable device, not a staff phone that may leave the premises.",
+      "Run Local Hub on a stable device, not a staff phone or tablet that may leave the premises.",
       "Keep guest Wi-Fi separate from the trusted operations network.",
       "Do a quick discovery check before each busy service period if hardware is business-critical.",
+      "For Docker or Linux deployments, give the hub predictable network access and document who is responsible for updates.",
     ],
     related: ["Hardware discovery", "Offline sync", "POS", "Customer display", "Kitchen display"],
   },
@@ -8982,6 +9070,7 @@ export default function App({ initialRoute = null }) {
         <AskBrcDemo />
         <StatsBar />
         <ProductProof />
+        <LocalHubHomeSection />
         <AiBusinessOS />
         <BusinessFitStrip />
         <OperationsStack />
