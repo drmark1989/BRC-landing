@@ -871,8 +871,13 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
-  const wheelLockRef = useRef(false);
+  const viewportRef = useRef(null);
+  const cardsRef = useRef(null);
+  const cardOffsetRef = useRef(0);
+  const maxCardOffsetRef = useRef(0);
   const [activeCard, setActiveCard] = useState(0);
+  const [cardOffset, setCardOffset] = useState(0);
+  const [maxCardOffset, setMaxCardOffset] = useState(0);
   const operationCards = [
     ...OPERATIONS_STACK.map((item) => ({ ...item, type: "standard" })),
     {
@@ -885,29 +890,78 @@ function OperationsStack() {
     },
   ];
 
-  const changeOperationsCard = (direction) => {
-    setActiveCard((current) =>
-      Math.max(0, Math.min(operationCards.length - 1, current + direction)),
-    );
+  const updateActiveCardForOffset = (nextOffset) => {
+    const cards = cardsRef.current;
+    const firstCard = cards?.children?.[0];
+    const cardHeight = firstCard?.getBoundingClientRect().height || 220;
+    const step = cardHeight + 16;
+    const nextIndex = Math.round(nextOffset / step);
+    setActiveCard(Math.max(0, Math.min(operationCards.length - 1, nextIndex)));
+  };
+
+  const setOperationsOffset = (nextOffset) => {
+    const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
+    cardOffsetRef.current = clampedOffset;
+    setCardOffset(clampedOffset);
+    updateActiveCardForOffset(clampedOffset);
+  };
+
+  useEffect(() => {
+    const measure = () => {
+      const viewport = viewportRef.current;
+      const cards = cardsRef.current;
+      if (!viewport || !cards) return;
+
+      const nextMax = Math.max(0, cards.scrollHeight - viewport.clientHeight);
+      maxCardOffsetRef.current = nextMax;
+      setMaxCardOffset(nextMax);
+      setCardOffset((current) => {
+        const nextOffset = Math.max(0, Math.min(nextMax, current));
+        cardOffsetRef.current = nextOffset;
+        return nextOffset;
+      });
+    };
+
+    measure();
+    const ResizeObserverCtor = typeof ResizeObserver !== "undefined" ? ResizeObserver : null;
+    if (!ResizeObserverCtor) return undefined;
+
+    const observer = new ResizeObserverCtor(measure);
+    if (viewportRef.current) observer.observe(viewportRef.current);
+    if (cardsRef.current) observer.observe(cardsRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    updateActiveCardForOffset(cardOffset);
+  }, [cardOffset]);
+
+  const nudgeOperationsCards = (direction) => {
+    const viewport = viewportRef.current;
+    const distance = viewport ? viewport.clientHeight * 0.62 : 260;
+    setOperationsOffset(cardOffsetRef.current + direction * distance);
+  };
+
+  const showOperationsCard = (index) => {
+    const cards = cardsRef.current;
+    const target = cards?.children?.[index];
+    if (!target) return;
+
+    setOperationsOffset(target.offsetTop);
   };
 
   const handleOperationsWheel = (event) => {
-    if (Math.abs(event.deltaY) < 8) return;
+    const currentOffset = cardOffsetRef.current;
+    const currentMaxOffset = maxCardOffsetRef.current;
+    if (currentMaxOffset <= 1 || Math.abs(event.deltaY) < 2) return;
 
-    const direction = event.deltaY > 0 ? 1 : -1;
-    const atStart = activeCard === 0 && direction < 0;
-    const atEnd = activeCard === operationCards.length - 1 && direction > 0;
-
+    const atStart = currentOffset <= 0 && event.deltaY < 0;
+    const atEnd = currentOffset >= currentMaxOffset - 1 && event.deltaY > 0;
     if (atStart || atEnd) return;
 
     event.preventDefault();
-    if (wheelLockRef.current) return;
-
-    wheelLockRef.current = true;
-    changeOperationsCard(direction);
-    window.setTimeout(() => {
-      wheelLockRef.current = false;
-    }, 520);
+    setOperationsOffset(currentOffset + event.deltaY);
   };
 
   return (
@@ -938,9 +992,9 @@ function OperationsStack() {
           <div className="operations-carousel-controls" aria-label="Operations card controls">
             <button
               type="button"
-              onClick={() => changeOperationsCard(-1)}
-              disabled={activeCard === 0}
-              aria-label="Previous operations card"
+              onClick={() => nudgeOperationsCards(-1)}
+              disabled={cardOffset <= 0}
+              aria-label="Scroll operations cards up"
             >
               ↑
             </button>
@@ -950,60 +1004,64 @@ function OperationsStack() {
                   key={item.title}
                   type="button"
                   className={index === activeCard ? "active" : ""}
-                  onClick={() => setActiveCard(index)}
+                  onClick={() => showOperationsCard(index)}
                   aria-label={`Show ${item.eyebrow}`}
                 />
               ))}
             </div>
             <button
               type="button"
-              onClick={() => changeOperationsCard(1)}
-              disabled={activeCard === operationCards.length - 1}
-              aria-label="Next operations card"
+              onClick={() => nudgeOperationsCards(1)}
+              disabled={cardOffset >= maxCardOffset - 1}
+              aria-label="Scroll operations cards down"
             >
               ↓
             </button>
           </div>
         </div>
         <div
-          className="operations-stack-grid"
+          ref={viewportRef}
+          className="operations-stack-viewport"
           aria-label="All-in-one operations cards"
         >
-          {operationCards.map((item, index) => (
-            <article
-              className={[
-                "operations-stack-card",
-                item.type === "localHub" ? "operations-local-hub-card" : "",
-                index === activeCard ? "operations-card-active" : "",
-                index < activeCard ? "operations-card-before" : "",
-                index > activeCard ? "operations-card-after" : "",
-              ].filter(Boolean).join(" ")}
-              key={item.title}
-              aria-hidden={index !== activeCard}
-            >
-              <span>{item.eyebrow}</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-              <div className="operations-chip-row">
-                {item.items.map((chip) => (
-                  <strong key={chip}>{chip}</strong>
-                ))}
-              </div>
-              {item.type === "localHub" ? (
-                <div className="operations-local-links">
-                  {LOCAL_HUB_OPERATION_LINKS.map((link) => (
-                    <a key={link.href} href={link.href}>
-                      {link.label} <span>→</span>
-                    </a>
+          <div
+            ref={cardsRef}
+            className="operations-stack-grid"
+            style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
+          >
+            {operationCards.map((item, index) => (
+              <article
+                className={[
+                  "operations-stack-card",
+                  item.type === "localHub" ? "operations-local-hub-card" : "",
+                  index === activeCard ? "operations-card-active" : "",
+                ].filter(Boolean).join(" ")}
+                key={item.title}
+              >
+                <span>{item.eyebrow}</span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                <div className="operations-chip-row">
+                  {item.items.map((chip) => (
+                    <strong key={chip}>{chip}</strong>
                   ))}
                 </div>
-              ) : (
-                <a href="/features" className="operations-card-link">
-                  View full features <span>→</span>
-                </a>
-              )}
-            </article>
-          ))}
+                {item.type === "localHub" ? (
+                  <div className="operations-local-links">
+                    {LOCAL_HUB_OPERATION_LINKS.map((link) => (
+                      <a key={link.href} href={link.href}>
+                        {link.label} <span>→</span>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <a href="/features" className="operations-card-link">
+                    View full features <span>→</span>
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
