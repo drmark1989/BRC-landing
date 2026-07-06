@@ -871,18 +871,6 @@ const LOCAL_HUB_OPERATION_LINKS = [
 
 function OperationsStack() {
   const trialHref = trialSignupUrl();
-  const viewportRef = useRef(null);
-  const cardsRef = useRef(null);
-  const cardOffsetRef = useRef(0);
-  const maxCardOffsetRef = useRef(0);
-  const manualMaxCardOffsetRef = useRef(0);
-  const loopResetOffsetRef = useRef(0);
-  const [activeCard, setActiveCard] = useState(0);
-  const [cardOffset, setCardOffset] = useState(0);
-  const [maxCardOffset, setMaxCardOffset] = useState(0);
-  const [manualMaxCardOffset, setManualMaxCardOffset] = useState(0);
-  const [isAutoScrollPaused, setIsAutoScrollPaused] = useState(false);
-  const [isAutoScrollResetting, setIsAutoScrollResetting] = useState(false);
   const operationCards = [
     ...OPERATIONS_STACK.map((item) => ({ ...item, type: "standard" })),
     {
@@ -894,137 +882,6 @@ function OperationsStack() {
       type: "localHub",
     },
   ];
-  const loopedOperationCards = [
-    ...operationCards,
-    ...operationCards.slice(0, 2).map((item) => ({ ...item, isLoopClone: true })),
-  ];
-
-  const getOperationsCardStep = () => {
-    const cards = cardsRef.current;
-    const firstCard = cards?.children?.[0];
-    const cardHeight = firstCard?.getBoundingClientRect().height || 258;
-    const styles = cards && typeof window !== "undefined" ? window.getComputedStyle(cards) : null;
-    const gap = Number.parseFloat(styles?.rowGap || styles?.gap || "16") || 16;
-    return cardHeight + gap;
-  };
-
-  const updateActiveCardForOffset = (nextOffset) => {
-    const step = getOperationsCardStep();
-    const maxActiveIndex = Math.max(0, operationCards.length - 2);
-    const normalizedOffset =
-      loopResetOffsetRef.current > 0 && nextOffset >= loopResetOffsetRef.current - 1
-        ? 0
-        : nextOffset;
-    const nextIndex =
-      manualMaxCardOffsetRef.current > 0 && normalizedOffset >= manualMaxCardOffsetRef.current - 1
-        ? maxActiveIndex
-        : Math.round(normalizedOffset / step);
-    setActiveCard(Math.max(0, Math.min(maxActiveIndex, nextIndex)));
-  };
-
-  const setOperationsOffset = (nextOffset) => {
-    const clampedOffset = Math.max(0, Math.min(maxCardOffsetRef.current, nextOffset));
-    cardOffsetRef.current = clampedOffset;
-    setCardOffset(clampedOffset);
-    updateActiveCardForOffset(clampedOffset);
-  };
-
-  useEffect(() => {
-    const measure = () => {
-      const viewport = viewportRef.current;
-      const cards = cardsRef.current;
-      if (!viewport || !cards) return;
-
-      const nextMax = Math.max(0, cards.scrollHeight - viewport.clientHeight);
-      const step = getOperationsCardStep();
-      const nextManualMax = Math.max(0, (operationCards.length - 2) * step);
-      const nextLoopResetOffset = Math.max(0, operationCards.length * step);
-      maxCardOffsetRef.current = nextMax;
-      manualMaxCardOffsetRef.current = nextManualMax;
-      loopResetOffsetRef.current = nextLoopResetOffset;
-      setMaxCardOffset(nextMax);
-      setManualMaxCardOffset(nextManualMax);
-      setCardOffset((current) => {
-        const nextOffset = Math.max(0, Math.min(nextMax, current));
-        cardOffsetRef.current = nextOffset;
-        return nextOffset;
-      });
-    };
-
-    measure();
-    const ResizeObserverCtor = typeof ResizeObserver !== "undefined" ? ResizeObserver : null;
-    if (!ResizeObserverCtor) return undefined;
-
-    const observer = new ResizeObserverCtor(measure);
-    if (viewportRef.current) observer.observe(viewportRef.current);
-    if (cardsRef.current) observer.observe(cardsRef.current);
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return undefined;
-
-    const syncOffsetToNativeScroll = () => {
-      const nextOffset = viewport.scrollTop;
-      cardOffsetRef.current = nextOffset;
-      setCardOffset(nextOffset);
-      updateActiveCardForOffset(nextOffset);
-    };
-
-    viewport.addEventListener("scroll", syncOffsetToNativeScroll, { passive: true });
-
-    return () => {
-      viewport.removeEventListener("scroll", syncOffsetToNativeScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    updateActiveCardForOffset(cardOffset);
-  }, [cardOffset]);
-
-  useEffect(() => {
-    if (isAutoScrollPaused) return undefined;
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return undefined;
-    }
-
-    const intervalId = window.setInterval(() => {
-      const step = getOperationsCardStep();
-      const currentOffset = cardOffsetRef.current;
-      const currentMaxOffset = maxCardOffsetRef.current;
-      if (currentMaxOffset <= 1) return;
-
-      setOperationsOffset(Math.min(currentMaxOffset, currentOffset + step));
-    }, 3600);
-
-    return () => window.clearInterval(intervalId);
-  }, [isAutoScrollPaused]);
-
-  const nudgeOperationsCards = (direction) => {
-    const distance = getOperationsCardStep();
-    setOperationsOffset(Math.max(0, Math.min(manualMaxCardOffsetRef.current, cardOffsetRef.current + direction * distance)));
-  };
-
-  const showOperationsCard = (index) => {
-    const cards = cardsRef.current;
-    const target = cards?.children?.[index];
-    if (!target) return;
-
-    setOperationsOffset(target.offsetTop);
-  };
-
-  const handleOperationsTransitionEnd = (event) => {
-    if (event.propertyName !== "transform") return;
-    if (loopResetOffsetRef.current <= 0 || cardOffsetRef.current < loopResetOffsetRef.current - 1) return;
-
-    setIsAutoScrollResetting(true);
-    setOperationsOffset(0);
-    window.requestAnimationFrame(() => {
-      setIsAutoScrollResetting(false);
-    });
-  };
 
   return (
     <section className="section operations-stack-section">
@@ -1053,40 +910,19 @@ function OperationsStack() {
               </a>
             </div>
           </div>
-          <div
-            className="operations-stack-panel"
-            onMouseEnter={() => setIsAutoScrollPaused(true)}
-            onMouseLeave={() => setIsAutoScrollPaused(false)}
-            onFocusCapture={() => setIsAutoScrollPaused(true)}
-            onBlurCapture={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget)) {
-                setIsAutoScrollPaused(false);
-              }
-            }}
-          >
+          <div className="operations-stack-panel">
             <div
-              ref={viewportRef}
               className="operations-stack-viewport"
               aria-label="All-in-one operations cards"
             >
-              <div
-                ref={cardsRef}
-                className={[
-                  "operations-stack-grid",
-                  isAutoScrollResetting ? "operations-stack-grid-resetting" : "",
-                ].filter(Boolean).join(" ")}
-                style={{ transform: `translate3d(0, -${cardOffset}px, 0)` }}
-                onTransitionEnd={handleOperationsTransitionEnd}
-              >
-                {loopedOperationCards.map((item, index) => (
+              <div className="operations-stack-grid">
+                {operationCards.map((item, index) => (
                   <article
                     className={[
                       "operations-stack-card",
                       item.type === "localHub" ? "operations-local-hub-card" : "",
-                      !item.isLoopClone && index === activeCard ? "operations-card-active" : "",
                     ].filter(Boolean).join(" ")}
-                    key={`${item.title}-${index}`}
-                    aria-hidden={item.isLoopClone ? "true" : undefined}
+                    key={item.title}
                   >
                     <span>{item.eyebrow}</span>
                     <h3>{item.title}</h3>
@@ -1112,35 +948,6 @@ function OperationsStack() {
                   </article>
                 ))}
               </div>
-            </div>
-            <div className="operations-carousel-controls" aria-label="Operations card controls">
-              <button
-                type="button"
-                onClick={() => nudgeOperationsCards(-1)}
-                disabled={cardOffset <= 0}
-                aria-label="Scroll operations cards up"
-              >
-                ↑
-              </button>
-              <div className="operations-carousel-dots" aria-label="Operations card progress">
-                {operationCards.slice(0, -1).map((item, index) => (
-                  <button
-                    key={item.title}
-                    type="button"
-                    className={index === activeCard ? "active" : ""}
-                    onClick={() => showOperationsCard(index)}
-                    aria-label={`Show ${item.eyebrow}`}
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                onClick={() => nudgeOperationsCards(1)}
-                disabled={cardOffset >= manualMaxCardOffset - 1}
-                aria-label="Scroll operations cards down"
-              >
-                ↓
-              </button>
             </div>
           </div>
         </div>
