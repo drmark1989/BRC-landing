@@ -1,0 +1,30 @@
+{
+  "name": "BRC",
+  "short_name": "BRC",
+  "description": "BRC OS helps local businesses run POS, ordering, inventory, staff, finance, reputation recovery, rewards, and analytics.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4edff",
+  "theme_color": "#f4edff",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "io.brcapp.app",
+      "url": "https://play.google.com/store/apps/details?id=io.brcapp.app"
+    }
+  ]
+}
