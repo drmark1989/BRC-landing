@@ -2865,6 +2865,8 @@ const PLANS = [
   },
 ];
 
+const STRIPE_PRICING_URL = "https://stripe.com/gb/pricing";
+
 const PLAN_DETAIL_GROUPS = [
   {
     title: "Locations and screens",
@@ -3002,6 +3004,15 @@ function Pricing() {
           ))}
         </div>
 
+        <div className="pricing-fees-note">
+          <span>
+            BRC platform fees are shown above. Stripe processing fees apply separately and vary by payment method and card type.
+          </span>
+          <a href={STRIPE_PRICING_URL} target="_blank" rel="noopener noreferrer">
+            View Stripe pricing <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
         <div className="pricing-addons">
           <div>
             <strong>Need more review SMS credits?</strong>
@@ -3065,7 +3076,12 @@ function PlanDetails() {
         <div className="plan-details-notes">
           <span>Monthly manual older-review imports are shared across connected review platforms on each plan.</span>
           <span>Review SMS credit packs, specialist onboarding, higher usage, and custom integrations may be charged separately.</span>
-          <span>Card processing fees apply alongside any BRC fee where payments are processed.</span>
+          <span>
+            Card processing fees apply alongside any BRC fee where payments are processed.{" "}
+            <a href={STRIPE_PRICING_URL} target="_blank" rel="noopener noreferrer">
+              View Stripe pricing <span aria-hidden="true">↗</span>
+            </a>
+          </span>
           <span>Plan packaging can vary by region, promotion, payment setup, enabled modules, and written agreement.</span>
         </div>
       </div>
