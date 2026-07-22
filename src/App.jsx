@@ -2834,7 +2834,7 @@ const PLANS = [
     badge: "AI powered",
     features: [
       "Up to 10 locations, then custom",
-      "No BRC fee + card processing fees",
+      "0.1% BRC fee + card processing fees",
       "Multi-location ordering, booking, pickup, and delivery views",
       "Inventory, stock, recipes, vendors, and purchasing workflows",
       "BRC AI owner brief and location comparison",
@@ -2904,7 +2904,7 @@ const PLAN_DETAIL_GROUPS = [
   {
     title: "Money, AI, and reporting",
     rows: [
-      ["BRC fees + card processing fees", "1% BRC fee + card processing fees", "0.5% BRC fee + card processing fees", "0.25% BRC fee + card processing fees", "No BRC fee + card processing fees", "Custom BRC fee + card processing fees"],
+      ["BRC fees + card processing fees", "1% BRC fee + card processing fees", "0.5% BRC fee + card processing fees", "0.25% BRC fee + card processing fees", "0.1% BRC fee + card processing fees", "Custom BRC fee + card processing fees"],
       ["Finance and closeout", "Basic finance context", "Basic finance reporting", "Payouts, tenders, profitability", "Multi-location reporting", "Custom"],
       ["Review AI", "Not included", "Not included", "Not included", "AI summaries, reply drafts, and fraud signals", "Custom"],
       ["Menu insights and public signals", "Not included", "Not included", "Included", "Included", "Custom"],
